@@ -5,3 +5,5 @@ This is the repository for development team. The following models will be added:
 3. Bag-of-words model.
 4. DTW and DDTW variables.
 5. [_possibly_] Deep Learning: CNN and LTSM.
+
+Matin (matinkheirkhahan@ufl.edu)
