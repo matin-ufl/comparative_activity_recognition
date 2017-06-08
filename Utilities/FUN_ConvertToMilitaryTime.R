@@ -22,4 +22,4 @@ ConvertToMilitaryTime <- function(timeStr) {
     hour <- paste("0", hour, sep = "")
   }
   return(paste(as.character(hour), tokens[2], tokens[3], sep = ":"))
-}
+} 
