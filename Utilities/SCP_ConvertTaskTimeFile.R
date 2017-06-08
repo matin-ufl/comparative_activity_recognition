@@ -37,4 +37,4 @@ saveRDS(taskTimes.df, file = paste(dataFolder,"taskTimes_all.Rdata",sep = ""))
 
 rm(taskTimes.df)
 
-message("Tasktimes csv file read and converted into a Rdata file.")
+message("Tasktimes csv file read and converted into a Rdata file.") 
