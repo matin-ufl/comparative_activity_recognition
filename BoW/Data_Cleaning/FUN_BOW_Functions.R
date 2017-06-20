@@ -29,61 +29,31 @@ bow.timeSeriesChunks.oneTask <- function(PID, Task, taskDataFrame, start.idx, en
 
 # Input:
 #     1. participantID: participant unique identifier
-#     2-6. ppt.vX.df: (data.table) containing wrist accelerometer data for VX
-#     7. taskTimes.df: (data.frame) containing tasktimes data: start and end times of each task for the given participant
-#     8. epoch.length: (integer) indicates each epoch length (in 10 milliseconds) for which we construct features
+#     2. downsampledData.df: dataFrame containing the downsampled data for each participant 
+#     3. epoch.length: (integer) indicates each epoch length (in 10 milliseconds) for which we construct features
 #
 # Output:
 #     1. returns a data.frame which contains BoW vectors for each <Participant, Task, Epoch>.
-bow.timeSeriesChunks.oneParticipant <- function(participantID, ppt.v1.df, ppt.v2.df, ppt.v3.df, ppt.v4.df, taskTimes.df, window.length = (3 * 10)) {
+bow.timeSeriesChunks.oneParticipant <- function(participantID, downsampledData.df, window.length = (3 * 10)) {
   message(paste("Constructing word representations for", participantID, " started."))
   
   result <- data.frame(matrix(nrow = 0, ncol = 12))
-
+  
   # Constructing features #
-  for(i in 1:nrow(taskTimes.df)){
-    taskTimes.ppt.df <- taskTimes.df[i, ]
-    visit <- trimws(taskTimes.ppt.df$visit[1])
-    taskDataFrame <- ppt.v1.df
-    Task <- taskTimes.ppt.df$task[1]
-    message(paste(participantID, Task, sep = " -- "))
-    if(visit == 'V2') {
-      taskDataFrame <- ppt.v2.df
-    } else if(visit == 'V3') {
-      taskDataFrame <- ppt.v3.df
-    } else if(visit == 'V4') {
-      taskDataFrame <- ppt.v4.df
-    } else if(visit == 'VH') {
-      next()
+  for(curr_task in unique(downsampledData.df$TaskLabel)){
+    downsample_oneTask.df <- downsampledData.df[which(downsampledData.df$TaskLabel == curr_task),]
+    start.idx <- min(which(downsample_oneTask.df$timeOnly ==  min(downsample_oneTask.df$timeOnly)))
+    end.idx <- max(which(downsample_oneTask.df$timeOnly ==  max(downsample_oneTask.df$timeOnly)))
+    
+    message(paste(participantID, curr_task, sep = " -- "))
+    
+    bow.df <- bow.timeSeriesChunks.oneTask(PID = participantID, Task = curr_task, taskDataFrame = downsample_oneTask.df, start.idx, end.idx, window.length)
+    
+    if(nrow(bow.df) > 0) {
+      result <- rbind(result, bow.df)
     }
-    if(is.na(taskDataFrame)) {
-      message(paste("Skipping ", participantID, "-", Task, " (", visit, "). Since there is no visit file.", sep = ""))
-      next()
-    } else {
-      process.status <- TRUE
-      start.idx <- which(taskDataFrame$timeOnly == taskTimes.ppt.df$start[1])
-      if(length(start.idx) == 0) {
-        warning(paste("No start time found for participant (", participantID, ") and task (", Task, ")", sep = ""))
-        process.status <- FALSE
-        next
-      } else {
-        start.idx <- min(start.idx)
-      }
-      end.idx <- which(taskDataFrame$timeOnly == taskTimes.ppt.df$end[1])
-      if(length(end.idx) == 0) {
-        warning(paste("No end time found for participant (", participantID, ") and task (", Task, ")", sep = ""))
-        process.status <- FALSE
-        next
-      } else {
-        end.idx <- max(end.idx)
-      }
-      if(process.status) {
-        bow.df <- bow.timeSeriesChunks.oneTask(PID = participantID, Task = taskTimes.ppt.df$task[1], taskDataFrame, start.idx, end.idx, window.length)
-        if(nrow(bow.df) > 0) {
-          result <- rbind(result, bow.df)
-        }
-      }
-    }
+    
   }
+  
   result
 }
