@@ -7,11 +7,11 @@ source("FUN_BOW_Functions.R")
 
 #Set PID and Chunk Size when the script needs to be run as a standalone
 
-#participantID <- "DAGO046"
+#participantID <- "ADMC021"
 #chunksize <- 3
 
 # This is the address of the folder in your computer where participants' accelerometer files are located.
-dataFolder <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant Data/"
+#dataFolder <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant Data/"
 
 # Window length: indicating each atom has how many seconds of data
 
@@ -26,11 +26,19 @@ if(chunksize == 3)
   dataFolder_windowLength <- "Six-second chunks/"
 }
 
+if(filetype == "Testing")
+{
+  filedir <- "Downsampled_Files/Testing_Set/"
+} else {
+  
+  filedir <- "Downsampled_Files/Training_Set/"
+}
+
 
 
 # Load Downsampled Data for one participant
 
-downsampledData.list <- readRDS(file = paste(dataFolder, "Downsampled_Files/", participantID, "_downsampled_Data.Rdata", sep = ""))
+downsampledData.df <- readRDS(file = paste(dataFolder, filedir , participantID, "_downsampled_Data.Rdata", sep = ""))
 
 if(file.exists(paste(dataFolder, "BOW_Files/", dataFolder_windowLength, participantID, "_wrist_BoW.Rdata", sep = "")))
 {
@@ -40,18 +48,12 @@ if(file.exists(paste(dataFolder, "BOW_Files/", dataFolder_windowLength, particip
   
   # Constructing bow chunks
   bowChunks.df <- bow.timeSeriesChunks.oneParticipant(participantID = participantID,
-                                                      ppt.v1.df = downsampledData.list[[1]], 
-                                                      ppt.v2.df = downsampledData.list[[2]], 
-                                                      ppt.v3.df = downsampledData.list[[3]], 
-                                                      ppt.v4.df = downsampledData.list[[4]],
-                                                      taskTimes.df = downsampledData.list[[5]],
+                                                      downsampledData.df = downsampledData.df, 
                                                       window.length = window.length)
   
   saveRDS(bowChunks.df, file = paste(dataFolder, "BOW_Files/", dataFolder_windowLength, participantID, "_wrist_BoW.Rdata", sep = ""))
   
 }
-
-
 
 
 
