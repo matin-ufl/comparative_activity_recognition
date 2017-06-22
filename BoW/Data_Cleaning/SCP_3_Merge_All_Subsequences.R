@@ -7,31 +7,40 @@ setwd("~/Desktop/Data_Mining_Project/Data_Cleaning_Code/My_Code")
 dataFolder <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant Data/BOW_Files/"
 
 #Set Chunk Size when the script needs to be run as a standalone
-#chunksize=3
+#chunksize=6
+
+if(filetype == "Testing_Set")
+{
+  filedir <- "Testing_Set/"
+  
+} else {
+  
+  filedir <- "Training_Set/"
+}
 
 if (chunksize == 3)
 {
   # Merging all 3s BoW chunks into one data.frame
-  l <- dir(path = paste(dataFolder,"Three-second chunks/",sep=""), pattern = "^.*.Rdata$") 
+  l <- dir(path = paste(dataFolder,"Three-second chunks/",filedir,sep=""), pattern = "^.*.Rdata$") 
   chunkfilename<- "All_3s_Chunks.csv"
   
   #Merge All the Chunks for all participants
   allChunks.df <- data.frame(matrix(nrow = 0, ncol = 35))
   for(fileName in l) {
-    bowChunks.df <- readRDS(paste(dataFolder, "Three-second chunks/", fileName, sep = ""))
+    bowChunks.df <- readRDS(paste(dataFolder, "Three-second chunks/", filedir, fileName, sep = ""))
     allChunks.df <- rbind(allChunks.df, bowChunks.df)
   }
   
 } else if (chunksize == 6)
 {
   # Merging all 6s BoW chunks into one data.frame
-  l <- dir(path = paste(dataFolder,"Six-second chunks/",sep=""), pattern = "^.*.Rdata$") 
+  l <- dir(path = paste(dataFolder,"Six-second chunks/",filedir,sep=""), pattern = "^.*.Rdata$") 
   chunkfilename<- "All_6s_Chunks.csv"
   
   #Merge All the Chunks for all participants
   allChunks.df <- data.frame(matrix(nrow = 0, ncol = 35))
   for(fileName in l) {
-    bowChunks.df <- readRDS(paste(dataFolder, "Six-second chunks/", fileName, sep = ""))
+    bowChunks.df <- readRDS(paste(dataFolder, "Six-second chunks/", filedir, fileName, sep = ""))
     allChunks.df <- rbind(allChunks.df, bowChunks.df)
   }
 }
