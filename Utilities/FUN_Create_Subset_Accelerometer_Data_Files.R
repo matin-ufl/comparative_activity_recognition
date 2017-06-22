@@ -47,8 +47,8 @@ read.participant.files <- function(dataFolder, participantID, participant_task.d
   for(taskname in task.v1.df$task)
   {
     #Filtering accelerometer data based on start time and end time 
-    temp.df <- ppt.v1.df[which(ppt.v1.df$timeOnly > task.v1.df$start.time[task.v1.df$task==taskname] & 
-                                 ppt.v1.df$timeOnly < task.v1.df$end.time[task.v1.df$task==taskname]),]
+    temp.df <- ppt.v1.df[which(ppt.v1.df$timeOnly >= task.v1.df$start.time[task.v1.df$task==taskname] & 
+                                 ppt.v1.df$timeOnly <= task.v1.df$end.time[task.v1.df$task==taskname]),]
     #Computing Vector Magnitude
     temp.df[, VM := sqrt(X^2 + Y^2 + Z^2)] 
     temp.df$TaskLabel <- taskname
