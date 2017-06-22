@@ -12,7 +12,7 @@ AllChunksFolder <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant Data/BOW_
 codebookfolder <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant Data/Cleaned_Data/"
 
 #Set Chunk Size when the script needs to be run as a standalone
-#chunksize=3
+#chunksize=6
 
 #Set the Number of Atoms for the codebook
 if(chunksize == 3)
@@ -22,7 +22,7 @@ if(chunksize == 3)
   All3sChunksFileName <- paste(AllChunksFolder,"All_3s_Chunks.csv",sep = "")
   
   #Load All the 3s Data Chunks into a spark dataframe
-  spark_read_csv(sc, "spark_all_3s_chunks_df", All3sChunksFileName)
+  spark_read_csv(sc, "spark_all_3s_chunks_df", All3sChunksFileName, memory = FALSE, overwrite = TRUE)
   
   # Selecting V1 to V30 (acceleration data) for clustering
   cluster_df_tbl <- tbl(sc,"spark_all_3s_chunks_df") %>% select(starts_with("V",ignore.case = FALSE))
@@ -35,7 +35,7 @@ if(chunksize == 3)
   
   
   #Load All the 6s Data Chunks into a spark dataframe
-  spark_read_csv(sc, "spark_all_6s_chunks_df", All6sChunksFileName)
+  spark_read_csv(sc, "spark_all_6s_chunks_df", All6sChunksFileName, memory = FALSE, overwrite = TRUE)
   
   # Selecting V1 to V30 (acceleration data) for clustering
   cluster_df_tbl <- tbl(sc,"spark_all_6s_chunks_df") %>% select(starts_with("V",ignore.case = FALSE))
