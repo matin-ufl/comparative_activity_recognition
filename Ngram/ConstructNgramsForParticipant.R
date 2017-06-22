@@ -12,10 +12,8 @@
 # Input:
 #      1. PID: participant unique identifier
 #      2. Task: task title
-#      3. taskDataFrame: accelerometer data.frame. This data.frame should contain a VM column for vector magnitude.
-#      4. start.idx: indicates from which point we should check the taskDataFrame$VM
-#      5. end.idx: indicates at which point the task ends in the taskDataFrame$VM      
-#      6. binInterval: indicates the width of a bin such that the participant data can be divided into 10 bins
+#      3. taskDataFrame: accelerometer data.frame for the given participant-task pair. This data.frame should contain a VM column for vector magnitude.
+#      4. binInterval: indicates the width of a bin such that the participant data can be divided into 10 bins
 #
 # Output:
 #      Returns a list of two data frames (Unigram and Bigram), each with the following columns:
@@ -23,21 +21,13 @@
 #      2. Task: task title
 #      3. Unigram/Bigram patterns: features for the task
 
-nGrams.construction <- function(PID, Task, taskDataFrame, start.idx, end.idx, binInterval) {
+nGrams.construction <- function(PID, Task, taskDataFrame, binInterval) {
   
   result <- list(data.frame(matrix(nrow = 0, ncol = 0),stringsAsFactors=FALSE),data.frame(matrix(nrow = 0, ncol = 0),stringsAsFactors=FALSE))
   
-  if(length(start.idx) == 0 || length(end.idx) == 0) {
-    return(result)
-  }
-  if(end.idx < start.idx) {
-    print(paste(PID, Task, "Start time is after end time?!",sep = " - "))
-    return(result)
-  }
-  
-  Unigrams <- character(length = ceiling(end.idx - start.idx)+1)
+  Unigrams <- character(length = length(taskDataFrame))
   j <- 1
-  for(i in seq(start.idx, end.idx)){
+  for(i in 1:nrow(taskDataFrame)){
     Unigrams[j] <- as.character(floor(taskDataFrame$VM[i]/binInterval))
     if(Unigrams[j]==10)
       Unigrams[j] <- 9
@@ -63,8 +53,7 @@ nGrams.construction <- function(PID, Task, taskDataFrame, start.idx, end.idx, bi
   BigramFeatureSet <- as.data.frame(BG[-1,],stringsAsFactors=FALSE)
   colnames(BigramFeatureSet) <- unlist(BG[1,],use.names = TRUE)
   
-  participantInfo=data.frame(PID = PID, Task = Task, start.time = taskDataFrame$Timestamp[start.idx], end.time = taskDataFrame$Timestamp[end.idx],
-                             stringsAsFactors=FALSE)
+  participantInfo=data.frame(PID = PID, Task = Task,stringsAsFactors=FALSE)
   result <- list(merge(participantInfo,UnigramFeatureSet), merge(participantInfo,BigramFeatureSet))
   result
 }
@@ -79,7 +68,7 @@ nGrams.construction <- function(PID, Task, taskDataFrame, start.idx, end.idx, bi
 #     Returns a list of two data frames: 
 #     1. Unigram features for each <Participant, Task>.
 #     2. Bigram features for each <Participant, Task>.
-nGrams.oneParticipant <- function(participantID, ppt.df, taskTimes.df) {
+nGrams.oneParticipant <- function(participantID, ppt.df) {
   print(paste("Constructing n-grams for", participantID))
   require(plyr)
   
@@ -89,40 +78,16 @@ nGrams.oneParticipant <- function(participantID, ppt.df, taskTimes.df) {
   result <- list(data.frame(matrix(nrow = 0, ncol = 0),stringsAsFactors=FALSE),data.frame(matrix(nrow = 0, ncol = 0),stringsAsFactors=FALSE))
   
   # Constructing features #
-  for(i in 1:nrow(taskTimes.df)){
-    taskTimes.ppt.df <- taskTimes.df[i, ]
-    task <- taskTimes.ppt.df$task[1]
+  for(task in unique(ppt.df$TaskLabel)){
     taskDataFrame <- ppt.df[ppt.df$TaskLabel==task,]
-    
     print(paste(participantID, task, sep = " -- "))
     
-    process.status <- TRUE
-    start.idx <- which(taskDataFrame$timeOnly >= taskTimes.ppt.df$start.time[1])
-    if(length(start.idx) == 0)
-    {
-      process.status <- FALSE
+    nGrams.df <- nGrams.construction(PID = participantID, Task = task, taskDataFrame, binInterval) 
+    if(nrow(nGrams.df[[1]]) > 0) {
+        result[[1]] <- rbind.fill(result[[1]], nGrams.df[[1]])
     }
-    else
-    {
-      start.idx <- min(start.idx)
-    }
-    end.idx <- which(taskDataFrame$timeOnly <= taskTimes.ppt.df$end.time[1])
-    if(length(end.idx) == 0)
-    {
-      process.status <- FALSE
-    }
-    else
-    {
-      end.idx <- max(end.idx)
-    }
-    if(process.status) {
-      nGrams.df <- nGrams.construction(PID = participantID, Task = task, taskDataFrame, start.idx, end.idx, binInterval) 
-      if(nrow(nGrams.df[[1]]) > 0) {
-          result[[1]] <- rbind.fill(result[[1]], nGrams.df[[1]])
-      }
-      if(nrow(nGrams.df[[2]]) > 0) {
-        result[[2]] <- rbind.fill(result[[2]], nGrams.df[[2]])
-      }
+    if(nrow(nGrams.df[[2]]) > 0) {
+       result[[2]] <- rbind.fill(result[[2]], nGrams.df[[2]])
     }
   }
   result[[1]][is.na(result[[1]])] <- 0
