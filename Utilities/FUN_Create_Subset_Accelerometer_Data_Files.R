@@ -102,8 +102,8 @@ read.participant.files <- function(dataFolder, participantID, participant_task.d
   for(taskname in task.v2.df$task)
   {
     #Filtering accelerometer data based on start time and end time 
-    temp.df <- ppt.v2.df[which(ppt.v2.df$timeOnly > task.v2.df$start.time[task.v2.df$task==taskname] & 
-                                 ppt.v2.df$timeOnly < task.v2.df$end.time[task.v2.df$task==taskname]),]
+    temp.df <- ppt.v2.df[which(ppt.v2.df$timeOnly >= task.v2.df$start.time[task.v2.df$task==taskname] & 
+                                 ppt.v2.df$timeOnly <= task.v2.df$end.time[task.v2.df$task==taskname]),]
     #Computing Vector Magnitude
     temp.df[, VM := sqrt(X^2 + Y^2 + Z^2)] 
     temp.df$TaskLabel <- taskname
@@ -154,8 +154,8 @@ read.participant.files <- function(dataFolder, participantID, participant_task.d
   for(taskname in task.v3.df$task)
   {
     #Filtering accelerometer data based on start time and end time 
-    temp.df <- ppt.v3.df[which(ppt.v3.df$timeOnly > task.v3.df$start.time[task.v3.df$task==taskname] & 
-                                 ppt.v3.df$timeOnly < task.v3.df$end.time[task.v3.df$task==taskname]),]
+    temp.df <- ppt.v3.df[which(ppt.v3.df$timeOnly >= task.v3.df$start.time[task.v3.df$task==taskname] & 
+                                 ppt.v3.df$timeOnly <= task.v3.df$end.time[task.v3.df$task==taskname]),]
     #Computing Vector Magnitude
     temp.df[, VM := sqrt(X^2 + Y^2 + Z^2)] 
     temp.df$TaskLabel <- taskname
@@ -207,8 +207,8 @@ read.participant.files <- function(dataFolder, participantID, participant_task.d
   for(taskname in task.v4.df$task)
   {
     #Filtering accelerometer data based on start time and end time
-    temp.df <- ppt.v4.df[which(ppt.v4.df$timeOnly > task.v4.df$start.time[task.v4.df$task==taskname] & 
-                                 ppt.v4.df$timeOnly < task.v4.df$end.time[task.v4.df$task==taskname]),]
+    temp.df <- ppt.v4.df[which(ppt.v4.df$timeOnly >= task.v4.df$start.time[task.v4.df$task==taskname] & 
+                                 ppt.v4.df$timeOnly <= task.v4.df$end.time[task.v4.df$task==taskname]),]
     #Computing Vector Magnitude
     temp.df[, VM := sqrt(X^2 + Y^2 + Z^2)] 
     temp.df$TaskLabel <- taskname
