@@ -12,7 +12,7 @@
 # Input:
 #      1. PID: participant unique identifier
 #      2. Task: task title
-#      3. taskDataFrame: accelerometer data.frame for the given participant-task pair. This data.frame should contain a VM column for vector magnitude.
+#      3. taskData: accelerometer data vector for the given participant-task pair. This data has vector magnitude values.
 #      4. binInterval: indicates the width of a bin such that the participant data can be divided into 10 bins
 #
 # Output:
@@ -21,14 +21,14 @@
 #      2. Task: task title
 #      3. Unigram/Bigram patterns: features for the task
 
-nGrams.construction <- function(PID, Task, taskDataFrame, binInterval) {
+nGrams.construction <- function(PID, Task, taskData, binInterval) {
   
   result <- list(data.frame(matrix(nrow = 0, ncol = 0),stringsAsFactors=FALSE),data.frame(matrix(nrow = 0, ncol = 0),stringsAsFactors=FALSE))
   
-  Unigrams <- character(length = length(taskDataFrame))
+  Unigrams <- character(length = length(taskData))
   j <- 1
-  for(i in 1:nrow(taskDataFrame)){
-    Unigrams[j] <- as.character(floor(taskDataFrame$VM[i]/binInterval))
+  for(VMvalue in taskData){
+    Unigrams[j] <- as.character(floor(VMvalue/binInterval))
     if(Unigrams[j]==10)
       Unigrams[j] <- 9
     j <- j + 1
@@ -72,8 +72,11 @@ nGrams.oneParticipant <- function(participantID, ppt.df) {
   print(paste("Constructing n-grams for", participantID))
   require(plyr)
   
-  #Calculating bin interval for the current participant
-  binInterval<-(max(ppt.df$VM)-min(ppt.df$VM))/10  
+  # Calculating the offset for all Vector Magnitude values
+  minVM<-min(ppt.df$VM)
+  
+  # Calculating bin interval for the current participant
+  binInterval<-(max(ppt.df$VM)-minVM)/10
   
   result <- list(data.frame(matrix(nrow = 0, ncol = 0),stringsAsFactors=FALSE),data.frame(matrix(nrow = 0, ncol = 0),stringsAsFactors=FALSE))
   
@@ -82,7 +85,7 @@ nGrams.oneParticipant <- function(participantID, ppt.df) {
     taskDataFrame <- ppt.df[ppt.df$TaskLabel==task,]
     print(paste(participantID, task, sep = " -- "))
     
-    nGrams.df <- nGrams.construction(PID = participantID, Task = task, taskDataFrame, binInterval) 
+    nGrams.df <- nGrams.construction(PID = participantID, Task = task, taskDataFrame$VM-minVM, binInterval) 
     if(nrow(nGrams.df[[1]]) > 0) {
         result[[1]] <- rbind.fill(result[[1]], nGrams.df[[1]])
     }
