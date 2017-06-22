@@ -3,32 +3,41 @@
 
 setwd("~/Desktop/Data_Mining_Project/Data_Cleaning_Code/My_Code")
 
-#Set the full path of the tasktime Rdata file
-taskTimesFileName <- "~/Desktop/Data_Mining_Project/Raw_Data/taskTimes_all.Rdata"
-
 #Set the chunk size 3 or 6
-chunksize <- 3
+chunksize <- 6
 
-#Load the list of Participants
-participants.df <- readRDS(file = taskTimesFileName)
+#Set the directory where the downsampled files are stored
 
-participants <- unique(participants.df$PID)
+dataFolder <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant Data/"
 
-for (participantID in levels(participants)) {
+#Set the value of filetype to Testing_Set or Training_Set
+
+filetype <- "Testing_Set"
+
+#Load the downsampled File List for Training or Testing Set
+
+if (filetype== "Testing_Set")
+{
+  filelist <- dir(paste(dataFolder,"Downsampled_Files/Testing_Set/",sep=""), pattern = "^*.*Rdata$")
   
-  print (paste("Downsampling data for Participant : ",participantID))
+} else {
   
-  tryCatch(source("SCP_2_DownSampleData_One_Participant.R"), error=function(e){print(e)})
+  filelist <- dir(paste(dataFolder,"Downsampled_Files/Training_Set/",sep=""), pattern = "^*.*Rdata$")
   
 }
 
-for (participantID in levels(participants)) {
+
+
+for (curr_file in filelist) {
+  
+  #Store Current ParticipantID
+  participantID <- unlist(strsplit(curr_file, "_"))[1]
   
   if (chunksize == 3) {
     
     print (paste("Generating 3s subsequences for Participant : ",participantID))
     
-    tryCatch(source("SCP_3_Create_Subsequences_One_Participant.R"), error=function(e){print(e)})
+    tryCatch(source("SCP_2_Create_Subsequences_One_Participant.R"), error=function(e){print(e)})
     
   }
   
@@ -36,7 +45,7 @@ for (participantID in levels(participants)) {
     
     print (paste("Generating 6s subsequences for Participant : ",participantID))
     
-    tryCatch(source("SCP_3_Create_Subsequences_One_Participant.R"), error=function(e){print(e)})
+    tryCatch(source("SCP_2_Create_Subsequences_One_Participant.R"), error=function(e){print(e)})
     
   }
   
@@ -45,18 +54,26 @@ for (participantID in levels(participants)) {
 
 print ("Merging the subsequences for all participants...")
 
-tryCatch(source("SCP_4_Merge_All_Subsequences.R"), error=function(e){print(e)})
+tryCatch(source("SCP_3_Merge_All_Subsequences.R"), error=function(e){print(e)})
 
-print ("Generating CodeBook....")
+if (filetype== "Training_Set")
+{
 
-tryCatch(source("SCP_5_Generate_CodeBook.R"), error=function(e){print(e)})
+  print ("Generating CodeBook....")
 
-print ("Generating Word Labels for all participants....")
+  tryCatch(source("SCP_4_Generate_CodeBook.R"), error=function(e){print(e)})
+  
+} else {
+  
+  print ("Generating Word Labels for all participants....")
+  
+  tryCatch(source("SCP_5_Generate_Word_Labels.R"), error=function(e){print(e)})
+  
+  print ("Calculating TF-IDF for all participants....")
+  
+  tryCatch(source("SCP_6_Calculate_TF_IDF.R"), error=function(e){print(e)})
+  
+}
 
-tryCatch(source("SCP_6_Generate_Word_Labels.R"), error=function(e){print(e)})
-
-print ("Calculating TF-IDF for all participants....")
-
-tryCatch(source("SCP_7_Calculate_TF_IDF.R"), error=function(e){print(e)})
 
 
