@@ -1,7 +1,7 @@
 # Master Script: Construct unigram and bigram features for all the participants and save the aggregate Rdata files
 
 # Set the full path where participants' Rdata files are located.
-dataFolder <- "C:/Users/shikh/Documents/University of Florida/Activity Recognition/Datasets/Raw Data/Testing_Set/"
+dataFolder <- "C:/Users/shikh/Documents/University of Florida/Activity Recognition/Datasets/Raw Data/Training_Set/"
 
 # Set the working directory to the location where the scripts and function R files are located
 setwd("C:/Users/shikh/Documents/University of Florida/Activity Recognition/DataCleanUp")
@@ -28,8 +28,24 @@ for(participantFile in participantsList) {
   print (paste("Merged features for Participant: ",participantID))
 }
 
-# Update all NAs to 0 and save the ngram feature files
+# Update all NAs to 0
 UnigramFeatures.df[is.na(UnigramFeatures.df)] <- 0
 BigramFeatures.df[is.na(BigramFeatures.df)] <- 0
+
+#Append feature names with "B"
+FeatureNames<-names(UnigramFeatures.df)
+for(i in 3:ncol(UnigramFeatures.df))
+{
+  FeatureNames[[i]]<-as.character(paste("B",FeatureNames[[i]],sep=""))
+}
+colnames(UnigramFeatures.df) <- FeatureNames
+FeatureNames<-names(BigramFeatures.df)
+for(i in 3:ncol(BigramFeatures.df))
+{
+  FeatureNames[[i]]<-as.character(paste("B",FeatureNames[[i]],sep=""))
+}
+colnames(BigramFeatures.df) <- FeatureNames
+
+#Save the ngram feature files
 save(UnigramFeatures.df, file = paste(dataFolder, "nGram_Files/UnigramFeatures.Rdata", sep = ""))
 save(BigramFeatures.df, file = paste(dataFolder, "nGram_Files/BigramFeatures.Rdata", sep = ""))
