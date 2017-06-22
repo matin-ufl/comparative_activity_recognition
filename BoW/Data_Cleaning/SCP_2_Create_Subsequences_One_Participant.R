@@ -26,12 +26,15 @@ if(chunksize == 3)
   dataFolder_windowLength <- "Six-second chunks/"
 }
 
-if(filetype == "Testing")
+if(filetype == "Testing_Set")
 {
   filedir <- "Downsampled_Files/Testing_Set/"
+  outdir <- "Testing_Set/"
+  
 } else {
   
   filedir <- "Downsampled_Files/Training_Set/"
+  outdir <- "Training_Set/"
 }
 
 
@@ -51,7 +54,7 @@ if(file.exists(paste(dataFolder, "BOW_Files/", dataFolder_windowLength, particip
                                                       downsampledData.df = downsampledData.df, 
                                                       window.length = window.length)
   
-  saveRDS(bowChunks.df, file = paste(dataFolder, "BOW_Files/", dataFolder_windowLength, participantID, "_wrist_BoW.Rdata", sep = ""))
+  saveRDS(bowChunks.df, file = paste(dataFolder, "BOW_Files/", dataFolder_windowLength, outdir, participantID, "_wrist_BoW.Rdata", sep = ""))
   
 }
 
