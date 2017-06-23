@@ -6,23 +6,27 @@ setwd("~/Desktop/Data_Mining_Project/Data_Cleaning_Code/My_Code")
 
 dataFolder <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant Data/BOW_Files/"
 
-#Set Chunk Size when the script needs to be run as a standalone
+#Set filetype and Chunk Size when the script needs to be run as a standalone
 #chunksize=6
+#filetype <- "Training_Set"
+
 
 if(filetype == "Testing_Set")
 {
   filedir <- "Testing_Set/"
+  outfileprefix <- "Test_"
   
 } else {
   
   filedir <- "Training_Set/"
+  outfileprefix <- "Train_"
 }
 
 if (chunksize == 3)
 {
   # Merging all 3s BoW chunks into one data.frame
   l <- dir(path = paste(dataFolder,"Three-second chunks/",filedir,sep=""), pattern = "^.*.Rdata$") 
-  chunkfilename<- "All_3s_Chunks.csv"
+  chunkfilename<- paste(outfileprefix,"All_3s_Chunks.csv",sep = "")
   
   #Merge All the Chunks for all participants
   allChunks.df <- data.frame(matrix(nrow = 0, ncol = 35))
@@ -35,7 +39,7 @@ if (chunksize == 3)
 {
   # Merging all 6s BoW chunks into one data.frame
   l <- dir(path = paste(dataFolder,"Six-second chunks/",filedir,sep=""), pattern = "^.*.Rdata$") 
-  chunkfilename<- "All_6s_Chunks.csv"
+  chunkfilename<- paste(outfileprefix,"All_6s_Chunks.csv",sep = "")
   
   #Merge All the Chunks for all participants
   allChunks.df <- data.frame(matrix(nrow = 0, ncol = 35))
