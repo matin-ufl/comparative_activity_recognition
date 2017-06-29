@@ -58,6 +58,8 @@ from keras.models import Sequential
 from keras.layers import Dense, Dropout, Flatten
 from keras.layers import Conv2D, MaxPooling2D
 from keras import optimizers 
+from keras.utils import plot_model
+from keras.layers.normalization import BatchNormalization
 
 #limit gpu usage
 # import tensorflow as tf
@@ -78,18 +80,23 @@ epochs = 50
 #The Model
 model = Sequential()
 model.add(Conv2D(12,(1,3),activation='relu',input_shape=(1,60,3)))
-model.add(MaxPooling2D(pool_size=(1,1)))
+model.add(MaxPooling2D(pool_size=(1,2)))
 model.add(Dropout(0.25))
 
 model.add(Flatten())
+model.add(BatchNormalization())
 
-model.add(Dense(600, activation='relu'))
+model.add(Dense(300, activation='relu'))
+model.add(BatchNormalization())
+
 model.add(Dense(300, activation='relu'))
 model.add(Dropout(0.5))
 model.add(Dense(300, activation='relu'))
 model.add(Dense(300, activation='relu'))
 model.add(Dropout(0.5))
 model.add(Dense(300, activation='relu'))
+model.add(BatchNormalization())
+
 model.add(Dense(300, activation='relu'))
 model.add(Dropout(0.5))
 model.add(Dense(300, activation='relu'))
@@ -103,12 +110,13 @@ model.compile(loss=keras.losses.categorical_crossentropy,
               optimizer=adam,
               metrics=['accuracy'])
 
+earlyStopping=keras.callbacks.EarlyStopping(monitor='val_loss', patience=0, verbose=0, mode='auto')
 
 model.fit(train_x, train_y,
           batch_size=batch_size,
           epochs=epochs,
           verbose=1,
-          validation_data=(test_x, test_y))
+          validation_data=(test_x, test_y),callbacks = [earlyStopping])
 score = model.evaluate(test_x, test_y, verbose=0)
 print('Test loss:', score[0])
 print('Test accuracy:', score[1])
