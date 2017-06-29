@@ -68,11 +68,10 @@ def segment_signal(data,window_size):
         x = data["X"][start:end]
         y = data["Y"][start:end]
         z = data["Z"][start:end]
-        if(len(df['timeOnly'][start:end]) == window_size):
+        if(len(data['timeOnly'][start:end]) == window_size):
             segments = np.vstack([segments,np.dstack([x,y,z])])
             labels = np.append(labels,stats.mode(data["TaskLabel"][start:end])[0][0])
     return segments, labels
-
 
 
 
