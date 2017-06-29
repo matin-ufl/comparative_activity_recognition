@@ -21,7 +21,7 @@ def readCSV(path):
     return df
 
 #Function call to read csv
-df = readCSV(path)
+df = readCSV(path1)
 
 #Fucntion to convert the task label into 3 categories
 #Locomotion Sedentary Neither
