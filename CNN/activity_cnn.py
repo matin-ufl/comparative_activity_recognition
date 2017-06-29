@@ -101,7 +101,10 @@ labels = np.asarray(pd.get_dummies(labels), dtype = np.int8)
 reshaped_segments = segments.reshape(len(segments), 1,60, 3)
 
 #saving the data frame
-reshaped_segments.to_pickle("/home/abhijay/activity/files/reshape.pkl")
+np.save("/home/abhijay/activity/files/reshape.npy",reshaped_segments)
+
+#loading the numpy matrix
+reshaped_segments = np.load("/home/abhijay/activity/files/reshape.npy")
 
 
 #splitting data into train and test
@@ -132,7 +135,7 @@ batch_size = train_x.shape[0]
 num_classes = 3
 
 #epochs
-epochs = 12
+epochs = 50
 
 #The Model
 model = Sequential()
@@ -172,7 +175,7 @@ score = model.evaluate(test_x, test_y, verbose=0)
 print('Test loss:', score[0])
 print('Test accuracy:', score[1])
 
-model.save("cnn_model.h5")
+model.save("/home/abhijay/activity/files/cnn_model.h5")
 
 
 
