@@ -2,7 +2,7 @@
 
 # Set the full path where participants' Rdata files are located.
 dataFolder <- "C:/Users/shikh/Documents/University of Florida/Activity Recognition/Datasets/Raw Data/Training_Set/"
-numberOfBins <- 20
+numberOfBins <- 10
 
 # Set the working directory to the location where the scripts and function R files are located
 setwd("C:/Users/shikh/Documents/University of Florida/Activity Recognition/DataCleanUp")
