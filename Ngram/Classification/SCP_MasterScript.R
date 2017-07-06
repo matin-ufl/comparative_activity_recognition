@@ -1,7 +1,7 @@
 # Classification results
 
 setwd("C:/Users/shikh/Documents/University of Florida/Activity Recognition/Classification/")
-source("Classifiers.R")
+source("FUN_Classifiers.R")
 
 dataFolder <- "C:/Users/shikh/Documents/University of Florida/Activity Recognition/Datasets/Raw Data/Training_Set/nGram_Files/"
 training.df<-prepare_for_classification(dataFolder,"Bigrams")
