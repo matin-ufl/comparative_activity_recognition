@@ -7,7 +7,7 @@ numberOfBins <- 10
 # Set the working directory to the location where the scripts and function R files are located
 setwd("C:/Users/shikh/Documents/University of Florida/Activity Recognition/DataCleanUp")
 
-source("ConstructNgramsForParticipant.R")
+source("FUN_ConstructNgramsForParticipant.R")
 participantsList <- dir(dataFolder, pattern = "^.*.Rdata$")
 UnigramFeatures.df <- data.frame(matrix(nrow = 0, ncol = 0),stringsAsFactors=FALSE)
 BigramFeatures.df <- data.frame(matrix(nrow = 0, ncol = 0),stringsAsFactors=FALSE)
