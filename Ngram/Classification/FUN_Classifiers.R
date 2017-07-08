@@ -1,4 +1,23 @@
-prepare_for_classification<-function(dataFolder,ngramType)
+#Author & Reviewer Details --------------------------------------------------------------------------------------
+
+#Author : Shikha Mehta
+#Date : 07/08/2017
+#E-Mail : shikha.mehta@ufl.edu
+#Reviewed By : Madhurima Nath
+#Review Date : 
+#Reviewer E-Mail : madhurima09@ufl.edu
+
+#----------------------------------------------------------------------------------------------------------------
+
+
+# Input:
+#     1. dataFolder: full path where Rdata files for ngram features are located
+#     2. nGramType: ngram type identifier to determine the features file to read (Unigrams/Bigrams)
+#
+# Output:
+#     Returns a data frame consisting of features and class variables of Sedentary/Non-sedentary & Locomotion/Stationary
+#
+prepareForclassification<-function(dataFolder,ngramType)
 {
   if(ngramType=="Unigrams")
   {
@@ -15,7 +34,7 @@ prepare_for_classification<-function(dataFolder,ngramType)
   features.df$class.sedentary <- "No"
   features.df$class.sedentary[features.df$Task %in% c("COMPUTER WORK", "TV WATCHING", "STANDING STILL")] <- "Yes"
   
-  # Discarding Task column
+  # Discarding Task and PID columns
   features.df <- as.data.frame(features.df[ , -which(names(features.df) %in% c("Task","PID"))],stringAsFactors=TRUE)
   
   # Converting the class-label column to factor
@@ -24,7 +43,16 @@ prepare_for_classification<-function(dataFolder,ngramType)
   features.df  
 }
 
-svm_classify<-function(training.df,testing.df)
+
+# Input:
+#     1. training.df: data frame consisting of features and class variables to train the Support Vector Machine classifier
+#     2. testing.df: data frame consisting of features and class variables to test the Support Vector Machine classifier
+#
+# Output:
+#     Returns a data frame consisting of Accuracy, Sensitivity and Specificity metrics
+#     of predicting Sedentary and Locomotion classes using Support Vector Machine classifier
+#
+svm.classification<-function(training.df,testing.df)
 {
   library(e1071)
   svm.model <- svm(data = training.df, class.sedentary ~ .)
@@ -60,7 +88,16 @@ svm_classify<-function(training.df,testing.df)
   output.df 
 }
 
-naive_bayes_classify<-function(training.df,testing.df)
+
+# Input:
+#     1. training.df: data frame consisting of features and class variables to train the Naive Bayes classifier
+#     2. testing.df: data frame consisting of features and class variables to test the Naive Bayes classifier
+#
+# Output:
+#     Returns a data frame consisting of Accuracy, Sensitivity and Specificity metrics
+#     of predicting Sedentary and Locomotion classes using Naive Bayes classifier
+#
+naiveBayes.classification<-function(training.df,testing.df)
 {
   library(e1071)
   nb.model <- naiveBayes(data = training.df, class.sedentary ~ .)
@@ -96,7 +133,16 @@ naive_bayes_classify<-function(training.df,testing.df)
   output.df 
 }
 
-random_forest_classify<-function(training.df,testing.df)
+
+# Input:
+#     1. training.df: data frame consisting of features and class variables to train the Random Forest classifier
+#     2. testing.df: data frame consisting of features and class variables to test the Random Forest classifier
+#
+# Output:
+#     Returns a data frame consisting of Accuracy, Sensitivity and Specificity metrics
+#     of predicting Sedentary and Locomotion classes using Random Forest classifier
+#
+randomForest.classification<-function(training.df,testing.df)
 {
   library(randomForest)
   set.seed(5855)
