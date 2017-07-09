@@ -4,7 +4,7 @@
 
 #Script Summary : 
 #       This script contains one function required to read raw accelerometer files.
-#         1. FUN_Downsample_To_TenHz : Function to downsample raw accelerometer files to 10 Hz.
+#         1. FUN_Downsample_To_TenHz : Function to downsample raw accelerometer files to 10 Hz. 
 
 #Author & Reviewer Details --------------------------------------------------------------------------
 
