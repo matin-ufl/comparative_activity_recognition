@@ -75,24 +75,22 @@ Then, create a new folder Participant_Data inside Raw_Data folder and store the 
 
 Then, Inside Participant_Data Folder create the following directory and sub-directory structure :
 
-			      i) Original_SubSet   |-> Training_Set
-                                                   |-> Testing_Set 
+i) Original_SubSet   |-> Training_Set
+                     |-> Testing_Set 
                                                    
-                             ii) Downsampled_Files |-> Training_Set
-                                                   |-> Testing_Set 
+ii) Downsampled_Files |-> Training_Set
+                      |-> Testing_Set 
                                                    
-                            iii) BOW_Files         |-> Three-second chunks |-> Training_Set
-                                                                           |-> Testing_Set 
-                                                   |-> Six-second chunks |-> Training_Set
-                                                                         |-> Testing_Set 
-                             iv) Cleaned_Data      |-> D32 |-> Training_Set
-                                                           |-> Testing_Set 
-                                                           
-                                                   |-> D64 |-> Training_Set
-                                                           |-> Testing_Set
-                                                           
-                                                   |-> Model_Output 
-                              v) Logs
+iii) BOW_Files        |-> Three-second chunks |-> Training_Set
+                                              |-> Testing_Set 
+                      |-> Six-second chunks |-> Training_Set
+                                            |-> Testing_Set 
+iv) Cleaned_Data      |-> D32 |-> Training_Set
+                              |-> Testing_Set                                     
+                      |-> D64 |-> Training_Set
+                              |-> Testing_Set
+                      |-> Model_Output 
+v) Logs
                               
 Please note that all the above folder names are case sensitive.
 
@@ -103,7 +101,7 @@ the first task would be execute the data cleaning scripts in the following seque
 
 ### Data Cleaning Tasks 
 
-Script-1 -- SCP_ConvertTaskTimeFile.R
+#### Script-1 -- SCP_ConvertTaskTimeFile.R
 
 This script converts the taskTimes file from .csv to .Rdata by converting the start and the end timestamps to 24hr format.
 It also removes the invalid records where the start time is greater than the end time and there are NA values in any of the records.
@@ -120,7 +118,7 @@ DATAFOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/"
 
 ```
 
-Script-2 -- SCP_ConvertTaskTimeFile.R
+#### Script-2 -- SCP_ConvertTaskTimeFile.R
 
 This script checks the taskTimes Rdata file for errors such as when the same visit numbers span different dates and same dates span different visit numbers
 and logs them into the Logs folder. After execution of this script, two csv files are generated storing the errors. Please check them and change them manually
@@ -143,7 +141,7 @@ LOGFILESFOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Logs/
 
 ``` 
 
-Script-3 -- SCP_CreateAccelerometerDataSubset.R
+#### Script-3 -- SCP_CreateAccelerometerDataSubset.R
 
 This script creates subset of the raw accelerometer data based on the start and the end time range for a given task for a participant 
 and it creates individual subset files for each participant in the Original_SubSet folder.
@@ -165,7 +163,7 @@ TASKTIMESFILENAME <- "~/Desktop/Data_Mining_Project/Raw_Data/taskTimes_all.Rdata
 
 ``` 
 
-Script-4 -- SCP_DownSampleData_AllParticipants.R
+#### Script-4 -- SCP_DownSampleData_AllParticipants.R
 
 This script downsamples the subset data of each participant from 30 Hz, 80 Hz & 100 Hz to 10 Hz in order to minimise the high frequency noise
 and saves it into individual Rdata files in the Downsampled_Files folder.
@@ -183,7 +181,7 @@ DATAFOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/"
 
 ```
 
-Script-5 -- SCP_Split_Train_Test_Participants.R
+#### Script-5 -- SCP_Split_Train_Test_Participants.R
 
 This script splits the subset and the downsampled data files into Training and Testing Set and moves them into their respective folders within 
 Original_SubSet and Downsampled_Files folders respectively.
@@ -214,7 +212,7 @@ The scripts 1 to 5 are common for any model which is a part of this project but 
 Please execute Script 1 to Script 5 before going to the Script 6.
 
 
-Script-6 -- SCP_1_Create_Subsequences_AllParticipants.R
+#### Script-6 -- SCP_1_Create_Subsequences_AllParticipants.R
 
 This script generates the sub-sequences (3 seconds  or 6 seconds) from the downsampled data files and saves it into individual Rdata files for each participant.
 The output files are stored in the respective folders under BOW_Files folder.
@@ -242,7 +240,7 @@ filelist <- dir(paste(DATAFOLDER,FILEDIR,sep=""), pattern = "^*.*Rdata$")
 
 ```
 
-Script-7 -- SCP_2_Merge_All_Subsequences.R
+#### Script-7 -- SCP_2_Merge_All_Subsequences.R
 
 This script merges all the sub-sequences (3s or 6s) from the individual Rdata files and saves it in a single file in the BOW_Files folder.
 Please note that there are 4 training files and 2 testing files created based on the user parameter input(3s or 6s).
@@ -263,7 +261,7 @@ FILETYPE <- "Testing_Set"
 
 ```
 
-Script-8 -- SCP_3_Generate_CodeBook.R
+#### Script-8 -- SCP_3_Generate_CodeBook.R
 
 This script generates the codebook for 3s and 6s subsequences of the training set by using spark cluster framework using k-means clustering technique.
 If there are library issues executing this script, please ensure that the sparklyr library is correctly installed since it is required to initiate the 
@@ -287,7 +285,7 @@ CHUNKSIZE=3
 
 ```
 
-Script-9 -- SCP_4_Generate_Word_Labels.R
+#### Script-9 -- SCP_4_Generate_Word_Labels.R
 
 This script generates the BOW labels for 3s and 6s subsequences of the data based on the codebook values and dynamic time warping (DTW) technique.
 If there are library issues executing this script, please ensure that the dtw library is correctly installed since it is required 
@@ -312,7 +310,7 @@ FILETYPE <- "Training_Set"
 
 ```
 
-Script-10 -- SCP_5_Merge_Word_Label_Files.R
+#### Script-10 -- SCP_5_Merge_Word_Label_Files.R
 
 This script merges all the 3s or 6s word labels data files into a single file. Please note that 4 separate RData files are created in the Cleaned_Data
 based on the user input parameters.
@@ -332,7 +330,7 @@ FILETYPE <- "Training_Set"
 
 ```
 
-Script-11 -- SCP_6_Calculate_TF_IDF.R
+#### Script-11 -- SCP_6_Calculate_TF_IDF.R
 
 This script calculates the term frequency and inverse doc frequency of training and testing data created by the previous script
 and stores the final cleaned data files in the Cleaned_Data folder.
@@ -356,7 +354,7 @@ which is done by the following script:
 
 ### Activity Recognition Script
 
-Script 1 -- SCP_Activity_Data_Classification.R
+#### Script 1 -- SCP_Activity_Data_Classification.R
 
 This script classifies the cleaned data into two classes based on user input. It uses three types of classifiers - SVM, DecisionTree and RandomForest.
 There are two types of classification as given below :
