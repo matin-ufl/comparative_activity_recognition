@@ -75,7 +75,7 @@ Then, create a new folder Participant_Data inside Raw_Data folder and store the 
 
 Then, Inside Participant_Data Folder create the following directory and sub-directory structure :
 
-							  i) Original_SubSet   |-> Training_Set
+			      i) Original_SubSet   |-> Training_Set
                                                    |-> Testing_Set 
                                                    
                              ii) Downsampled_Files |-> Training_Set
