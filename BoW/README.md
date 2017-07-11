@@ -383,6 +383,6 @@ OUTPUTFOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Cleaned
 This script displays the confusion matrix of the test data. If this script needs to be executed with different sets of test data. 
 Then, Please execute the data cleaning tasks on each set and then run only the "Test the model" section from the script.
 
-###Special Notes
+## Special Notes
 
 Please check the SCP_Demo_Script.R for more details about the parameters and script execution process.
