@@ -36,7 +36,7 @@ CLASSIFIER_TYPE <- "SVM"
 #Set the data directory of the Cleaned Data
 
 DATAFOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Cleaned_Data/"
-OUTPUTFOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Cleaned_Data/Model_Output"
+OUTPUTFOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Cleaned_Data/Model_Output/"
 
 #Filenames selected based on the above settings
 
@@ -227,9 +227,9 @@ if(file.exists(paste(DATAFOLDER,TEST_DATAFILE,sep = "")))
 
 #Load the trained model
 
-if(file.exists(paste(DATAFOLDER,MODEL_FILE,sep = ""))) {
+if(file.exists(paste(OUTPUTFOLDER,MODEL_FILE,sep = ""))) {
   
-  model <- readRDS(paste(DATAFOLDER,MODEL_FILE,sep = ""))
+  model <- readRDS(paste(OUTPUTFOLDER,MODEL_FILE,sep = ""))
   
   if (CLASS_CATEGORY == "Sedentary") {
     
