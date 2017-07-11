@@ -26,44 +26,44 @@ PATH1 = "/home/abhijaygupta/cnn/Training_Set/"
 PATH2 = "/home/abhijaygupta/cnn/Testing_Set/" 
 
 #Function call to read csv
-data1_df = FUN_ReadCSV(PATH1)
-data2_df = FUN_ReadCSV(PATH2)
+Data1_df = FUN_ReadCSV(PATH1)
+Data2_df = FUN_ReadCSV(PATH2)
 
 #Function to change time from HH:MM:SS to HHMMSS(integer)
-data1_df = FUN_TimeToInteger(data1_df)
-data2_df = FUN_TimeToInteger(data2_df)
+Data1_df = FUN_TimeToInteger(Data1_df)
+Data2_df = FUN_TimeToInteger(Data2_df)
 
 #Function call to convert to 3 classes Locomotion Sedentary Neither   
-data1_df = ConvertTo3Class(data1_df)
-data2_df = ConvertTo3Class(data2_df)    
+Data1_df = ConvertTo3Class(Data1_df)
+Data2_df = ConvertTo3Class(Data2_df)    
 
 #length of each segment
-window_size = 100
+WindowSize = 100
 
 #converting time series data into batches of few seconds(in this case 10sec)
 # in order to feed into the neural network
-segments_train, labels_train = FUN_Segment(data1_df,window_size)
-segments_test, labels_test = FUN_Segment(data2_df,window_size)
+SegmentsTrain, LabelsTrain = FUN_Segment(Data1_df,WindowSize)
+SegmentsTest, LabelsTest = FUN_Segment(Data2_df,WindowSize)
 
 #One hot encoding of activity types
-labels_train = np.asarray(pd.get_dummies(labels_train), dtype = np.int8)
-labels_test = np.asarray(pd.get_dummies(labels_test), dtype = np.int8)
+LabelsTrain = np.asarray(pd.get_dummies(LabelsTrain), dtype = np.int8)
+LabelsTest = np.asarray(pd.get_dummies(LabelsTest), dtype = np.int8)
 
 #reshaping the input to a 4D tensor comprising of ->
 #1 number of time series data to be trained (datapoints/window_size)
 #2 width of tensor (1 because the matrice has 100 rows and 1 column)
 #3 height of tensor (number of data points)
 #4 depth 3 (x,y and z axis)
-reshaped_segments_train = segments_train.reshape(len(segments_train), 1,100, 3)
-reshaped_segments_test = segments_test.reshape(len(segments_test), 1,100, 3)
+ReshapedSegmentsTrain = SegmentsTrain.reshape(len(SegmentsTrain), 1,100, 3)
+ReshapedSegmentsTest = SegmentsTest.reshape(len(SegmentsTest), 1,100, 3)
 
-train_x = reshaped_segments_train
-test_x = reshaped_segments_test
-train_y = labels_train
-test_y = labels_test
+TrainX = ReshapedSegmentsTrain
+TestX = ReshapedSegmentsTest
+TrainY = LabelsTrain
+TestY = LabelsTest
 
 #Saving the data frame
-np.save("/home/abhijaygupta/cnn/train_x.npy",train_x)
-np.save("/home/abhijaygupta/cnn/train_y.npy",train_y)
-np.save("/home/abhijaygupta/cnn/test_x.npy",test_x)
-np.save("/home/abhijaygupta/cnn/test_y.npy",test_y)
+np.save("/home/abhijaygupta/cnn/train_x.npy",Train_x)
+np.save("/home/abhijaygupta/cnn/train_y.npy",Train_y)
+np.save("/home/abhijaygupta/cnn/test_x.npy",Test_x)
+np.save("/home/abhijaygupta/cnn/test_y.npy",Test_y)

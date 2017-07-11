@@ -32,10 +32,10 @@ config.gpu_options.per_process_gpu_memory_fraction = 0.8
 set_session(tf.Session(config=config))
 
 #loading the numpy matrix
-train_x = np.load("/home/abhijaygupta/cnn/train_x.npy")
-train_y = np.load("/home/abhijaygupta/cnn/train_y.npy")
-test_x = np.load("/home/abhijaygupta/cnn/test_x.npy")
-test_y = np.load("/home/abhijaygupta/cnn/test_y.npy")
+TrainX = np.load("/home/abhijaygupta/cnn/train_x.npy")
+TrainY = np.load("/home/abhijaygupta/cnn/train_y.npy")
+TestX = np.load("/home/abhijaygupta/cnn/test_x.npy")
+TestY = np.load("/home/abhijaygupta/cnn/test_y.npy")
 
 
 #number of segments to be trained
@@ -85,16 +85,16 @@ model.compile(loss=keras.losses.categorical_crossentropy,
               metrics=['accuracy'])
 
 #Traing the model and then testing it with the test set
-model.fit(train_x, train_y,
+model.fit(TrainX, TrainY,
           batch_size=batch_size,
           epochs=epochs,
           verbose=1,
-          validation_data=(test_x, test_y))
+          validation_data=(TestX, TestY))
 
 #Loss and accuracy on the test set
-score = model.evaluate(test_x, test_y, verbose=0)
-print('Test loss:', score[0])
-print('Test accuracy:', score[1])
+SCORE = model.evaluate(TestX, TestY, verbose=0)
+print('Test loss:', SCORE[0])
+print('Test accuracy:', SCORE[1])
 
 #Saving the trained model as a h5 file
 model.save("cnn_model.h5")
@@ -102,14 +102,14 @@ model.save("cnn_model.h5")
 #The saved model can be loaded and used for testing other data 
 #from keras.models import load_model
 #model = load_model("cnn_model.h5")
-#model.evaluate(test_x,test_y,verbose=0)
+#model.evaluate(TestX,TestY,verbose=0)
 
 
 #Printing the confusion matrix
 from sklearn.metrics import classification_report,confusion_matrix
-y_pred = model.predict_classes(test_x)
+y_pred = model.predict_classes(TestX)
 print(y_pred)
-p=model.predict_proba(test_x) # to predict probability
+p=model.predict_proba(TestX) # to predict probability
 target_names = ['Locomotion', 'Neither', 'Sedentary']
-print(classification_report(np.argmax(test_y,axis=1), y_pred,target_names=target_names))
-print(confusion_matrix(np.argmax(test_y,axis=1), y_pred))
+print(classification_report(np.argmax(TestY,axis=1), y_pred,target_names=target_names))
+print(confusion_matrix(np.argmax(TestY,axis=1), y_pred))
