@@ -78,33 +78,33 @@ Then, create a new folder Participant_Data inside Raw_Data folder and store the 
 
 Then, Inside Participant_Data Folder create the following directory and sub-directory structure :
 
-i) Original_SubSet   |-> Training_Set
+i) Original_SubSet/Training_Set/
 
-ii) Original_SubSet  |-> Testing_Set
+ii) Original_SubSet/Testing_Set/
                                                   
-iii) Downsampled_Files |-> Training_Set
+iii) Downsampled_Files/Training_Set/
 
-iv) Downsampled_Files |-> Testing_Set
+iv) Downsampled_Files/Testing_Set/
  
-v) BOW_Files |-> Three-second chunks |-> Training_Set
+v) BOW_Files/Three-second chunks/Training_Set/
 
-vi) BOW_Files |-> Three-second chunks |-> Testing_Set
+vi) BOW_Files/Three-second chunks/Testing_Set/
 
-vii) BOW_Files |-> Six-second chunks |-> Training_Set
+vii) BOW_Files/Six-second chunks/Training_Set/
 
-viii) BOW_Files |-> Six-second chunks |-> Testing_Set
+viii) BOW_Files/Six-second chunks/Testing_Set/
 
-ix) Cleaned_Data |-> D32 |-> Training_Set
+ix) Cleaned_Data/D32/Training_Set/
 
-x) Cleaned_Data |-> D32 |-> Testing_Set
+x) Cleaned_Data/D32/Testing_Set/
 
-xi) Cleaned_Data |-> D64 |-> Training_Set
+xi) Cleaned_Data/D64/Training_Set/
 
-xii) Cleaned_Data |-> D64 |-> Testing_Set
+xii) Cleaned_Data/D64/Testing_Set/
 
-xiii) Cleaned_Data |-> Model_Output 
+xiii) Cleaned_Data/Model_Output/
 		      
-xiv) Logs
+xiv) Logs/
                               
 Please note that all the above folder names are case sensitive.
 
