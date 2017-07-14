@@ -36,6 +36,7 @@ Please install the following R-Libraries :-
 7. rpart
 8. randomForest
 9. caret
+10. MASS
 
 Run the following commands to install the libraries:
 
@@ -49,6 +50,7 @@ install.packages("e1071")
 install.packages("rpart")
 install.packages("randomForest")
 install.packages("caret")
+install.packages("MASS")
 ```
 
 And then run the following commands to test if they are correctly installed. Please ignore the warning messages.
@@ -63,6 +65,7 @@ library(e1071)
 library(rpart)
 library(randomForest)
 library(caret)
+library(MASS)
 
 ```
 
