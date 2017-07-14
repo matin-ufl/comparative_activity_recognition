@@ -87,12 +87,14 @@ ii) Downsampled_Files |-> Training_Set
 iii) BOW_Files        |-> Three-second chunks |-> Training_Set
                                               |-> Testing_Set 
                       |-> Six-second chunks |-> Training_Set
-                                            |-> Testing_Set 
+                                            |-> Testing_Set
+					  
 iv) Cleaned_Data      |-> D32 |-> Training_Set
                               |-> Testing_Set                                     
                       |-> D64 |-> Training_Set
                               |-> Testing_Set
                       |-> Model_Output 
+		      
 v) Logs
                               
 Please note that all the above folder names are case sensitive.
