@@ -348,7 +348,6 @@ FILETYPE <- "Testing_Set"
 DATAFOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Cleaned_Data/"
 
 ```
-
 After all the data cleaning scripts have been executed in the following sequence as mentioned above, the next part is the Activity recognition classification
 which is done by the following script:
 
@@ -356,18 +355,22 @@ which is done by the following script:
 
 #### Script 1 -- SCP_Activity_Data_Classification.R
 
-This script classifies the cleaned data into two classes based on user input. It uses three types of classifiers - SVM, DecisionTree and RandomForest.
+This script classifies the cleaned data into two classes based on user input. It uses four types of classifiers - SVM, DecisionTree, RandomForest and LDA.
 There are two types of classification as given below :
 	1. Sedentary and Non-Sedentary : 1 as Sedentary and 0 as Non-Sedentary.
 	2. Locomotion and Stationary : 1 as Locomotion and 0 as Stationary. 
 
+Some parameters have been defaulted in the functions for each classifier as it gave the best results. 
+It can be changed by the user if needed. Please check the function script FUN_Activity_Data_Classifier_Functions.R
+for details.
 ```
 #Set the working directory to the location where the scripts and function R files are located 
 
 setwd("~/Desktop/Data_Mining_Project/Codes/Classification/")
 
 
-#Set CLASS_CATEGORY = ("Sedentary" or "Locomotion"), CHUNKSIZE = (3 or 6) and CLASSIFIER_TYPE =  ("SVM" or "DecisionTree" or "RandomForest")
+#Set CLASS_CATEGORY = ("Sedentary" or "Locomotion"), CHUNKSIZE = (3 or 6) 
+#and CLASSIFIER_TYPE =  ("SVM" or "DecisionTree" or "RandomForest" or "LDA")
 
 CHUNKSIZE=6
 CLASS_CATEGORY <- "Locomotion"
