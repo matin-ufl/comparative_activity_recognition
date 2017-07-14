@@ -80,31 +80,31 @@ Then, Inside Participant_Data Folder create the following directory and sub-dire
 
 i) Original_SubSet   |-> Training_Set
 
-                     |-> Testing_Set 
-                                                   
-ii) Downsampled_Files |-> Training_Set
+ii) Original_SubSet  |-> Testing_Set
+                                                  
+iii) Downsampled_Files |-> Training_Set
 
-                      |-> Testing_Set 
-                                                   
-iii) BOW_Files        |-> Three-second chunks |-> Training_Set
+iv) Downsampled_Files |-> Testing_Set
+ 
+v) BOW_Files |-> Three-second chunks |-> Training_Set
 
-                                              |-> Testing_Set 
-					      
-                      |-> Six-second chunks |-> Training_Set
-		      
-                                            |-> Testing_Set
-					  
-iv) Cleaned_Data      |-> D32 |-> Training_Set
+vi) BOW_Files |-> Three-second chunks |-> Testing_Set
 
-                              |-> Testing_Set    
-			      
-                      |-> D64 |-> Training_Set
+vii) BOW_Files |-> Six-second chunks |-> Training_Set
+
+viii) BOW_Files |-> Six-second chunks |-> Testing_Set
+
+ix) Cleaned_Data |-> D32 |-> Training_Set
+
+x) Cleaned_Data |-> D32 |-> Testing_Set
+
+xi) Cleaned_Data |-> D64 |-> Training_Set
+
+xii) Cleaned_Data |-> D64 |-> Testing_Set
+
+xiii) Cleaned_Data |-> Model_Output 
 		      
-                              |-> Testing_Set
-			      
-                      |-> Model_Output 
-		      
-v) Logs
+xiv) Logs
                               
 Please note that all the above folder names are case sensitive.
 
