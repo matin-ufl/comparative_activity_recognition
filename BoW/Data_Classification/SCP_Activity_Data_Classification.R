@@ -10,13 +10,17 @@
 #Author & Reviewer Details --------------------------------------------------------------------------
 
 #Author : Avirup Chakraborty
-#Date : 07/03/2017
+#Date : 07/14/2017
 #E-Mail : avirup1988@ufl.edu
 #Reviewed By : Hiranava Das
 #Review Date :
 #Reviewer E-Mail : hiranava@ufl.edu
 
 #Parameter Settings ---------------------------------------------------------------------------------
+
+#Clear the environment
+
+rm(list=ls())
 
 #Set the working directory to the location where the scripts and function R files are located 
 
@@ -26,11 +30,12 @@ setwd("~/Desktop/Data_Mining_Project/Codes/Classification/")
 
 source("FUN_Activity_Data_Classifier_Functions.R")
 
-#Set CLASS_CATEGORY = ("Sedentary" or "Locomotion"), CHUNKSIZE = (3 or 6) and CLASSIFIER_TYPE =  ("SVM" or "DecisionTree" or "RandomForest")
+#Set CLASS_CATEGORY = ("Sedentary" or "Locomotion"), CHUNKSIZE = (3 or 6) and
+#CLASSIFIER_TYPE =  ("SVM" or "DecisionTree" or "RandomForest" or "LDA")
 
-CHUNKSIZE=6
-CLASS_CATEGORY <- "Locomotion"
-CLASSIFIER_TYPE <- "SVM"
+CHUNKSIZE=3
+CLASS_CATEGORY <- "Sedentary"
+CLASSIFIER_TYPE <- "RandomForest"
 
 
 #Set the data directory of the Cleaned Data
@@ -58,18 +63,20 @@ if (CHUNKSIZE == 3)
       MODEL_FILE <- "SDNT_DT_Model_BoW_W3_D32.Rdata"
       TEST_OUT_FILE <- "SDNT_DT_Test_Out_BoW_W3_D32.Rdata"
       
-    } else if (CLASSIFIER_TYPE == "RandomForest") {
+    }  else if (CLASSIFIER_TYPE == "LDA") {
       
-      MODEL_FILE <- "SDNT_RF_Model_BoW_W3_D32.Rdata"
-      TEST_OUT_FILE <- "SDNT_RF_Test_Out_BoW_W3_D32.Rdata"
+      MODEL_FILE <- "SDNT_LDA_Model_BoW_W3_D32.Rdata"
+      TEST_OUT_FILE <- "SDNT_LDA_Test_Out_BoW_W3_D32.Rdata"
       
     } else {
       
-      stop("Invalid Classifier...")
+        CLASSIFIER_TYPE <- "RandomForest"
+        MODEL_FILE <- "SDNT_RF_Model_BoW_W3_D32.Rdata"
+        TEST_OUT_FILE <- "SDNT_RF_Test_Out_BoW_W3_D32.Rdata"
       
     }
     
-  } else if (CLASS_CATEGORY == "Locomotion") {
+} else if (CLASS_CATEGORY == "Locomotion") {
     
     if(CLASSIFIER_TYPE == "SVM") {
       
@@ -81,14 +88,16 @@ if (CHUNKSIZE == 3)
       MODEL_FILE <- "LCM_DT_Model_BoW_W3_D32.Rdata"
       TEST_OUT_FILE <- "LCM_DT_Test_Out_BoW_W3_D32.Rdata"
       
-    } else if (CLASSIFIER_TYPE == "RandomForest") {
+    } else if (CLASSIFIER_TYPE == "LDA") {
       
-      MODEL_FILE <- "LCM_RF_Model_BoW_W3_D32.Rdata"
-      TEST_OUT_FILE <- "LCM_RF_Test_Out_BoW_W3_D32.Rdata"
+      MODEL_FILE <- "LCM_LDA_Model_BoW_W3_D32.Rdata"
+      TEST_OUT_FILE <- "LCM_LDA_Test_Out_BoW_W3_D32.Rdata"
       
     } else {
       
-      stop("Invalid Classifier...")
+      CLASSIFIER_TYPE <- "RandomForest"
+      MODEL_FILE <- "LCM_RF_Model_BoW_W3_D32.Rdata"
+      TEST_OUT_FILE <- "LCM_RF_Test_Out_BoW_W3_D32.Rdata"
       
     }
     
@@ -116,13 +125,20 @@ if (CHUNKSIZE == 3)
       MODEL_FILE <- "SDNT_RF_Model_BoW_W6_D64.Rdata"
       TEST_OUT_FILE <- "SDNT_RF_Test_Out_BoW_W6_D64.Rdata"
       
+    } else if (CLASSIFIER_TYPE == "LDA") {
+      
+      MODEL_FILE <- "SDNT_LDA_Model_BoW_W6_D64.Rdata"
+      TEST_OUT_FILE <- "SDNT_LDA_Test_Out_BoW_W6_D64.Rdata"
+      
     } else {
       
-      stop("Invalid Classifier...")
+      CLASSIFIER_TYPE <- "RandomForest"
+      MODEL_FILE <- "SDNT_RF_Model_BoW_W6_D64.Rdata"
+      TEST_OUT_FILE <- "SDNT_RF_Test_Out_BoW_W6_D64.Rdata"
       
     }
     
-  } else if (CLASS_CATEGORY == "Locomotion") {
+} else if (CLASS_CATEGORY == "Locomotion") {
     
     if(CLASSIFIER_TYPE == "SVM") {
       
@@ -134,14 +150,16 @@ if (CHUNKSIZE == 3)
       MODEL_FILE <- "LCM_DT_Model_BoW_W6_D64.Rdata"
       TEST_OUT_FILE <- "LCM_DT_Test_Out_BoW_W6_D64.Rdata"
       
-    } else if (CLASSIFIER_TYPE == "RandomForest") {
+    } else if (CLASSIFIER_TYPE == "LDA") {
       
-      MODEL_FILE <- "LCM_RF_Model_BoW_W6_D64.Rdata"
-      TEST_OUT_FILE <- "LCM_RF_Test_Out_BoW_W6_D64.Rdata"
+      MODEL_FILE <- "LCM_LDA_Model_BoW_W6_D64.Rdata"
+      TEST_OUT_FILE <- "LCM_LDA_Test_Out_BoW_W6_D64.Rdata"
       
     } else {
       
-      stop("Invalid Classifier...")
+      CLASSIFIER_TYPE <- "RandomForest"
+      MODEL_FILE <- "LCM_RF_Model_BoW_W6_D64.Rdata"
+      TEST_OUT_FILE <- "LCM_RF_Test_Out_BoW_W6_D64.Rdata"
       
     }
     
@@ -244,7 +262,7 @@ if(file.exists(paste(OUTPUTFOLDER,MODEL_FILE,sep = ""))) {
   }
   
   #Call the function for predictions
-  test.df <- FUN_Evaluate_Classifier(model,test.df)
+  test.df <- FUN_Evaluate_Classifier(model,test.df, CLASSIFIER_TYPE)
   
   #Save the test dataset after evaluation
   
