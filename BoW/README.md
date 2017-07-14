@@ -79,20 +79,29 @@ Then, create a new folder Participant_Data inside Raw_Data folder and store the 
 Then, Inside Participant_Data Folder create the following directory and sub-directory structure :
 
 i) Original_SubSet   |-> Training_Set
+
                      |-> Testing_Set 
                                                    
 ii) Downsampled_Files |-> Training_Set
+
                       |-> Testing_Set 
                                                    
 iii) BOW_Files        |-> Three-second chunks |-> Training_Set
+
                                               |-> Testing_Set 
+					      
                       |-> Six-second chunks |-> Training_Set
+		      
                                             |-> Testing_Set
 					  
 iv) Cleaned_Data      |-> D32 |-> Training_Set
-                              |-> Testing_Set                                     
+
+                              |-> Testing_Set    
+			      
                       |-> D64 |-> Training_Set
+		      
                               |-> Testing_Set
+			      
                       |-> Model_Output 
 		      
 v) Logs
