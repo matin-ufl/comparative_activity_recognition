@@ -69,13 +69,12 @@ Create a folder Raw_Data and place the tasktimes csv file in it.
 
 Then, create a new folder Participant_Data inside Raw_Data folder and store the raw accelerometer data folders for each participant in this folder.
 
-Then, Inside Participant_Data Folder create the following directory and sub-directory structure :
-
-i)	Original_SubSet |-> Training_Set |-> nGram_Files
-    Original_SubSet |-> Testing_Set |-> nGram_Files
-ii)	Downsampled_Files |-> Training_Set |-> nGram_Files
-    Downsampled_Files |-> Testing_Set |-> nGram_Files
-iii)Logs
+Then, Inside Participant_Data Folder create the following directory and sub-directory structure:
+i)   Original_SubSet |-> Training_Set |-> nGram_Files
+     Original_SubSet |-> Testing_Set |-> nGram_Files
+ii)  Downsampled_Files |-> Training_Set |-> nGram_Files
+     Downsampled_Files |-> Testing_Set |-> nGram_Files
+iii) Logs
                               
 Please note that all the above folder names are case sensitive.
 
