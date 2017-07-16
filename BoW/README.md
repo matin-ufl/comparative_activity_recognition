@@ -8,6 +8,20 @@ prediction of the model.
 
 ## Getting Started
 
+The entire process has been divided into the several R-Script files located in the following folders in Github :-
+
+
+#### General Preprocessing Files:
+
+
+#### BOW Specific Preprocessing Files:
+
+
+#### BOW Data Classification Files:
+
+
+
+Please copy all these files in your local system and then follow the instructions given below.
 These step by step instructions will help in executing each of the scripts required for performing the Activity Recognition project.
 
 ### Prerequisites Softwares
