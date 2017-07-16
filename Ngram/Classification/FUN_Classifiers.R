@@ -1,3 +1,14 @@
+#Script Details -------------------------------------------------------------------------------------------------
+
+#Script Name : FUN_Classifiers.R
+
+#Script Summmary : This script contains five functions required for classification.
+#     1. FUN_prepareForclassification: Function to prepare dataset for classification
+#     2. FUN_svm.classification: Function to train SVM classifier and predict labels for test data
+#     3. FUN_naiveBayes.classification: Function to train Naive Bayes classifier and predict labels for test data
+#     4. FUN_randomForest.classification: Function to train Random Forest classifier and predict labels for test data
+#     5. FUN_getResults: Function to get the confusion matrix and required metrics from predicted vs actual values
+
 #Author & Reviewer Details --------------------------------------------------------------------------------------
 
 #Author : Shikha Mehta
@@ -17,7 +28,7 @@
 # Output:
 #     Returns a data frame consisting of features and class variables of Sedentary/Non-sedentary & Locomotion/Stationary
 #
-prepareForclassification<-function(dataFolder,ngramType)
+FUN_prepareForclassification<-function(dataFolder,ngramType)
 {
   if(ngramType=="Unigrams")
   {
@@ -49,40 +60,39 @@ prepareForclassification<-function(dataFolder,ngramType)
 #     2. testing.df: data frame consisting of features and class variables to test the Support Vector Machine classifier
 #
 # Output:
-#     Returns a data frame consisting of Accuracy, Sensitivity and Specificity metrics
+#     Returns a data frame consisting of Precision, Recall and F1-Score metrics
 #     of predicting Sedentary and Locomotion classes using Support Vector Machine classifier
 #
-svm.classification<-function(training.df,testing.df)
+FUN_svm.classification<-function(training.df,testing.df)
 {
   library(e1071)
+  
+  # Sedentary classification
   svm.model <- svm(data = training.df, class.sedentary ~ .)
   svm.predicted <- predict(svm.model, testing.df)
-  svm.outcome <- data.frame(actual = as.character(testing.df$class.sedentary), predicted = as.character(svm.predicted))
   
-  confusion.matrix <- table(svm.outcome)
-  AccuracyS <- round((confusion.matrix[1, 1] + confusion.matrix[2, 2]) / sum(confusion.matrix) * 100, digits = 2)
-  SensitivityS <- round((confusion.matrix[2, 2]) / sum(confusion.matrix[, 2]), digits = 2)
-  SpecificityS <- round((confusion.matrix[1, 1]) / sum(confusion.matrix[, 1]), digits = 2)
+  # ---Uncomment following section to view the confusion matrix for Sedentary data--- #
+  # confusion.matrix.sedentary <- FUN_getResults(svm.predicted,testing.df$class.sedentary)[[1]]
+  # View(confusion.matrix.sedentary)
+  # --------------------------------------------------------------------------------- #
   
-  paste("SVM: AccuracyS (", round((confusion.matrix[1, 1] + confusion.matrix[2, 2]) / sum(confusion.matrix) * 100, digits = 2), ") & ",
-        "SensitivityS (", round((confusion.matrix[2, 2]) / sum(confusion.matrix[, 2]), digits = 2), ") & ",
-        "SpecificityS (", round((confusion.matrix[1, 1]) / sum(confusion.matrix[, 1]), digits = 2), ")", sep = "")
+  # Get Precision, Recall and F1-Score metrics for Sedentary data
+  sedentary.metrics <- FUN_getResults(svm.predicted,testing.df$class.sedentary)[[2]]
   
+  # Locomotion classification
   svm.model <- svm(data = training.df, class.locomotion ~ .)
   svm.predicted <- predict(svm.model, testing.df)
-  svm.outcome <- data.frame(actual = as.character(testing.df$class.locomotion), predicted = as.character(svm.predicted))
   
-  confusion.matrix <- table(svm.outcome)
-  AccuracyL <- round((confusion.matrix[1, 1] + confusion.matrix[2, 2]) / sum(confusion.matrix) * 100, digits = 2)
-  SensitivityL <- round((confusion.matrix[2, 2]) / sum(confusion.matrix[, 2]), digits = 2)
-  SpecificityL <- round((confusion.matrix[1, 1]) / sum(confusion.matrix[, 1]), digits = 2)
+  # ---Uncomment following section to view the confusion matrix for Locomotion data--- #
+  # confusion.matrix.locomotion <- FUN_getResults(svm.predicted,testing.df$class.locomotion)[[1]]
+  # View(confusion.matrix.locomotion)
+  # ---------------------------------------------------------------------------------- #
   
-  paste("SVM: AccuracyL (", round((confusion.matrix[1, 1] + confusion.matrix[2, 2]) / sum(confusion.matrix) * 100, digits = 2), ") & ",
-        "SensitivityL (", round((confusion.matrix[2, 2]) / sum(confusion.matrix[, 2]), digits = 2), ") & ",
-        "SpecificityL (", round((confusion.matrix[1, 1]) / sum(confusion.matrix[, 1]), digits = 2), ")", sep = "")
+  # Get Precision, Recall and F1-Score metrics for Locomotion data
+  locomotion.metrics <- FUN_getResults(svm.predicted,testing.df$class.locomotion)[[2]]
   
-  table <- matrix(c(AccuracyS,SensitivityS,SpecificityS,AccuracyL,SensitivityL,SpecificityL),ncol=3,byrow=TRUE)
-  colnames(table) <- c("Accuracy","Sensitivity","Specificity")
+  table <- matrix(c(sedentary.metrics,locomotion.metrics),ncol=3,byrow=TRUE)
+  colnames(table) <- c("Precision","Recall","F1-Score")
   rownames(table) <- c("Sedentary","Locomotion")
   output.df <- as.data.frame(table)
   output.df 
@@ -94,40 +104,39 @@ svm.classification<-function(training.df,testing.df)
 #     2. testing.df: data frame consisting of features and class variables to test the Naive Bayes classifier
 #
 # Output:
-#     Returns a data frame consisting of Accuracy, Sensitivity and Specificity metrics
+#     Returns a data frame consisting of Precision, Recall and F1-Score metrics
 #     of predicting Sedentary and Locomotion classes using Naive Bayes classifier
 #
-naiveBayes.classification<-function(training.df,testing.df)
+FUN_naiveBayes.classification<-function(training.df,testing.df)
 {
   library(e1071)
+  
+  # Sedentary classification
   nb.model <- naiveBayes(data = training.df, class.sedentary ~ .)
   nb.predicted <- predict(nb.model, testing.df)
-  nb.outcome <- data.frame(actual = as.character(testing.df$class.sedentary), predicted = as.character(nb.predicted))
   
-  confusion.matrix <- table(nb.outcome)
-  AccuracyS <- round((confusion.matrix[1, 1] + confusion.matrix[2, 2]) / sum(confusion.matrix) * 100, digits = 2)
-  SensitivityS <- round((confusion.matrix[2, 2]) / sum(confusion.matrix[, 2]), digits = 2)
-  SpecificityS <- round((confusion.matrix[1, 1]) / sum(confusion.matrix[, 1]), digits = 2)
+  # ---Uncomment following section to view the confusion matrix for Sedentary data--- #
+  # confusion.matrix.sedentary <- FUN_getResults(nb.predicted,testing.df$class.sedentary)[[1]]
+  # View(confusion.matrix.sedentary)
+  # --------------------------------------------------------------------------------- #
   
-  paste("Naive Bayes: AccuracyS (", round((confusion.matrix[1, 1] + confusion.matrix[2, 2]) / sum(confusion.matrix) * 100, digits = 2), ") & ",
-        "SensitivityS (", round((confusion.matrix[2, 2]) / sum(confusion.matrix[, 2]), digits = 2), ") & ",
-        "SpecificityS (", round((confusion.matrix[1, 1]) / sum(confusion.matrix[, 1]), digits = 2), ")", sep = "")
+  # Get Precision, Recall and F1-Score metrics for Sedentary data
+  sedentary.metrics <- FUN_getResults(nb.predicted,testing.df$class.sedentary)[[2]]
   
+  # Locomotion classification
   nb.model <- naiveBayes(data = training.df, class.locomotion ~ .)
   nb.predicted <- predict(nb.model, testing.df)
-  nb.outcome <- data.frame(actual = as.character(testing.df$class.locomotion), predicted = as.character(nb.predicted))
   
-  confusion.matrix <- table(nb.outcome)
-  AccuracyL <- round((confusion.matrix[1, 1] + confusion.matrix[2, 2]) / sum(confusion.matrix) * 100, digits = 2)
-  SensitivityL <- round((confusion.matrix[2, 2]) / sum(confusion.matrix[, 2]), digits = 2)
-  SpecificityL <- round((confusion.matrix[1, 1]) / sum(confusion.matrix[, 1]), digits = 2)
+  # ---Uncomment following section to view the confusion matrix for Locomotion data--- #
+  # confusion.matrix.locomotion <- FUN_getResults(nb.predicted,testing.df$class.locomotion)[[1]]
+  # View(confusion.matrix.locomotion)
+  # ---------------------------------------------------------------------------------- #
   
-  paste("Naive Bayes: AccuracyL (", round((confusion.matrix[1, 1] + confusion.matrix[2, 2]) / sum(confusion.matrix) * 100, digits = 2), ") & ",
-        "SensitivityL (", round((confusion.matrix[2, 2]) / sum(confusion.matrix[, 2]), digits = 2), ") & ",
-        "SpecificityL (", round((confusion.matrix[1, 1]) / sum(confusion.matrix[, 1]), digits = 2), ")", sep = "")
+  # Get Precision, Recall and F1-Score metrics for Locomotion data
+  locomotion.metrics <- FUN_getResults(nb.predicted,testing.df$class.locomotion)[[2]]
   
-  table <- matrix(c(AccuracyS,SensitivityS,SpecificityS,AccuracyL,SensitivityL,SpecificityL),ncol=3,byrow=TRUE)
-  colnames(table) <- c("Accuracy","Sensitivity","Specificity")
+  table <- matrix(c(sedentary.metrics,locomotion.metrics),ncol=3,byrow=TRUE)
+  colnames(table) <- c("Precision","Recall","F1-Score")
   rownames(table) <- c("Sedentary","Locomotion")
   output.df <- as.data.frame(table)
   output.df 
@@ -139,45 +148,66 @@ naiveBayes.classification<-function(training.df,testing.df)
 #     2. testing.df: data frame consisting of features and class variables to test the Random Forest classifier
 #
 # Output:
-#     Returns a data frame consisting of Accuracy, Sensitivity and Specificity metrics
+#     Returns a data frame consisting of Precision, Recall and F1-Score metrics
 #     of predicting Sedentary and Locomotion classes using Random Forest classifier
 #
-randomForest.classification<-function(training.df,testing.df)
+FUN_randomForest.classification<-function(training.df,testing.df)
 {
   library(randomForest)
   set.seed(5855)
   
-  # Sedentary classification --------------------------
+  # Sedentary classification
   rf.model <- randomForest(data = training.df, class.sedentary ~ .)
   rf.predicted <- predict(rf.model, testing.df)
-  rf.outcome <- data.frame(actual = as.character(testing.df$class.sedentary), predicted = as.character(rf.predicted))
   
-  confusion.matrix <- table(rf.outcome)
-  AccuracyS <- round((confusion.matrix[1, 1] + confusion.matrix[2, 2]) / sum(confusion.matrix) * 100, digits = 2)
-  SensitivityS <- round((confusion.matrix[2, 2]) / sum(confusion.matrix[, 2]), digits = 2)
-  SpecificityS <- round((confusion.matrix[1, 1]) / sum(confusion.matrix[, 1]), digits = 2)
+  # ---Uncomment following section to view the confusion matrix for Sedentary data--- #
+  # confusion.matrix.sedentary <- FUN_getResults(rf.predicted,testing.df$class.sedentary)[[1]]
+  # View(confusion.matrix.sedentary)
+  # --------------------------------------------------------------------------------- #
   
-  paste("Random Forest: AccuracyS (", round((confusion.matrix[1, 1] + confusion.matrix[2, 2]) / sum(confusion.matrix) * 100, digits = 2), ") & ",
-        "SensitivityS (", round((confusion.matrix[2, 2]) / sum(confusion.matrix[, 2]), digits = 2), ") & ",
-        "SpecificityS (", round((confusion.matrix[1, 1]) / sum(confusion.matrix[, 1]), digits = 2), ")", sep = "")
+  # Get Precision, Recall and F1-Score metrics for Sedentary data
+  sedentary.metrics <- FUN_getResults(rf.predicted,testing.df$class.sedentary)[[2]]
   
-  # Locomotion classification --------------------------
+  # Locomotion classification
   rf.model <- randomForest(data = training.df, class.locomotion ~ .)
   rf.predicted <- predict(rf.model, testing.df)
-  rf.outcome <- data.frame(actual = as.character(testing.df$class.locomotion), predicted = as.character(rf.predicted))
   
-  confusion.matrix <- table(rf.outcome)
-  AccuracyL <- round((confusion.matrix[1, 1] + confusion.matrix[2, 2]) / sum(confusion.matrix) * 100, digits = 2)
-  SensitivityL <- round((confusion.matrix[2, 2]) / sum(confusion.matrix[, 2]), digits = 2)
-  SpecificityL <- round((confusion.matrix[1, 1]) / sum(confusion.matrix[, 1]), digits = 2)
+  # ---Uncomment following section to view the confusion matrix for Locomotion data--- #
+  # confusion.matrix.locomotion <- FUN_getResults(rf.predicted,testing.df$class.locomotion)[[1]]
+  # View(confusion.matrix.locomotion)
+  # ---------------------------------------------------------------------------------- #
   
-  paste("Random Forest: AccuracyL (", round((confusion.matrix[1, 1] + confusion.matrix[2, 2]) / sum(confusion.matrix) * 100, digits = 2), ") & ",
-        "SensitivityL (", round((confusion.matrix[2, 2]) / sum(confusion.matrix[, 2]), digits = 2), ") & ",
-        "SpecificityL (", round((confusion.matrix[1, 1]) / sum(confusion.matrix[, 1]), digits = 2), ")", sep = "")
-
-  table <- matrix(c(AccuracyS,SensitivityS,SpecificityS,AccuracyL,SensitivityL,SpecificityL),ncol=3,byrow=TRUE)
-  colnames(table) <- c("Accuracy","Sensitivity","Specificity")
+  # Get Precision, Recall and F1-Score metrics for Locomotion data
+  locomotion.metrics <- FUN_getResults(rf.predicted,testing.df$class.locomotion)[[2]]
+  
+  table <- matrix(c(sedentary.metrics,locomotion.metrics),ncol=3,byrow=TRUE)
+  colnames(table) <- c("Precision","Recall","F1-Score")
   rownames(table) <- c("Sedentary","Locomotion")
   output.df <- as.data.frame(table)
   output.df
+}
+
+
+# Input:
+#     1. predicted: vector of labels predicted by a classifier
+#     2. actual: corresponding vector of actual values/class labels
+#
+# Output:
+#     Returns a list consisting of
+#     1. confusion matrix from predicted vs actual data
+#     2. a vector of Precision, Recall and F1-Score values
+#
+FUN_getResults<-function(predicted,actual)
+{
+  library(caret)
+  
+  # Generate the confusion matrix of the test data
+  cf <- confusionMatrix(predicted, actual)
+  
+  # Generate F1-score, Precision and Sensitivity metrics
+  precision <- posPredValue(predicted, actual)
+  recall <- sensitivity(predicted, actual)
+  F1.score <- (2 * precision * recall) / (precision + recall)
+
+  return (list(cf$table,c(precision,recall,F1.score)))
 }
