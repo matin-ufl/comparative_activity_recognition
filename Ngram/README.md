@@ -73,9 +73,9 @@ Then, Inside Participant_Data Folder create the following directory and sub-dire
 
 i)   Original_SubSet |-> Training_Set |-> nGram_Files  
 ii)  Original_SubSet |-> Testing_Set |-> nGram_Files  
-iii) Downsampled_Files |-> Training_Set |-> nGram_Files
-iv)  Downsampled_Files |-> Testing_Set |-> nGram_Files
-V)   Logs
+iii) Downsampled_Files |-> Training_Set |-> nGram_Files  
+iv)  Downsampled_Files |-> Testing_Set |-> nGram_Files  
+v)   Logs
                               
 Please note that all the above folder names are case sensitive.
 
