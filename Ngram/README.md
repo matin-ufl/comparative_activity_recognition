@@ -6,7 +6,7 @@ This project is used to classify various day to day activities (like TV watching
 
 These step by step instructions will help in executing each of the scripts required for performing the Activity Recognition project.
 
-### Prerequisites Software
+### Prerequisite Software
 
 These scripts are written in R Language and it requires the R-Studio software for execution. 
 R-Studio Version - 1.0.143 has been used to develop these scripts. 
