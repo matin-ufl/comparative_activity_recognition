@@ -223,9 +223,8 @@ After the above script has been executed, the next part is the Activity recognit
 
 This script classifies the cleaned data into two classes based on user input. It uses three types of classifiers - SVM, Naive Bayes, Random Forest.
 There are two types of classification as given below :
-
-	1. Sedentary and Non-sedentary : 1 as Sedentary and 0 as Non-sedentary.
-	2. Locomotion and Stationary : 1 as Locomotion and 0 as Stationary. 
+1. Sedentary and Non-sedentary : 1 as Sedentary and 0 as Non-sedentary.
+2. Locomotion and Stationary : 1 as Locomotion and 0 as Stationary. 
 
 Some parameters have been defaulted in the functions for each classifier as it gave the best results. 
 It can be changed by the user if needed. Please check the function script FUN_Activity_Data_Classifier_Functions.R
