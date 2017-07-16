@@ -219,7 +219,7 @@ After the above script has been executed, the next part is the Activity recognit
 
 ### Activity Recognition Script
 
-#### Script 7 -- Ngram / Classification /SCP_Master_Script.R
+#### Script 7 -- Ngram / Classification / SCP_Master_Script.R
 
 This script classifies the cleaned data into two classes based on user input. It uses three types of classifiers - SVM, Naive Bayes, Random Forest.
 There are two types of classification as given below :
@@ -247,7 +247,7 @@ NGRAMTYPE <- "Unigrams"
 
 This script displays the Precision, Recall and F1-Score metrics of the test data. If the confusion matrix for the data needs to be viewed, please uncomment the relevant sections from the following script.
 
-#### Script 8 -- Ngram / Classification /SCP_Master_Script.R
+#### Script 8 -- Ngram / Classification / SCP_Master_Script.R
 
 To view the confusion matrix for a specific classifier, please uncomment below sections from the body of the classifier function.
 
