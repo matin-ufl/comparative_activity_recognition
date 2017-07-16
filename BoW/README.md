@@ -13,16 +13,68 @@ The entire process has been divided into the several R-Script files located in t
 
 #### General Preprocessing Files:
 
+```
+Function Files:
 
-#### BOW Specific Preprocessing Files:
+1. FUN_ConvertToMilitaryTime.R
+2. FUN_Create_Subset_Accelerometer_Data_Files.R
+3. FUN_Downsampling_Data.R
 
+Script Files:
+
+1. SCP_ConvertTaskTimeFile.R
+2. SCP_Check_TaskTimes_Errors.R
+3. SCP_CreateAccelerometerDataSubset.R
+4. SCP_Split_Train_Test_Participants.R
+
+Link to files : 
+
+https://github.com/matin-ufl/comparative_activity_recognition/tree/master/Utilities
+
+```
+
+#### BOW-Specific Preprocessing Files:
+
+```
+Function Files:
+
+1. FUN_BOW_Functions.R
+2. FUN_DTW_Functions.R
+3. FUN_TF_IDF_Functions.R
+
+Script Files:
+
+1. SCP_1_Create_Subsequences_AllParticipants.R
+2. SCP_2_Merge_All_Subsequences.R
+3. SCP_3_Generate_CodeBook.R
+4. SCP_4_Generate_Word_Labels.R
+5. SCP_5_Merge_Word_Label_Files.R
+6. SCP_6_Calculate_TF_IDF.R
+
+Link to files : 
+
+https://github.com/matin-ufl/comparative_activity_recognition/tree/master/BoW/Data_Cleaning
+
+```
 
 #### BOW Data Classification Files:
 
+```
+Function Files:
 
+1. FUN_Activity_Data_Classifier_Functions.R
 
-Please copy all these files in your local system and then follow the instructions given below.
-These step by step instructions will help in executing each of the scripts required for performing the Activity Recognition project.
+Script Files:
+
+1. SCP_Activity_Data_Classification.R
+
+Link to files : 
+
+https://github.com/matin-ufl/comparative_activity_recognition/tree/master/BoW/Data_Classification
+
+```
+
+Please copy all these files in your local system and then follow the instructions given below that will help in executing each of the scripts required for performing the Activity Recognition project.
 
 ### Prerequisites Softwares
 
