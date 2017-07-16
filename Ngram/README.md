@@ -86,7 +86,7 @@ the first task would be execute the data cleaning scripts in the following seque
 
 ### Data Cleaning Tasks 
 
-#### Script-1 -- SCP_ConvertTaskTimeFile.R
+#### Script-1 -- Utilities / SCP_ConvertTaskTimeFile.R
 
 This script converts the taskTimes file from .csv to .Rdata by converting the start and the end timestamps to 24hr format.
 It also removes the invalid records where the start time is greater than the end time and there are NA values in any of the records.
@@ -103,7 +103,7 @@ DATAFOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/"
 
 ```
 
-#### Script-2 -- SCP_ConvertTaskTimeFile.R
+#### Script-2 -- Utilities / SCP_ConvertTaskTimeFile.R
 
 This script checks the taskTimes Rdata file for errors such as when the same visit numbers span different dates and same dates span different visit numbers
 and logs them into the Logs folder. After execution of this script, two csv files are generated storing the errors. Please check them and change them manually
@@ -126,7 +126,7 @@ LOGFILESFOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Logs/
 
 ``` 
 
-#### Script-3 -- SCP_CreateAccelerometerDataSubset.R
+#### Script-3 -- Utilities / SCP_CreateAccelerometerDataSubset.R
 
 This script creates subset of the raw accelerometer data based on the start and the end time range for a given task for a participant 
 and it creates individual subset files for each participant in the Original_SubSet folder.
@@ -148,7 +148,7 @@ TASKTIMESFILENAME <- "~/Desktop/Data_Mining_Project/Raw_Data/taskTimes_all.Rdata
 
 ``` 
 
-#### Script-4 -- SCP_DownSampleData_AllParticipants.R
+#### Script-4 -- Utilities / SCP_DownSampleData_AllParticipants.R
 
 This script downsamples the subset data of each participant from 30 Hz, 80 Hz & 100 Hz to 10 Hz in order to minimise the high frequency noise
 and saves it into individual Rdata files in the Downsampled_Files folder.
@@ -166,7 +166,7 @@ DATAFOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/"
 
 ```
 
-#### Script-5 -- SCP_Split_Train_Test_Participants.R
+#### Script-5 -- Utilities / SCP_Split_Train_Test_Participants.R
 
 This script splits the subset and the downsampled data files into Training and Testing Set and moves them into their respective folders within 
 Original_SubSet and Downsampled_Files folders respectively.
