@@ -257,7 +257,8 @@ To view the confusion matrix for a specific classifier, please uncomment below s
 #View(confusion.matrix.sedentary)
 #---------------------------------------------------------------------------------#
 
-#---Uncomment following section to view the confusion matrix for Locomotion data---# #confusion.matrix.locomotion <- FUN_getResults(svm.predicted,testing.df$class.locomotion)[[1]]
+#---Uncomment following section to view the confusion matrix for Locomotion data---# 
+#confusion.matrix.locomotion <- FUN_getResults(svm.predicted,testing.df$class.locomotion)[[1]]
 #View(confusion.matrix.locomotion)
 #----------------------------------------------------------------------------------#
 
