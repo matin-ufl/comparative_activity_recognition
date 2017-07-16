@@ -68,6 +68,24 @@ library(caret)
 library(MASS)
 
 ```
+For installation of the spark local repository for development purposes,please execute the following commands:
+
+```
+library(sparklyr)
+spark_install(version = "1.6.2")
+
+```
+To upgrade to the latest version of sparklyr, run the following command and restart your r session:
+
+```
+devtools::install_github("rstudio/sparklyr")
+
+```
+
+For more details about spark library installation and connections, please refer to the following link :
+
+http://spark.rstudio.com
+
 
 ### Prerequisite Folder Structure
 
