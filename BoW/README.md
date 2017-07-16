@@ -27,11 +27,11 @@ Script Files:
 3. SCP_CreateAccelerometerDataSubset.R
 4. SCP_Split_Train_Test_Participants.R
 
-Link to files : 
+```
+Link to above files : 
 
 https://github.com/matin-ufl/comparative_activity_recognition/tree/master/Utilities
 
-```
 
 #### BOW-Specific Preprocessing Files:
 
@@ -51,11 +51,10 @@ Script Files:
 5. SCP_5_Merge_Word_Label_Files.R
 6. SCP_6_Calculate_TF_IDF.R
 
-Link to files : 
+```
+Link to above files : 
 
 https://github.com/matin-ufl/comparative_activity_recognition/tree/master/BoW/Data_Cleaning
-
-```
 
 #### BOW Data Classification Files:
 
@@ -68,11 +67,11 @@ Script Files:
 
 1. SCP_Activity_Data_Classification.R
 
-Link to files : 
+```
+
+Link to above files : 
 
 https://github.com/matin-ufl/comparative_activity_recognition/tree/master/BoW/Data_Classification
-
-```
 
 Please copy all these files in your local system and then follow the instructions given below that will help in executing each of the scripts required for performing the Activity Recognition project.
 
