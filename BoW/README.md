@@ -25,7 +25,8 @@ Script Files:
 1. SCP_ConvertTaskTimeFile.R
 2. SCP_Check_TaskTimes_Errors.R
 3. SCP_CreateAccelerometerDataSubset.R
-4. SCP_Split_Train_Test_Participants.R
+4. SCP_DownSampleData_AllParticipants.R
+5. SCP_Split_Train_Test_Participants.R
 
 ```
 Link to above files : 
@@ -215,7 +216,7 @@ DATAFOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/"
 
 ```
 
-#### Script-2 -- SCP_ConvertTaskTimeFile.R
+#### Script-2 -- SCP_Check_TaskTimes_Errors.R
 
 This script checks the taskTimes Rdata file for errors such as when the same visit numbers span different dates and same dates span different visit numbers
 and logs them into the Logs folder. After execution of this script, two csv files are generated storing the errors. Please check them and change them manually
