@@ -71,13 +71,11 @@ Then, create a new folder Participant_Data inside Raw_Data folder and store the 
 
 Then, Inside Participant_Data Folder create the following directory and sub-directory structure :
 
-i)   Original_SubSet |-> Training_Set |-> nGram_Files
-     Original_SubSet |-> Testing_Set |-> nGram_Files
-     
-ii)  Downsampled_Files |-> Training_Set |-> nGram_Files
-     Downsampled_Files |-> Testing_Set |-> nGram_Files
-
-iii) Logs
+i)   Original_SubSet |-> Training_Set |-> nGram_Files  
+ii)  Original_SubSet |-> Testing_Set |-> nGram_Files  
+iii) Downsampled_Files |-> Training_Set |-> nGram_Files
+iv)  Downsampled_Files |-> Testing_Set |-> nGram_Files
+V)   Logs
                               
 Please note that all the above folder names are case sensitive.
 
