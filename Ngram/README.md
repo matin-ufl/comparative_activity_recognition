@@ -247,11 +247,11 @@ NGRAMTYPE <- "Unigrams"
 
 This script displays the Precision, Recall and F1-Score metrics of the test data. If the confusion matrix for the data needs to be viewed, please uncomment the relevant sections from the following script.
 
-```
 #### Script 8 -- Ngram / Classification /SCP_Master_Script.R
 
 To view the confusion matrix for a specific classifier, please uncomment below sections from the body of the classifier function.
 
+```
 #---Uncomment following section to view the confusion matrix for Sedentary data---#
 #confusion.matrix.sedentary <- FUN_getResults(svm.predicted,testing.df$class.sedentary)[[1]]
 #View(confusion.matrix.sedentary)
