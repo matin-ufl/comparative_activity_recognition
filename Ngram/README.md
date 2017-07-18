@@ -226,10 +226,6 @@ There are two types of classification as given below :
 1. Sedentary and Non-sedentary : 1 as Sedentary and 0 as Non-sedentary.
 2. Locomotion and Stationary : 1 as Locomotion and 0 as Stationary. 
 
-Some parameters have been defaulted in the functions for each classifier as it gave the best results. 
-It can be changed by the user if needed. Please check the function script FUN_Activity_Data_Classifier_Functions.R
-for details.
-
 ```
 #Set the working directory to the location where the scripts and function R files are located
 setwd("C:/Users/shikh/Documents/University of Florida/Activity Recognition/Classification/")
