@@ -22,7 +22,10 @@
 #      10.  SCP_5_Merge_Word_Label_Files.R -- This script merges all BOW word labels for 3s or 6s training 
 #                                             and testing sub-sequences.
 #      11.  SCP_6_Calculate_TF_IDF.R -- This script calculates the TF_IDF of 3s or 6s training and testing data set.
-#      12.  SCP_Activity_Data_Classification.R -- This script classifies the cleaned data into two classes based on user input.
+#      12.  SCP_Task_Category_Data_Classification.R -- This script classifies the cleaned data into two classes based on user input.
+#      13.  SCP_Task_Level_Data_Classification.R -- This script classifies the cleaned data into sub-classes of the two main
+#                                                   classes based on user input.
+#      14.  SCP_Three_Step_MET_Estimation.R -- This script calculates the MET estimated values based on user input.
 
 #Script execution notes : --------------------------------------------------------------------------------------------------
 #
@@ -46,16 +49,21 @@
 #                                                           |-> Testing_Set 
 #                                                   |-> D64 |-> Training_Set
 #                                                           |-> Testing_Set 
-#                                                   |-> Model_Output
+#                             v) Model_Output     |-> TaskCategory_Classification_Training_Model_Files
+#                                                 |-> TaskCategory_Classification_Test_Output_Files 
+#                                                 |-> Tasks_Classification_Training_Model_Files 
+#                                                 |-> Tasks_Classification_Test_Output_Files 
+#                                                 |-> MET_Estimation_Training_Model_Files 
+#                                                 |-> MET_Estimation_Test_Output_Files 
 #                              v) Logs
 #
 #       3. Please keep the taskTimes_all.csv file outside the folder Participant_Data.
-#
+#       4. Please keep the MET_values.Rdata in the Cleaned_Data folder.
 
 #Author & Reviewer Details ---------------------------------------------------------------------------------------------------
 
 #Author : Avirup Chakraborty
-#Date : 07/03/2017
+#Date : 07/21/2017
 #E-Mail : avirup1988@ufl.edu
 #Reviewed By : Hiranava Das
 #Review Date : 
@@ -163,9 +171,9 @@ tryCatch(source("SCP_5_Merge_Word_Label_Files.R"), error=function(e){print(e)})
 tryCatch(source("SCP_6_Calculate_TF_IDF.R"), error=function(e){print(e)})
 
 
-# Activity Data Classification Script ----------------------------------------------------------------------------
+# Activity Data Classification Scripts ----------------------------------------------------------------------------
 
-# Important Note : Run the script in this section using the following combinations of CHUNKSIZE, CLASS_CATEGORY
+# Important Note : Run the Script 12 in this section using the following combinations of CHUNKSIZE, CLASS_CATEGORY
 #                  and CLASSIFIER_TYPE parameters :
 #                  List of valid combinations :
 #                             a) CHUNKSIZE = 3, CLASS_CATEGORY = "Sedentary", CLASSIFIER_TYPE = "SVM"
@@ -181,8 +189,24 @@ tryCatch(source("SCP_6_Calculate_TF_IDF.R"), error=function(e){print(e)})
 #                             k) CHUNKSIZE = 6, CLASS_CATEGORY = "Locomotion", CLASSIFIER_TYPE = "DecisionTree"
 #                             l) CHUNKSIZE = 6, CLASS_CATEGORY = "Locomotion", CLASSIFIER_TYPE = "RandomForest"
 
+# Run the Script 13 and 14 in this section using the following combinations of CHUNKSIZE and CLASSIFIER_TYPE parameters :
+#                             a) CHUNKSIZE = 3, CLASSIFIER_TYPE = "SVM"
+#                             b) CHUNKSIZE = 3, CLASSIFIER_TYPE = "DecisionTree"
+#                             c) CHUNKSIZE = 3, CLASSIFIER_TYPE = "RandomForest"
+#                             d) CHUNKSIZE = 6, CLASSIFIER_TYPE = "SVM"
+#                             e) CHUNKSIZE = 6, CLASSIFIER_TYPE = "DecisionTree"
+#                             f) CHUNKSIZE = 6, CLASSIFIER_TYPE = "RandomForest"
 
-#Sript 12 - SCP_Activity_Data_Classification.R
 
-tryCatch(source("SCP_Activity_Data_Classification.R"), error=function(e){print(e)})
+#Sript 12 - SCP_Task_Category_Data_Classification.R
+
+tryCatch(source("SCP_Task_Category_Data_Classification.R"), error=function(e){print(e)})
+
+#Sript 13 - SCP_Task_Level_Data_Classification.R
+
+tryCatch(source("SCP_Task_Level_Data_Classification.R"), error=function(e){print(e)})
+
+#Sript 14 - SCP_Task_Level_Data_Classification.R
+
+tryCatch(source("SCP_Three_Step_MET_Estimation.R"), error=function(e){print(e)})
 
