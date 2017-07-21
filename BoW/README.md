@@ -522,9 +522,12 @@ TESTDATA_OUTPUTFOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Dat
 #### Script 3 -- SCP_Three_Step_MET_Estimation.R
 
 This script predicts the MET Estimation values using a three step process.
+
 Step - 1 - Classifies the test data into Sedentary/Non-Sedentary and Locomotion/Stationary categories using training set.
+
 Step - 2 - Classifies the test data into Sedentary tasks & Locomotion tasks using training set. Then, it creates a data frame  
            having flags for each of the Sedentary and Locomotion Tasks for training and test set.
+
 Step - 3 - Predicts the MET data of the test set using the training data frame created by the previous two steps by fitting it 
            to the Random Forest Regression Model.
 
