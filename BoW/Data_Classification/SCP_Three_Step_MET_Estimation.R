@@ -47,6 +47,8 @@ CLASSIFIER_TYPE <- "RandomForest"
 DATAFOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Cleaned_Data/"
 MODEL_FOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Model_Output/MET_Estimation_Training_Model_Files/"
 TESTDATA_OUTPUTFOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Model_Output/MET_Estimation_Test_Output_Files/"
+
+#Set the name of the MET Values file
 MET_VALUES_FILENAME <- "MET_values.Rdata"
 
 #Filenames selected based on the above settings
