@@ -34,3 +34,4 @@ cosmed.df$Task[cosmed.df$activity == "yard_work"] <- "YARD WORK"
 cosmed.df <- cosmed.df[, c(1, 5, 3, 4)]
 colnames(cosmed.df) <- c("PID", "Task", "METs", "MET_Intensity")
 saveRDS(cosmed.df, "~/Workspaces/R workspace/Comparative Activity Recognition/Utilities/MET_values.Rdata")
+write.csv(cosmed.df, "~/Dropbox/Work-Research/Current Directory/Activity Recognition - Comparative Study/Data/Constructed Datasets/Energy Expenditures/met_values.csv", row.names = F)

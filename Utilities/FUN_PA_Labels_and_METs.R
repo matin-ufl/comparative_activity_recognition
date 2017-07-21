@@ -68,7 +68,7 @@ giveClassLabel_sedentary <- function(Task) {
 # ______________                                             #
 # Matin Kheirkhahan (matinkheirkhahan@ufl.edu)               #
 # __________________________________________________________ #
-giveClassLabel_sedentary <- function(Task) {
+giveClassLabel_locomotion <- function(Task) {
      res <- FALSE
      if(Task %in% c("LEISURE WALK", "RAPID WALK", "WALKING AT RPE 1", "WALKING AT RPE 5", "STAIR ASCENT", "STAIR DESCENT")) {
           res <- TRUE
