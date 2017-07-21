@@ -66,7 +66,9 @@ Function Files:
 
 Script Files:
 
-1. SCP_Activity_Data_Classification.R
+1. SCP_Task_Category_Data_Classification.R
+2. SCP_Task_Level_Data_Classification.R
+3. SCP_Three_Step_MET_Estimation.R
 
 ```
 
@@ -186,9 +188,19 @@ xi) Cleaned_Data/D64/Training_Set/
 
 xii) Cleaned_Data/D64/Testing_Set/
 
-xiii) Cleaned_Data/Model_Output/
+xiii) Model_Output/TaskCategory_Classification_Training_Model_Files/
+
+xiv) Model_Output/TaskCategory_Classification_Test_Output_Files/
+
+xv) Model_Output/Tasks_Classification_Training_Model_Files/
+
+xvi) Model_Output/Tasks_Classification_Test_Output_Files/
+
+xvii) Model_Output/MET_Estimation_Training_Model_Files/
+
+xviii) Model_Output/MET_Estimation_Test_Output_Files/
 		      
-xiv) Logs/
+xix) Logs/
                               
 Please note that all the above folder names are case sensitive.
 
@@ -451,7 +463,7 @@ which is done by the following script:
 
 ### Activity Recognition Script
 
-#### Script 1 -- SCP_Activity_Data_Classification.R
+#### Script 1 -- SCP_Task_Category_Data_Classification.R
 
 This script classifies the cleaned data into two classes based on user input. It uses four types of classifiers - SVM, DecisionTree, RandomForest and LDA.
 There are two types of classification as given below :
@@ -462,28 +474,88 @@ Some parameters have been defaulted in the functions for each classifier as it g
 It can be changed by the user if needed. Please check the function script FUN_Activity_Data_Classifier_Functions.R
 for details.
 ```
-#Set the working directory to the location where the scripts and function R files are located 
 
+#Set the working directory to the location where the scripts and function R files are located 
 setwd("~/Desktop/Data_Mining_Project/Codes/Classification/")
 
+#Set CLASS_CATEGORY = ("Sedentary" or "Locomotion"), CHUNKSIZE = (3 or 6) and
+#CLASSIFIER_TYPE =  ("SVM" or "DecisionTree" or "RandomForest" or "LDA")
 
-#Set CLASS_CATEGORY = ("Sedentary" or "Locomotion"), CHUNKSIZE = (3 or 6) 
-#and CLASSIFIER_TYPE =  ("SVM" or "DecisionTree" or "RandomForest" or "LDA")
-
-CHUNKSIZE=6
-CLASS_CATEGORY <- "Locomotion"
-CLASSIFIER_TYPE <- "SVM"
+CHUNKSIZE=3
+CLASS_CATEGORY <- "Sedentary"
+CLASSIFIER_TYPE <- "RandomForest"
 
 
 #Set the data directory of the Cleaned Data
 
 DATAFOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Cleaned_Data/"
-OUTPUTFOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Cleaned_Data/Model_Output"
+MODEL_FOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Model_Output/TaskCategory_Classification_Training_Model_Files/"
+TESTDATA_OUTPUTFOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Model_Output/TaskCategory_Classification_Test_Output_Files/"
+
+```
+#### Script 2 -- SCP_Task_Level_Data_Classification.R
+
+This script classifies the cleaned data into task level classification of two classes based on user input. 
+There are two types of classification as given below :
+1. Sedentary Tasks : COMPUTER WORK, STANDING STILL and TV WATCHING
+2. Locomotion Tasks : LEISURE WALK, RAPID WALK, STAIR ASCENT, STAIR DESCENT, WALKING AT RPE 1 and WALKING AT RPE 5
+
+```
+#Set the working directory to the location where the scripts and function R files are located 
+
+setwd("~/Desktop/Data_Mining_Project/Codes/Classification/")
+
+#Set CLASS_CATEGORY = ("Sedentary" or "Locomotion"), CHUNKSIZE = (3 or 6) and 
+#CLASSIFIER_TYPE =  ("SVM" or "DecisionTree" or "RandomForest")
+
+CHUNKSIZE=3
+CLASS_CATEGORY <- "Sedentary"
+CLASSIFIER_TYPE <- "RandomForest"
+
+#Set the data directory of the Cleaned Data
+
+DATAFOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Cleaned_Data/"
+MODEL_FOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Model_Output/Tasks_Classification_Training_Model_Files/"
+TESTDATA_OUTPUTFOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Model_Output/Tasks_Classification_Test_Output_Files/"
 ```
 
-This script displays the confusion matrix of the test data. If this script needs to be executed with different sets of test data. 
-Then, Please execute the data cleaning tasks on each set and then run only the "Test the model" section from the script.
+#### Script 3 -- SCP_Three_Step_MET_Estimation.R
+
+This script predicts the MET Estimation values using a three step process.
+Step - 1 - Classifies the test data into Sedentary/Non-Sedentary and Locomotion/Stationary categories using training set.
+Step - 2 - Classifies the test data into Sedentary tasks & Locomotion tasks using training set. Then, it creates a data frame  
+           having flags for each of the Sedentary and Locomotion Tasks for training and test set.
+Step - 3 - Predicts the MET data of the test set using the training data frame created by the previous two steps by fitting it 
+           to the Random Forest Regression Model.
+
+```
+#Set the working directory to the location where the scripts and function R files are located 
+
+setwd("~/Desktop/Data_Mining_Project/Codes/Classification/")
+
+#Load the classification functions
+
+source("FUN_Activity_Data_Classifier_Functions.R")
+
+#Set CHUNKSIZE = (3 or 6) and CLASSIFIER_TYPE =  ("SVM" or "DecisionTree" or "RandomForest")
+
+CHUNKSIZE=6
+CLASSIFIER_TYPE <- "RandomForest"
+
+#Set the data directory of the Cleaned Data
+
+DATAFOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Cleaned_Data/"
+MODEL_FOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Model_Output/MET_Estimation_Training_Model_Files/"
+TESTDATA_OUTPUTFOLDER <-"~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Model_Output/MET_Estimation_Test_Output_Files/"
+
+#Set the name of the MET Values file
+
+MET_VALUES_FILENAME <- "MET_values.Rdata"
+
+```
+These scripts displays the confusion matrix of the test data and also the R-Squared(R2) and the Root Mean Squared Error (RMSE) Values. If this script needs to be executed with different sets of test data,then please execute the data cleaning tasks on each set and then run only the "Test the model" section from the script.
 
 ## Special Notes
 
 Please check the SCP_Demo_Script.R for more details about the parameters and script execution process.
+
