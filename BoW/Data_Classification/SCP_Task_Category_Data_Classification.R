@@ -58,24 +58,24 @@ if (CHUNKSIZE == 3)
     
     if(CLASSIFIER_TYPE == "SVM") {
       
-      MODEL_FILE <- "Sedentary_Non_Sedentary_3s_SVM_Model.Rdata"
-      TEST_OUT_FILE <- "Sedentary_Non_Sedentary_TaskCategory_3s_SVM_Test_Results.csv"
+      MODEL_FILE <- "Sedentary_Non_Sedentary_3secs_32atoms_SVM_Model.Rdata"
+      TEST_OUT_FILE <- "Sedentary_Non_Sedentary_TaskCategory_3secs_32atoms_SVM_Test_Results.csv"
       
     } else if (CLASSIFIER_TYPE == "DecisionTree") {
       
-      MODEL_FILE <- "Sedentary_Non_Sedentary_3s_DecisionTree_Model.Rdata"
-      TEST_OUT_FILE <- "Sedentary_Non_Sedentary_TaskCategory_3s_DecisionTree_Test_Results.csv"
+      MODEL_FILE <- "Sedentary_Non_Sedentary_3secs_32atoms_DecisionTree_Model.Rdata"
+      TEST_OUT_FILE <- "Sedentary_Non_Sedentary_TaskCategory_3secs_32atoms_DecisionTree_Test_Results.csv"
       
     }  else if (CLASSIFIER_TYPE == "LDA") {
       
-      MODEL_FILE <- "Sedentary_Non_Sedentary_3s_LDA_Model.Rdata"
-      TEST_OUT_FILE <- "Sedentary_Non_Sedentary_TaskCategory_3s_LDA_Test_Results.csv"
+      MODEL_FILE <- "Sedentary_Non_Sedentary_3secs_32atoms_LDA_Model.Rdata"
+      TEST_OUT_FILE <- "Sedentary_Non_Sedentary_TaskCategory_3secs_32atoms_LDA_Test_Results.csv"
       
     } else {
       
         CLASSIFIER_TYPE <- "RandomForest"
-        MODEL_FILE <- "Sedentary_Non_Sedentary_3s_RandomForest_Model.Rdata"
-        TEST_OUT_FILE <- "Sedentary_Non_Sedentary_TaskCategory_3s_RandomForest_Test_Results.csv"
+        MODEL_FILE <- "Sedentary_Non_Sedentary_3secs_32atoms_RandomForest_Model.Rdata"
+        TEST_OUT_FILE <- "Sedentary_Non_Sedentary_TaskCategory_3secs_32atoms_RandomForest_Test_Results.csv"
       
     }
     
@@ -83,24 +83,24 @@ if (CHUNKSIZE == 3)
     
     if(CLASSIFIER_TYPE == "SVM") {
       
-      MODEL_FILE <- "Locomotion_Stationary_3s_SVM_Model.Rdata"
-      TEST_OUT_FILE <- "Locomotion_Stationary_TaskCategory_3s_SVM_Test_Results.csv"
+      MODEL_FILE <- "Locomotion_Stationary_3secs_32atoms_SVM_Model.Rdata"
+      TEST_OUT_FILE <- "Locomotion_Stationary_TaskCategory_3secs_32atoms_SVM_Test_Results.csv"
       
     } else if (CLASSIFIER_TYPE == "DecisionTree") {
       
-      MODEL_FILE <- "Locomotion_Stationary_3s_DecisionTree_Model.Rdata"
+      MODEL_FILE <- "Locomotion_Stationary_3secs_32atoms_DecisionTree_Model.Rdata"
       TEST_OUT_FILE <- "Locomotion_Stationary_TaskCategory_3s_DecisionTree_Test_Results.csv"
       
     } else if (CLASSIFIER_TYPE == "LDA") {
       
-      MODEL_FILE <- "Locomotion_Stationary_3s_LDA_Model.Rdata"
-      TEST_OUT_FILE <- "Locomotion_Stationary_TaskCategory_3s_LDA_Test_Results.csv"
+      MODEL_FILE <- "Locomotion_Stationary_3secs_32atoms_LDA_Model.Rdata"
+      TEST_OUT_FILE <- "Locomotion_Stationary_TaskCategory_3secs_32atoms_LDA_Test_Results.csv"
       
     } else {
       
       CLASSIFIER_TYPE <- "RandomForest"
-      MODEL_FILE <- "Locomotion_Stationary_3s_RandomForest_Model.Rdata"
-      TEST_OUT_FILE <- "Locomotion_Stationary_TaskCategory_3s_RandomForest_Test_Results.csv"
+      MODEL_FILE <- "Locomotion_Stationary_3secs_32atoms_RandomForest_Model.Rdata"
+      TEST_OUT_FILE <- "Locomotion_Stationary_TaskCategory_3secs_32atoms_RandomForest_Test_Results.csv"
       
     }
     
@@ -115,24 +115,24 @@ if (CHUNKSIZE == 3)
     
     if(CLASSIFIER_TYPE == "SVM") {
       
-      MODEL_FILE <- "Sedentary_Non_Sedentary_6s_SVM_Model.Rdata"
-      TEST_OUT_FILE <- "Sedentary_Non_Sedentary_TaskCategory_6s_SVM_Test_Results.csv"
+      MODEL_FILE <- "Sedentary_Non_Sedentary_6secs_64atoms_SVM_Model.Rdata"
+      TEST_OUT_FILE <- "Sedentary_Non_Sedentary_TaskCategory_6secs_64atoms_SVM_Test_Results.csv"
       
     } else if (CLASSIFIER_TYPE == "DecisionTree") {
       
-      MODEL_FILE <- "Sedentary_Non_Sedentary_6s_DecisionTree_Model.Rdata"
-      TEST_OUT_FILE <- "Sedentary_Non_Sedentary_TaskCategory_6s_DecisionTree_Test_Results.csv"
+      MODEL_FILE <- "Sedentary_Non_Sedentary_6secs_64atoms_DecisionTree_Model.Rdata"
+      TEST_OUT_FILE <- "Sedentary_Non_Sedentary_TaskCategory_6secs_64atoms_DecisionTree_Test_Results.csv"
       
     }  else if (CLASSIFIER_TYPE == "LDA") {
       
-      MODEL_FILE <- "Sedentary_Non_Sedentary_6s_LDA_Model.Rdata"
-      TEST_OUT_FILE <- "Sedentary_Non_Sedentary_TaskCategory_6s_LDA_Test_Results.csv"
+      MODEL_FILE <- "Sedentary_Non_Sedentary_6secs_64atoms_LDA_Model.Rdata"
+      TEST_OUT_FILE <- "Sedentary_Non_Sedentary_TaskCategory_6secs_64atoms_LDA_Test_Results.csv"
       
     } else {
       
       CLASSIFIER_TYPE <- "RandomForest"
-      MODEL_FILE <- "Sedentary_Non_Sedentary_6s_RandomForest_Model.Rdata"
-      TEST_OUT_FILE <- "Sedentary_Non_Sedentary_TaskCategory_6s_RandomForest_Test_Results.csv"
+      MODEL_FILE <- "Sedentary_Non_Sedentary_6secs_64atoms_RandomForest_Model.Rdata"
+      TEST_OUT_FILE <- "Sedentary_Non_Sedentary_TaskCategory_6secs_64atoms_RandomForest_Test_Results.csv"
       
     }
     
@@ -140,24 +140,24 @@ if (CHUNKSIZE == 3)
     
     if(CLASSIFIER_TYPE == "SVM") {
       
-      MODEL_FILE <- "Locomotion_Stationary_6s_SVM_Model.Rdata"
-      TEST_OUT_FILE <- "Locomotion_Stationary_TaskCategory_6s_SVM_Test_Results.csv"
+      MODEL_FILE <- "Locomotion_Stationary_6secs_64atoms_SVM_Model.Rdata"
+      TEST_OUT_FILE <- "Locomotion_Stationary_TaskCategory_6secs_64atoms_SVM_Test_Results.csv"
       
     } else if (CLASSIFIER_TYPE == "DecisionTree") {
       
-      MODEL_FILE <- "Locomotion_Stationary_6s_DecisionTree_Model.Rdata"
-      TEST_OUT_FILE <- "Locomotion_Stationary_TaskCategory_6s_DecisionTree_Test_Results.csv"
+      MODEL_FILE <- "Locomotion_Stationary_6secs_64atoms_DecisionTree_Model.Rdata"
+      TEST_OUT_FILE <- "Locomotion_Stationary_TaskCategory_6secs_64atoms_DecisionTree_Test_Results.csv"
       
     } else if (CLASSIFIER_TYPE == "LDA") {
       
-      MODEL_FILE <- "Locomotion_Stationary_6s_LDA_Model.Rdata"
-      TEST_OUT_FILE <- "Locomotion_Stationary_TaskCategory_6s_LDA_Test_Results.csv"
+      MODEL_FILE <- "Locomotion_Stationary_6secs_64atoms_LDA_Model.Rdata"
+      TEST_OUT_FILE <- "Locomotion_Stationary_TaskCategory_6secs_64atoms_LDA_Test_Results.csv"
       
     } else {
       
       CLASSIFIER_TYPE <- "RandomForest"
-      MODEL_FILE <- "Locomotion_Stationary_6s_RandomForest_Model.Rdata"
-      TEST_OUT_FILE <- "Locomotion_Stationary_TaskCategory_6s_RandomForest_Test_Results.csv"
+      MODEL_FILE <- "Locomotion_Stationary_6secs_64atoms_RandomForest_Model.Rdata"
+      TEST_OUT_FILE <- "Locomotion_Stationary_TaskCategory_6secs_64atoms_RandomForest_Test_Results.csv"
       
     }
     
