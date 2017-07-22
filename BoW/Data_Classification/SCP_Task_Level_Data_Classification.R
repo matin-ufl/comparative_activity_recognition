@@ -11,7 +11,7 @@
 #Author & Reviewer Details --------------------------------------------------------------------------
 
 #Author : Avirup Chakraborty
-#Date : 07/14/2017
+#Date : 07/21/2017
 #E-Mail : avirup1988@ufl.edu
 #Reviewed By : Hiranava Das
 #Review Date :
@@ -59,19 +59,19 @@ if (CHUNKSIZE == 3)
     
     if(CLASSIFIER_TYPE == "SVM") {
       
-      MODEL_FILE <- "SedentaryTasks_3s_SVM_Model.Rdata"
-      TEST_OUT_FILE <- "SedentaryTasksRecognition_3s_SVM_Test_Results.csv"
+      MODEL_FILE <- "SedentaryTasks_3secs_32atoms_SVM_Model.Rdata"
+      TEST_OUT_FILE <- "SedentaryTasksRecognition_3secs_32atoms_SVM_Test_Results.csv"
       
     } else if (CLASSIFIER_TYPE == "DecisionTree") {
       
-      MODEL_FILE <- "SedentaryTasks_3s_DecisionTree_Model.Rdata"
-      TEST_OUT_FILE <- "SedentaryTasksRecognition_3s_DecisionTree_Test_Results.csv"
+      MODEL_FILE <- "SedentaryTasks_3secs_32atoms_DecisionTree_Model.Rdata"
+      TEST_OUT_FILE <- "SedentaryTasksRecognition_3secs_32atoms_DecisionTree_Test_Results.csv"
       
     } else {
       
       CLASSIFIER_TYPE <- "RandomForest"
-      MODEL_FILE <- "SedentaryTasks_3s_RandomForest_Model.Rdata"
-      TEST_OUT_FILE <- "SedentaryTasksRecognition_3s_RandomForest_Test_Results.csv"
+      MODEL_FILE <- "SedentaryTasks_3secs_32atoms_RandomForest_Model.Rdata"
+      TEST_OUT_FILE <- "SedentaryTasksRecognition_3secs_32atoms_RandomForest_Test_Results.csv"
       
     }
     
@@ -79,19 +79,19 @@ if (CHUNKSIZE == 3)
     
     if(CLASSIFIER_TYPE == "SVM") {
       
-      MODEL_FILE <- "LocomotionTasks_3s_SVM_Model.Rdata"
-      TEST_OUT_FILE <- "LocomotionTasksRecognition_3s_SVM_Test_Results.csv"
+      MODEL_FILE <- "LocomotionTasks_3secs_32atoms_SVM_Model.Rdata"
+      TEST_OUT_FILE <- "LocomotionTasksRecognition_3secs_32atoms_SVM_Test_Results.csv"
       
     } else if (CLASSIFIER_TYPE == "DecisionTree") {
       
-      MODEL_FILE <- "LocomotionTasks_3s_DecisionTree_Model.Rdata"
-      TEST_OUT_FILE <- "LocomotionTasksRecognition_3s_DecisionTree_Test_Results.csv"
+      MODEL_FILE <- "LocomotionTasks_3secs_32atoms_DecisionTree_Model.Rdata"
+      TEST_OUT_FILE <- "LocomotionTasksRecognition_3secs_32atoms_DecisionTree_Test_Results.csv"
       
     } else {
       
       CLASSIFIER_TYPE <- "RandomForest"
-      MODEL_FILE <- "LocomotionTasks_3s_RandomForest_Model.Rdata"
-      TEST_OUT_FILE <- "LocomotionTasksRecognition_3s_RandomForest_Test_Results.csv"
+      MODEL_FILE <- "LocomotionTasks_3secs_32atoms_RandomForest_Model.Rdata"
+      TEST_OUT_FILE <- "LocomotionTasksRecognition_3secs_32atoms_RandomForest_Test_Results.csv"
       
     }
     
@@ -106,19 +106,19 @@ if (CHUNKSIZE == 3)
     
     if(CLASSIFIER_TYPE == "SVM") {
       
-      MODEL_FILE <- "SedentaryTasks_6s_SVM_Model.Rdata"
-      TEST_OUT_FILE <- "SedentaryTasksRecognition_6s_SVM_Test_Results.csv"
+      MODEL_FILE <- "SedentaryTasks_6secs_64atoms_SVM_Model.Rdata"
+      TEST_OUT_FILE <- "SedentaryTasksRecognition_6secs_64atoms_SVM_Test_Results.csv"
       
     } else if (CLASSIFIER_TYPE == "DecisionTree") {
       
-      MODEL_FILE <- "SedentaryTasks_6s_DecisionTree_Model.Rdata"
-      TEST_OUT_FILE <- "SedentaryTasksRecognition_6s_DecisionTree_Test_Results.csv"
+      MODEL_FILE <- "SedentaryTasks_6secs_64atoms_DecisionTree_Model.Rdata"
+      TEST_OUT_FILE <- "SedentaryTasksRecognition_6secs_64atoms_DecisionTree_Test_Results.csv"
       
     } else {
       
       CLASSIFIER_TYPE <- "RandomForest"
-      MODEL_FILE <- "SedentaryTasks_6s_RandomForest_Model.Rdata"
-      TEST_OUT_FILE <- "SedentaryTasksRecognition_6s_RandomForest_Test_Results.csv"
+      MODEL_FILE <- "SedentaryTasks_6secs_64atoms_RandomForest_Model.Rdata"
+      TEST_OUT_FILE <- "SedentaryTasksRecognition_6secs_64atoms_RandomForest_Test_Results.csv"
       
     }
     
@@ -126,19 +126,19 @@ if (CHUNKSIZE == 3)
     
     if(CLASSIFIER_TYPE == "SVM") {
       
-      MODEL_FILE <- "LocomotionTasks_6s_SVM_Model.Rdata"
-      TEST_OUT_FILE <- "LocomotionTasksRecognition_6s_SVM_Test_Results.csv"
+      MODEL_FILE <- "LocomotionTasks_6secs_64atoms_SVM_Model.Rdata"
+      TEST_OUT_FILE <- "LocomotionTasksRecognition_6secs_64atoms_SVM_Test_Results.csv"
       
     } else if (CLASSIFIER_TYPE == "DecisionTree") {
       
-      MODEL_FILE <- "LocomotionTasks_6s_DecisionTree_Model.Rdata"
-      TEST_OUT_FILE <- "LocomotionTasksRecognition_6s_DecisionTree_Test_Results.csv"
+      MODEL_FILE <- "LocomotionTasks_6secs_64atoms_DecisionTree_Model.Rdata"
+      TEST_OUT_FILE <- "LocomotionTasksRecognition_6secs_64atoms_DecisionTree_Test_Results.csv"
       
     } else {
       
       CLASSIFIER_TYPE <- "RandomForest"
-      MODEL_FILE <- "LocomotionTasks_6s_RandomForest_Model.Rdata"
-      TEST_OUT_FILE <- "LocomotionTasksRecognition_6s_RandomForest_Test_Results.csv"
+      MODEL_FILE <- "LocomotionTasks_6secs_64atoms_RandomForest_Model.Rdata"
+      TEST_OUT_FILE <- "LocomotionTasksRecognition_6secs_64atoms_RandomForest_Test_Results.csv"
       
     }
     
