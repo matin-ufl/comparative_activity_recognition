@@ -63,42 +63,42 @@ if (CHUNKSIZE == 3)
       
       #Step - 1 Model Files
       
-      SDNT_NSDNT_MODEL_FILE <- "Sedentary_Non_Sedentary_3s_SVM_Model.Rdata"
-      LCM_STNRY_MODEL_FILE <- "Locomotion_Stationary_3s_SVM_Model.Rdata"
+      SDNT_NSDNT_MODEL_FILE <- "Sedentary_Non_Sedentary_3secs_32atoms_SVM_Model.Rdata"
+      LCM_STNRY_MODEL_FILE <- "Locomotion_Stationary_3secs_32atoms_SVM_Model.Rdata"
       
       #Step - 2 Model Files
       
-      SDNT_TASKS_MODEL_FILE <- "Sedentary_Tasks_3s_SVM_Model.Rdata"
-      LCM_TASKS_MODEL_FILE <- "Locomotion_Tasks_3s_SVM_Model.Rdata"
+      SDNT_TASKS_MODEL_FILE <- "Sedentary_Tasks_3secs_32atoms_SVM_Model.Rdata"
+      LCM_TASKS_MODEL_FILE <- "Locomotion_Tasks_3secs_32atoms_SVM_Model.Rdata"
       
       #Step - 3 Model Files
       
-      MET_MODEL_FILE <- "MET_Estimation_3s_SVM_Model.Rdata"
+      MET_MODEL_FILE <- "MET_Estimation_3secs_32atoms_SVM_Model.Rdata"
       
       # Output File
       
-      TEST_OUT_FILE <- "MET_Estimation_3s_SVM_Test_Results.csv"
+      TEST_OUT_FILE <- "MET_Estimation_3secs_32atoms_SVM_Test_Results.csv"
 
       
     } else if (CLASSIFIER_TYPE == "DecisionTree") {
       
       #Step - 1 Model Files
       
-      SDNT_NSDNT_MODEL_FILE <- "Sedentary_Non_Sedentary_3s_DecisionTree_Model.Rdata"
-      LCM_STNRY_MODEL_FILE <- "Locomotion_Stationary_3s_DecisionTree_Model.Rdata"
+      SDNT_NSDNT_MODEL_FILE <- "Sedentary_Non_Sedentary_3secs_32atoms_DecisionTree_Model.Rdata"
+      LCM_STNRY_MODEL_FILE <- "Locomotion_Stationary_3secs_32atoms_DecisionTree_Model.Rdata"
       
       #Step - 2 Model Files
       
-      SDNT_TASKS_MODEL_FILE <- "Sedentary_Tasks_3s_DecisionTree_Model.Rdata"
-      LCM_TASKS_MODEL_FILE <- "Locomotion_Tasks_3s_DecisionTree_Model.Rdata"
+      SDNT_TASKS_MODEL_FILE <- "Sedentary_Tasks_3secs_32atoms_DecisionTree_Model.Rdata"
+      LCM_TASKS_MODEL_FILE <- "Locomotion_Tasks_3secs_32atoms_DecisionTree_Model.Rdata"
       
       #Step - 3 Model Files
       
-      MET_MODEL_FILE <- "MET_Estimation_3s_DecisionTree_Model.Rdata"
+      MET_MODEL_FILE <- "MET_Estimation_3secs_32atoms_DecisionTree_Model.Rdata"
       
       # Output File
       
-      TEST_OUT_FILE <- "MET_Estimation_3s_DecisionTree_Test_Results.csv"
+      TEST_OUT_FILE <- "MET_Estimation_3secs_32atoms_DecisionTree_Test_Results.csv"
       
       
     } else {
@@ -107,21 +107,21 @@ if (CHUNKSIZE == 3)
       
       #Step - 1 Model Files
       
-      SDNT_NSDNT_MODEL_FILE <- "Sedentary_Non_Sedentary_3s_RandomForest_Model.Rdata"
-      LCM_STNRY_MODEL_FILE <- "Locomotion_Stationary_3s_RandomForest_Model.Rdata"
+      SDNT_NSDNT_MODEL_FILE <- "Sedentary_Non_Sedentary_3secs_32atoms_RandomForest_Model.Rdata"
+      LCM_STNRY_MODEL_FILE <- "Locomotion_Stationary_3secs_32atoms_RandomForest_Model.Rdata"
       
       #Step - 2 Model Files
       
-      SDNT_TASKS_MODEL_FILE <- "Sedentary_Tasks_3s_RandomForest_Model.Rdata"
-      LCM_TASKS_MODEL_FILE <- "Locomotion_Tasks_3s_RandomForest_Model.Rdata"
+      SDNT_TASKS_MODEL_FILE <- "Sedentary_Tasks_3secs_32atoms_RandomForest_Model.Rdata"
+      LCM_TASKS_MODEL_FILE <- "Locomotion_Tasks_3secs_32atoms_RandomForest_Model.Rdata"
       
       #Step - 3 Model Files
       
-      MET_MODEL_FILE <- "MET_Estimation_3s_RandomForest_Model.Rdata"
+      MET_MODEL_FILE <- "MET_Estimation_3secs_32atoms_RandomForest_Model.Rdata"
       
       # Output File
       
-      TEST_OUT_FILE <- "MET_Estimation_3s_RandomForest_Test_Results.csv"
+      TEST_OUT_FILE <- "MET_Estimation_3secs_32atoms_RandomForest_Test_Results.csv"
       
     }
     
@@ -135,42 +135,42 @@ if (CHUNKSIZE == 3)
     
     #Step - 1 Model Files
     
-    SDNT_NSDNT_MODEL_FILE <- "Sedentary_Non_Sedentary_6s_SVM_Model.Rdata"
-    LCM_STNRY_MODEL_FILE <- "Locomotion_Stationary_6s_SVM_Model.Rdata"
+    SDNT_NSDNT_MODEL_FILE <- "Sedentary_Non_Sedentary_6secs_64atoms_SVM_Model.Rdata"
+    LCM_STNRY_MODEL_FILE <- "Locomotion_Stationary_6secs_64atoms_SVM_Model.Rdata"
     
     #Step - 2 Model Files
     
-    SDNT_TASKS_MODEL_FILE <- "Sedentary_Tasks_6s_SVM_Model.Rdata"
-    LCM_TASKS_MODEL_FILE <- "Locomotion_Tasks_6s_SVM_Model.Rdata"
+    SDNT_TASKS_MODEL_FILE <- "Sedentary_Tasks_6secs_64atoms_SVM_Model.Rdata"
+    LCM_TASKS_MODEL_FILE <- "Locomotion_Tasks_6secs_64atoms_SVM_Model.Rdata"
     
     #Step - 3 Model Files
     
-    MET_MODEL_FILE <- "MET_Estimation_6s_SVM_Model.Rdata"
+    MET_MODEL_FILE <- "MET_Estimation_6secs_64atoms_SVM_Model.Rdata"
     
     # Output File
     
-    TEST_OUT_FILE <- "MET_Estimation_6s_SVM_Test_Results.csv"
+    TEST_OUT_FILE <- "MET_Estimation_6secs_64atoms_SVM_Test_Results.csv"
     
     
   } else if (CLASSIFIER_TYPE == "DecisionTree") {
     
     #Step - 1 Model Files
     
-    SDNT_NSDNT_MODEL_FILE <- "Sedentary_Non_Sedentary_6s_DecisionTree_Model.Rdata"
-    LCM_STNRY_MODEL_FILE <- "Locomotion_Stationary_6s_DecisionTree_Model.Rdata"
+    SDNT_NSDNT_MODEL_FILE <- "Sedentary_Non_Sedentary_6secs_64atoms_DecisionTree_Model.Rdata"
+    LCM_STNRY_MODEL_FILE <- "Locomotion_Stationary_6secs_64atoms_DecisionTree_Model.Rdata"
     
     #Step - 2 Model Files
     
-    SDNT_TASKS_MODEL_FILE <- "Sedentary_Tasks_6s_DecisionTree_Model.Rdata"
-    LCM_TASKS_MODEL_FILE <- "Locomotion_Tasks_6s_DecisionTree_Model.Rdata"
+    SDNT_TASKS_MODEL_FILE <- "Sedentary_Tasks_6secs_64atoms_DecisionTree_Model.Rdata"
+    LCM_TASKS_MODEL_FILE <- "Locomotion_Tasks_6secs_64atoms_DecisionTree_Model.Rdata"
     
     #Step - 3 Model Files
     
-    MET_MODEL_FILE <- "MET_Estimation_6s_DecisionTree_Model.Rdata"
+    MET_MODEL_FILE <- "MET_Estimation_6secs_64atoms_DecisionTree_Model.Rdata"
     
     # Output File
     
-    TEST_OUT_FILE <- "MET_Estimation_6s_DecisionTree_Test_Results.csv"
+    TEST_OUT_FILE <- "MET_Estimation_6secs_64atoms_DecisionTree_Test_Results.csv"
     
     
   } else {
@@ -179,21 +179,21 @@ if (CHUNKSIZE == 3)
     
     #Step - 1 Model Files
     
-    SDNT_NSDNT_MODEL_FILE <- "Sedentary_Non_Sedentary_6s_RandomForest_Model.Rdata"
-    LCM_STNRY_MODEL_FILE <- "Locomotion_Stationary_6s_RandomForest_Model.Rdata"
+    SDNT_NSDNT_MODEL_FILE <- "Sedentary_Non_Sedentary_6secs_64atoms_RandomForest_Model.Rdata"
+    LCM_STNRY_MODEL_FILE <- "Locomotion_Stationary_6secs_64atoms_RandomForest_Model.Rdata"
     
     #Step - 2 Model Files
     
-    SDNT_TASKS_MODEL_FILE <- "Sedentary_Tasks_6s_RandomForest_Model.Rdata"
-    LCM_TASKS_MODEL_FILE <- "Locomotion_Tasks_6s_RandomForest_Model.Rdata"
+    SDNT_TASKS_MODEL_FILE <- "Sedentary_Tasks_6secs_64atoms_RandomForest_Model.Rdata"
+    LCM_TASKS_MODEL_FILE <- "Locomotion_Tasks_6secs_64atoms_RandomForest_Model.Rdata"
     
     #Step - 3 Model Files
     
-    MET_MODEL_FILE <- "MET_Estimation_6s_RandomForest_Model.Rdata"
+    MET_MODEL_FILE <- "MET_Estimation_6secs_64atoms_RandomForest_Model.Rdata"
     
     # Output File
     
-    TEST_OUT_FILE <- "MET_Estimation_6s_RandomForest_Test_Results.csv"
+    TEST_OUT_FILE <- "MET_Estimation_6secs_64atoms_RandomForest_Test_Results.csv"
     
   }
   
@@ -479,7 +479,7 @@ MET_R2_Score <- 1 - (sum((MET_test.df$Actual_MET_Values-MET_test.df$Predicted_ME
 
 # Calculate the R-Squared Values
 
-MET_RMSE_Score <- sqrt(mean((MET_test.df$Predicted_MET_Values -MET_test.df$Actual_MET_Values)^2))
+MET_RMSE_Score <- sqrt(mean((MET_test.df$Predicted_MET_Values-MET_test.df$Actual_MET_Values)^2))
 
 
 
