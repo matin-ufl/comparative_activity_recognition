@@ -204,7 +204,16 @@ if (CHUNKSIZE == 3)
 
 #Load the MET Values from the RData File
 
-MET_Values.df <- readRDS(paste(DATAFOLDER,MET_VALUES_FILENAME,sep = ""))
+if(file.exists(paste(DATAFOLDER,MET_VALUES_FILENAME,sep = "")))
+{
+  
+  MET_Values.df <- readRDS(paste(DATAFOLDER,MET_VALUES_FILENAME,sep = ""))
+  
+} else {
+  
+  stop("MET_Value file not found.")
+  
+}
 
 
 # Load the Training Dataset into data frames
