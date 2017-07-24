@@ -1,110 +1,179 @@
+#Script Details --------------------------------------------------------------------------------------------------------
+
+#Script Name : SCP_6_Calculate_TF_IDF.R
+
+#Script Summary : This script calculates the term frequency and inverse doc frequency of training and testing data.
+
+#Author & Reviewer Details ---------------------------------------------------------------------------------------------
+
+#Author : Avirup Chakraborty
+#Date : 07/03/2017
+#E-Mail : avirup1988@ufl.edu
+#Reviewed By : Hiranava Das
+#Review Date : 
+#Reviewer E-Mail : hiranava@ufl.edu
+
+#Parameter Settings ---------------------------------------------------------------------------------------------------
 
 #Set the working directory to the location where the scripts and function R files are located 
 
-setwd("~/Desktop/Data_Mining_Project/Data_Cleaning_Code/My_Code")
+setwd("~/Desktop/Data_Mining_Project/Codes/Data_Cleaning/")
 
+source("FUN_TF_IDF_Functions.R")
 
-#Set Chunk Size when the script needs to be run as a standalone
-#chunksize=3
+#Set CHUNKSIZE = (3 or 6) and FILETYPE = (Training_Set or Testing_Set).
+CHUNKSIZE=6
+FILETYPE <- "Testing_Set"
 
 #Set the directory where the DTW subsequnces with labels are stored
-datafolder <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant Data/Cleaned_Data/"
+DATAFOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Cleaned_Data/"
 
-if(chunksize == 3)
+if(FILETYPE == "Testing_Set")
 {
-  #Number of atoms
-  d <- 32
+  FILEPREFIX <- "Test_"
   
-  #Atom List
-  atoms <- sapply(1:d, FUN = function(x) {as.character(paste("D", x, sep = ""))})
+} else if(FILETYPE == "Training_Set"){
   
-  #Load the word label file
-  merged.df <- readRDS(file = paste(datafolder,"merged_BoW_labeled_W3_D32_dtw.Rdata",sep = ""))
+  FILEPREFIX <- "Train_"
   
-  #Outputfilename
-  BOWfilename <- "BoW_W3_D32_dtw.Rdata"
+} else {
   
-} else if (chunksize == 6)
-{
-  #Number of atoms
-  d <- 64
-  
-  #Atom List
-  atoms <- sapply(1:d, FUN = function(x) {as.character(paste("D", x, sep = ""))})
-  
-  #Load the codebook
-  merged.df <- readRDS(file = paste(datafolder,"merged_BoW_labeled_W6_D64_dtw.Rdata",sep = ""))
-  
-  #Outputfilename
-  BOWfilename <- "BoW_W6_D64_dtw.Rdata"
+  stop("Invalid FileType value. Please set value as Training_Set or Testing_Set")
   
 }
 
 
-# Calculating TF_IDF for each ppt-task
-justWords.df <- merged.df[, c(1:5, ncol(merged.df))]
 
-# First, term frequency (TF): we use augmented frequency to prevent a bias towards longer documents.
-TF.df <- data.frame(matrix(nrow = 0, ncol = 4))
-for(ppt in levels(as.factor(justWords.df$PID))) {
-  ppt.df <- justWords.df[justWords.df$PID == ppt, ]
-  for(task in levels(as.factor(ppt.df$Task))) {
-    task.df <- ppt.df[ppt.df$Task == task, ]
-    numberOfWords <- nrow(task.df)          
-    curTF.df <- data.frame(matrix(nrow = 0, ncol = 2))
-    for(word in atoms) {
-      curTF.df <- rbind(curTF.df, data.frame(TF = length(which(task.df$Word == word)), Word = word))
-    }
-    maxTF <- max(curTF.df$TF)
-    for(word in curTF.df$Word) {
-      count <- curTF.df$TF[curTF.df$Word == word]
-      if (maxTF > 0) {
-        augmented.frequency <- 0.5 + (0.5 * (count / maxTF))
-      } 
-      TF.df <- rbind(TF.df,
-                     data.frame(PID = ppt, Task = task, Word = word, Count = count,  TF = augmented.frequency))
-    }
+#Data Loading ----------------------------------------------------------------------------------------------------------------
+
+if(CHUNKSIZE == 3)
+{
+  #Number of atoms
+  D <- 32
+  
+  #Atom List
+  atoms <- sapply(1:D, FUN = function(x) {as.character(paste("D", x, sep = ""))})
+  
+  #Load the word label file for Training or Testing Set based on file type
+  if (FILETYPE == "Training_Set")
+  {
+    train.df <- readRDS(file = paste(DATAFOLDER,"Train_merged_BoW_labeled_W3_D32_dtw.Rdata",sep = ""))
+    
+    #Outputfilename
+    
+    IDF_FILENAME <- "Train_IDF_W3_D32.Rdata"
+    BOW_FILENAME <- "Train_BoW_W3_D32_dtw.Rdata"
+    
+    
+  } else if (FILETYPE == "Testing_Set") {
+   
+    test.df <- readRDS(file = paste(DATAFOLDER,"Test_merged_BoW_labeled_W3_D32_dtw.Rdata",sep = "")) 
+    
+    #Outputfilenames
+    
+    IDF_FILENAME <- "Train_IDF_W3_D32.Rdata"
+    BOW_FILENAME <- "Test_BoW_W3_D32_dtw.Rdata"
+    
+  } else {
+    
+    stop("Invalid FileType value. Please set value as Training_Set or Testing_Set")
     
   }
-}
-rm(maxTF, curTF.df, count, augmented.frequency, ppt.df, task.df, word, ppt)
-
-# Second, inverse document frequency (IDF) is calculated.
-numberOfTasks <- nrow(TF.df) / d
-IDF.df <- data.frame(Word = atoms, IDF = NA)
-for(word in levels(as.factor(IDF.df$Word))) {
-  n_word <- length(which(TF.df$Count[TF.df$Word == word] > 0))
-  if(n_word > 0){
-    IDF.df$IDF[IDF.df$Word == word] <- log(numberOfTasks / n_word)
+  
+} else if (CHUNKSIZE == 6) {
+  #Number of atoms
+  D <- 64
+  
+  #Atom List
+  atoms <- sapply(1:D, FUN = function(x) {as.character(paste("D", x, sep = ""))})
+  
+  #Load the word label file for Training or Testing Set based on file type
+  if (FILETYPE == "Training_Set")
+  {
+    train.df <- readRDS(file = paste(DATAFOLDER,"Train_merged_BoW_labeled_W6_D64_dtw.Rdata",sep = ""))
+    
+    #Outputfilenames
+    
+    IDF_FILENAME <- "Train_IDF_W6_D64.Rdata"
+    BOW_FILENAME <- "Train_BoW_W6_D64_dtw.Rdata"
+    
+    
+  } else if (FILETYPE == "Testing_Set") {
+    
+    test.df <- readRDS(file = paste(DATAFOLDER,"Test_merged_BoW_labeled_W6_D64_dtw.Rdata",sep = "")) 
+    
+    #Outputfilename
+    IDF_FILENAME <- "Train_IDF_W6_D64.Rdata"
+    BOW_FILENAME <- "Test_BoW_W6_D64_dtw.Rdata"
+    
   } else {
-    IDF.df$IDF[IDF.df$Word == word] <- as.integer(0)
+    
+    stop("Invalid FileType value. Please set value as Training_Set or Testing_Set")
+    
   }
   
 }
-rm(word, n_word)
 
 
+# TF-IDF Calculation for Training & Testing Set --------------------------------------------------------------------
 
-# Final stage of data cleaning
-bow_dtw.df <- data.frame(matrix(nrow = 0, ncol = 2 + d))
-for(ppt in levels(as.factor(TF.df$PID))) {
-  ppt.df <- TF.df[TF.df$PID == ppt, ]
-  for(task in levels(as.factor(ppt.df$Task))) {
-    task.df <- ppt.df[ppt.df$Task == task, ]
-    temp.df <- data.frame(matrix(NA, nrow = 1, ncol = 2 + d))
-    colnames(temp.df) <- c("PID", "Task", atoms)
-    temp.df$PID <- as.character(ppt)
-    temp.df$Task <- as.character(task)
-    pptTF.df <- TF.df[TF.df$PID == ppt, ]
-    taskTF.df <- pptTF.df[pptTF.df$Task == task, ]
-    for(i in 1:d) {
-      temp.df[, i + 2] <- taskTF.df$TF[i] * IDF.df$IDF[i]
-    }
-    bow_dtw.df <- rbind(bow_dtw.df, temp.df)
+if (FILETYPE == "Training_Set") {
+  
+  # Calculating Term Frequency for each ppt-task
+  train_justWords.df <- train.df[, c(1:5, ncol(train.df))]
+  
+  rm(train.df)
+  
+  message("Calculating Term Frequency for Training Set....")
+  
+  train_TF.df <- FUN_Calc_Term_Frequency(train_justWords.df)
+  
+  message("Calculating IDF for Training Set....")
+  
+  train_IDF.df <- FUN_Calc_Inverse_Doc_Frequency(train_TF.df,atoms,D)
+  
+  #Saving IDF File for re-using in case of Testing Set
+  saveRDS(train_IDF.df, file = paste(DATAFOLDER,IDF_FILENAME,sep = ""))
+  
+  #Calculate Final cleaned Training Data
+  
+  train_bow_dtw.df <- FUN_Calc_BOW_Data(train_TF.df,train_IDF.df, D)
+  
+  # Dataset is ready! Save it to a file!
+  saveRDS(train_bow_dtw.df, file = paste(DATAFOLDER,BOW_FILENAME,sep = ""))
+  
+  
+  
+} else if (FILETYPE == "Testing_Set") {
+  
+  test_justWords.df <- test.df[, c(1:5, ncol(test.df))]
+  
+  rm(test.df)
+  
+  message("Calculating Term Frequency for Testing Set....")
+  
+  test_TF.df <- FUN_Calc_Term_Frequency(test_justWords.df)
+  
+  if(!file.exists(paste(DATAFOLDER,IDF_FILENAME,sep = "")))
+  {
+    stop ("IDF File missing for training set. Please compute the TF-IDF for Training Set and then for Testing Set.")
+  } 
+  else 
+  {
+    message("Loading the IDF Training File...")
+    
+    train_IDF.df <- readRDS(file = paste(DATAFOLDER,IDF_FILENAME,sep = ""))
+    
+    message("Calculating Final BOW Data for testing set...")
+    
+    test_bow_dtw.df <- FUN_Calc_BOW_Data(test_TF.df,train_IDF.df, D)
+    
+    # Dataset is ready! Save it to a file!
+    saveRDS(test_bow_dtw.df, file = paste(DATAFOLDER,BOW_FILENAME,sep = ""))
+    
+    
   }
+  
 }
-rm(ppt, ppt.df, task, task.df, temp.df, pptTF.df, taskTF.df, i)
 
-
-# Dataset is ready! Save it to a file!
-saveRDS(bow_dtw.df, file = paste(datafolder,BOWfilename,sep = ""))
+message(paste(CHUNKSIZE," seconds TF-IDF calculation completed for ",FILETYPE,".",sep = ""))

@@ -1,5 +1,5 @@
-UnigramFeatures.df <- readRDS(file="C:/Users/shikh/Documents/University of Florida/Activity Recognition/Datasets/Raw Data/Training_Set/nGram_Files/UnigramFeatures.Rdata")
-BigramFeatures.df <- readRDS(file="C:/Users/shikh/Documents/University of Florida/Activity Recognition/Datasets/Raw Data/Training_Set/nGram_Files/BigramFeatures.Rdata")
+UnigramFeatures.df <- readRDS(file="C:/Users/shikh/Documents/University of Florida/Activity Recognition/Raw Data/Participant Data/Training_Set/nGram_Files/UnigramFeatures.Rdata")
+BigramFeatures.df <- readRDS(file="C:/Users/shikh/Documents/University of Florida/Activity Recognition/Raw Data/Training_Set/Participant Data/nGram_Files/BigramFeatures.Rdata")
 
 # dataPoints<-UnigramFeatures.df[UnigramFeatures.df$PID=="ADAD151" & (UnigramFeatures.df$Task=="TV WATCHING" | 
 #                                 UnigramFeatures.df$Task=="LEISURE WALK" | 

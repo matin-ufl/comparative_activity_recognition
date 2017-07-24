@@ -1,9 +1,26 @@
+#Script Details -------------------------------------------------------------------------------------
 
-# This function converts a time string to its military (24hr) format.
-# Examples:
-#          a) 2:14:30  -->  14:14:30
-#          b) 8:25:00  -->  08:25:00
-ConvertToMilitaryTime <- function(timeStr) {
+#Script Name : FUN_ConvertToMilitaryTime.R
+
+#Script Summary : 
+#       This script contains one function required for tasktimes timestamp conversion.
+#         1. FUN_ConvertToMilitaryTime : Function to convert time string to its military (24hr) format in the tasktimes file.
+
+#Author & Reviewer Details --------------------------------------------------------------------------
+
+#Author : Avirup Chakraborty
+#Date : 07/03/2017
+#E-Mail : avirup1988@ufl.edu
+#Reviewed By : Hiranava Das
+#Review Date : 
+#Reviewer E-Mail : hiranava@ufl.edu
+
+#FUN_ConvertToMilitaryTime
+FUN_ConvertToMilitaryTime <- function(timeStr) {
+  
+  # Input :- timeStr : This is the input timestamp string.
+  # Output :- converted timestamp string to 24hr format.
+  
   if(is.na(timeStr)){
     return(NA)
   }
@@ -22,4 +39,4 @@ ConvertToMilitaryTime <- function(timeStr) {
     hour <- paste("0", hour, sep = "")
   }
   return(paste(as.character(hour), tokens[2], tokens[3], sep = ":"))
-} 
+}

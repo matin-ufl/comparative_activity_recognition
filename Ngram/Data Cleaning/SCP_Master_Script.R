@@ -2,8 +2,8 @@
 
 #Script Name : SCP_Master_Script.R
 
-#Script Summmary : Construct unigram and bigram features for all the participants 
-#                  and save the corresponding feature data files
+#Script Summmary : Constructs unigram and bigram features for given dataset 
+#                  and saves the corresponding feature data files
 
 #Author & Reviewer Details --------------------------------------------------------------------------------------
 
@@ -16,13 +16,17 @@
 
 #----------------------------------------------------------------------------------------------------------------
 
+#Parameter Settings----------------------------------------------------------------------------------------------
+
 # Set the full path where participants' Rdata files are located
-DATAFOLDER <- "C:/Users/shikh/Documents/University of Florida/Activity Recognition/Datasets/Raw Data/Training_Set/"
+DATAFOLDER <- "C:/Users/shikh/Documents/University of Florida/Activity Recognition/Raw Data/Participant Data/Training_Set/"
 # Set the number of bins to use for binning participant data
 NUMBEROFBINS <- 10
 
 # Set the working directory to the location where the scripts and function R files are located
 setwd("C:/Users/shikh/Documents/University of Florida/Activity Recognition/DataCleanUp")
+
+#----------------------------------------------------------------------------------------------------------------
 
 source("FUN_Construct_Ngrams.R")
 participantsList <- dir(DATAFOLDER, pattern = "^.*.Rdata$")
@@ -38,7 +42,7 @@ for(participantFile in participantsList) {
   print (paste("Data successfully loaded for Participant: ",participantID))
   
   # Call function to construct features from current participant's data
-  participantFeatures.df <- nGrams.oneParticipant(participantID = participantID,ppt.df = participantWristData.df,binCount=NUMBEROFBINS)
+  participantFeatures.df <- FUN_nGrams.oneParticipant(participantID = participantID,ppt.df = participantWristData.df,binCount=NUMBEROFBINS)
   
   # Merge participant features to the main data frame
   UnigramFeatures.df <- rbind.fill(UnigramFeatures.df, participantFeatures.df[[1]])
@@ -47,8 +51,8 @@ for(participantFile in participantsList) {
 }
 
 # Preprocess the combined features data
-UnigramFeatures.df<-adjustFeatureSet(UnigramFeatures.df)
-BigramFeatures.df<-adjustFeatureSet(BigramFeatures.df)
+UnigramFeatures.df<-FUN_adjustFeatureSet(UnigramFeatures.df)
+BigramFeatures.df<-FUN_adjustFeatureSet(BigramFeatures.df)
 
 # Save the ngram feature files
 saveRDS(UnigramFeatures.df, file = paste(DATAFOLDER, "nGram_Files/UnigramFeatures.Rdata", sep = ""))

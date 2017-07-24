@@ -1,14 +1,32 @@
-# Receives three arguments:
-#     1. dataFolder: the address where participants' data are located.
-#     2. participantID: participant unique identifier
-#     3. participant_task.df: taskTimes information for one participantID
-#
-# Finds wrist accelerometer files for the given participant and generates 4 RData files:
-#     1. result.v1.df: a data.table consisting of V1 wrist accelerometer data
-#     2. result.v2.df: a data.table consisting of V2 wrist accelerometer data
-#     3. result.v3.df: a data.table consisting of V3 wrist accelerometer data
-#     4. result.v4.df: a data.table consisting of V4 wrist accelerometer data
-read.participant.files <- function(dataFolder, participantID, participant_task.df) {
+#Script Details -------------------------------------------------------------------------------------
+
+#Script Name : FUN_Create_Subset_Accelerometer_Data_Files.R
+
+#Script Summary : 
+#       This script contains one function required to read raw accelerometer files.
+#         1. FUN_Read_Participant_Files : Function to read raw accelerometer files.
+
+#Author & Reviewer Details --------------------------------------------------------------------------
+
+#Author : Avirup Chakraborty
+#Date : 07/03/2017
+#E-Mail : avirup1988@ufl.edu
+#Reviewed By : Hiranava Das
+#Review Date :
+#Reviewer E-Mail : hiranava@ufl.edu
+
+
+#FUN_Read_Participant_Files
+
+FUN_Read_Participant_Files <- function(dataFolder, participantID, participant_task.df) {
+  
+  # Input:
+  #     1. dataFolder: the address where participants' data are located.
+  #     2. participantID: participant unique identifier
+  #     3. participant_task.df: taskTimes information for one participantID
+  # Output:
+  #     1. result_final.df: output dataframe with entire subset accelerometer data.
+  
   require(data.table)
   
   #Final Result Data Frame
@@ -21,6 +39,8 @@ read.participant.files <- function(dataFolder, participantID, participant_task.d
     stop("Participant Data are not found.") # if for a participant we do not have a data folder, we should not continue.
   }
   participantFolder <- paste(dataFolder, participantFolder, "/", sep = "")
+  
+#Reading Accelerometer File and sub-setting for visit V1----------------------------------------------------------------------------------------- 
   
   # Reading wrist accelerometer file for visit V1
   ppt.v1.df <-  data.frame(matrix(nrow = 0, ncol = 4))
@@ -76,6 +96,8 @@ read.participant.files <- function(dataFolder, participantID, participant_task.d
     }
   }
   
+#Reading Accelerometer File and sub-setting for visit V2----------------------------------------------------------------------------------------- 
+  
   # Similar to reading wrist accelerometer file for visit 1.
   ppt.v2.df <-  data.frame(matrix(nrow = 0, ncol = 4))
   task.v2.df <- participant_task.df[which(participant_task.df$visit==2),]
@@ -127,6 +149,8 @@ read.participant.files <- function(dataFolder, participantID, participant_task.d
     
     }
   }
+
+#Reading Accelerometer File and sub-setting for visit V3-----------------------------------------------------------------------------------------
   
   # Similar to reading wrist accelerometer file for visit 1.
   ppt.v3.df <-  data.frame(matrix(nrow = 0, ncol = 4))
@@ -180,6 +204,7 @@ read.participant.files <- function(dataFolder, participantID, participant_task.d
     }
   } 
   
+#Reading Accelerometer File and sub-setting for visit V4-----------------------------------------------------------------------------------------  
   
   # Similar to reading wrist accelerometer file for visit 1.
   ppt.v4.df <-data.frame(matrix(nrow = 0, ncol = 4))
