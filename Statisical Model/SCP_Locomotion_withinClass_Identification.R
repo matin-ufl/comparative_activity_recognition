@@ -82,3 +82,30 @@ decisionTree.out$Predicted <- predict(decisionTree.locType.tuned, test.df[, -c(1
 # saving the output on test set for future analysis.
 write.csv(decisionTree.out, "~/Dropbox/Work-Research/Current Directory/Activity Recognition - Comparative Study/Data/Outputs/Statistical/Locomotion_Type_decisionTree.csv", row.names = F)
 table(decisionTree.out[, -1])
+
+
+# Random Forest ========
+library(randomForest)
+x <- training.df[, -c(1:4)]
+y <- training.df$Task
+
+# Finding the best fit ###############
+
+ctrl <- trainControl(method = "oob", classProbs = T)
+nTree <- 1500 # This is altered to find the best combination (ntree, mtry)
+mtry <- 2:4
+tunegrid <- expand.grid(.mtry=mtry)
+set.seed(5855)
+randomForest.locType.tuned <- train(x = x, y = y, method = "rf", metric = "Accuracy", tuneGrid = tunegrid, trControl = ctrl, ntree = nTree)
+randomForest.locType.tuned$results
+
+# Saving the trained classifier for future use (Best: ntree = 1500, mtry = 2)
+save(randomForest.locType.tuned, file = "Trained models/locomotion_type_randomForest.Rdata")
+
+# Evaluation on test set #############
+randomForest.out <- data.frame(PID = test.df$PID, Actual = test.df$Task, Predicted = NA)
+randomForest.out$Predicted <- predict(randomForest.locType.tuned, test.df[, -c(1:4)])
+
+# saving the output on test set for future analysis.
+write.csv(randomForest.out, "~/Dropbox/Work-Research/Current Directory/Activity Recognition - Comparative Study/Data/Outputs/Statistical/Locomotion_Type_randomForest.csv", row.names = F)
+table(randomForest.out[, -1])

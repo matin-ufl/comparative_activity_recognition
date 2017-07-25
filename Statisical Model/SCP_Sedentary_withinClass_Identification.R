@@ -95,17 +95,17 @@ nTree <- 1500 # This is altered to find the best combination (ntree, mtry)
 mtry <- 2:4
 tunegrid <- expand.grid(.mtry=mtry)
 set.seed(5855)
-randomForest.locType.tuned <- train(x = x, y = y, method = "rf", metric = "Accuracy", tuneGrid = tunegrid, trControl = ctrl, ntree = nTree)
-randomForest.locType.tuned$results
+randomForest.sedType.tuned <- train(x = x, y = y, method = "rf", metric = "Accuracy", tuneGrid = tunegrid, trControl = ctrl, ntree = nTree)
+randomForest.sedType.tuned$results
 
 # Saving the trained classifier for future use (Best: ntree = 1500, mtry = 2)
-save(randomForest.locType.tuned, file = "Trained models/locomotion_type_randomForest.Rdata")
+save(randomForest.sedType.tuned, file = "Trained models/sedentary_type_randomForest.Rdata")
 
 # Evaluation on test set #############
 randomForest.out <- data.frame(PID = test.df$PID, Actual = test.df$Task, Predicted = NA)
-randomForest.out$Predicted <- predict(randomForest.locType.tuned, test.df[, -c(1:4)])
+randomForest.out$Predicted <- predict(randomForest.sedType.tuned, test.df[, -c(1:4)])
 
 # saving the output on test set for future analysis.
-write.csv(randomForest.out, "~/Dropbox/Work-Research/Current Directory/Activity Recognition - Comparative Study/Data/Outputs/Statistical/Locomotion_Type_randomForest.csv", row.names = F)
+write.csv(randomForest.out, "~/Dropbox/Work-Research/Current Directory/Activity Recognition - Comparative Study/Data/Outputs/Statistical/Sedentary_Type_randomForest.csv", row.names = F)
 table(randomForest.out[, -1])
 
