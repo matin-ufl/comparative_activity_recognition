@@ -73,11 +73,11 @@ if (CHUNKSIZE == 3)
       
       #Step - 3 Model Files
       
-      MET_MODEL_FILE <- "MET_Estimation_3secs_32atoms_SVM_Model.Rdata"
+      MET_MODEL_FILE <- "ThreeStep_MET_Estimation_3secs_32atoms_SVM_Model.Rdata"
       
       # Output File
       
-      TEST_OUT_FILE <- "MET_Estimation_3secs_32atoms_SVM_Test_Results.csv"
+      TEST_OUT_FILE <- "ThreeStep_MET_Estimation_3secs_32atoms_SVM_Test_Results.csv"
 
       
     } else if (CLASSIFIER_TYPE == "DecisionTree") {
@@ -94,11 +94,11 @@ if (CHUNKSIZE == 3)
       
       #Step - 3 Model Files
       
-      MET_MODEL_FILE <- "MET_Estimation_3secs_32atoms_DecisionTree_Model.Rdata"
+      MET_MODEL_FILE <- "ThreeStep_MET_Estimation_3secs_32atoms_DecisionTree_Model.Rdata"
       
       # Output File
       
-      TEST_OUT_FILE <- "MET_Estimation_3secs_32atoms_DecisionTree_Test_Results.csv"
+      TEST_OUT_FILE <- "ThreeStep_MET_Estimation_3secs_32atoms_DecisionTree_Test_Results.csv"
       
       
     } else {
@@ -117,11 +117,11 @@ if (CHUNKSIZE == 3)
       
       #Step - 3 Model Files
       
-      MET_MODEL_FILE <- "MET_Estimation_3secs_32atoms_RandomForest_Model.Rdata"
+      MET_MODEL_FILE <- "ThreeStep_MET_Estimation_3secs_32atoms_RandomForest_Model.Rdata"
       
       # Output File
       
-      TEST_OUT_FILE <- "MET_Estimation_3secs_32atoms_RandomForest_Test_Results.csv"
+      TEST_OUT_FILE <- "ThreeStep_MET_Estimation_3secs_32atoms_RandomForest_Test_Results.csv"
       
     }
     
@@ -145,11 +145,11 @@ if (CHUNKSIZE == 3)
     
     #Step - 3 Model Files
     
-    MET_MODEL_FILE <- "MET_Estimation_6secs_64atoms_SVM_Model.Rdata"
+    MET_MODEL_FILE <- "ThreeStep_MET_Estimation_6secs_64atoms_SVM_Model.Rdata"
     
     # Output File
     
-    TEST_OUT_FILE <- "MET_Estimation_6secs_64atoms_SVM_Test_Results.csv"
+    TEST_OUT_FILE <- "ThreeStep_MET_Estimation_6secs_64atoms_SVM_Test_Results.csv"
     
     
   } else if (CLASSIFIER_TYPE == "DecisionTree") {
@@ -166,11 +166,11 @@ if (CHUNKSIZE == 3)
     
     #Step - 3 Model Files
     
-    MET_MODEL_FILE <- "MET_Estimation_6secs_64atoms_DecisionTree_Model.Rdata"
+    MET_MODEL_FILE <- "ThreeStep_MET_Estimation_6secs_64atoms_DecisionTree_Model.Rdata"
     
     # Output File
     
-    TEST_OUT_FILE <- "MET_Estimation_6secs_64atoms_DecisionTree_Test_Results.csv"
+    TEST_OUT_FILE <- "ThreeStep_MET_Estimation_6secs_64atoms_DecisionTree_Test_Results.csv"
     
     
   } else {
@@ -189,11 +189,11 @@ if (CHUNKSIZE == 3)
     
     #Step - 3 Model Files
     
-    MET_MODEL_FILE <- "MET_Estimation_6secs_64atoms_RandomForest_Model.Rdata"
+    MET_MODEL_FILE <- "ThreeStep_MET_Estimation_6secs_64atoms_RandomForest_Model.Rdata"
     
     # Output File
     
-    TEST_OUT_FILE <- "MET_Estimation_6secs_64atoms_RandomForest_Test_Results.csv"
+    TEST_OUT_FILE <- "ThreeStep_MET_Estimation_6secs_64atoms_RandomForest_Test_Results.csv"
     
   }
   
