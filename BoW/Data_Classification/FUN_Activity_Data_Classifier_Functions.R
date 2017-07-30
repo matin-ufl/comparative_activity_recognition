@@ -3,7 +3,7 @@
 #Script Name : FUN_Activity_Data_Classifier_Functions.R
 
 #Script Summary : 
-#       This script contains three functions required for TF-IDF Calculations.
+#       This script contains 10 functions required for Activity Recognition.
 #         1. FUN_Add_SDNT_TaskLabels : Function to add Sedentary/Non-Sedentary task labels.
 #         2. FUN_Add_LCM_TaskLabels : Function to add Locomotion/Stationary task labels.
 #         3. FUN_SDNT_Train_Classifier : Function to train Sedentary/Non-Sedentary Classifier.
@@ -71,14 +71,13 @@ FUN_Add_LCM_TaskLabels <- function(train.df) {
 library(e1071)  #SVM
 library(rpart)  #Decision Trees
 library(randomForest) #Random Forest
-library(MASS) #LDA
 
 FUN_SDNT_Train_Classifier <- function(train.df, classifier_type , chunk_size, 
                                       cost_val = 100, gamma_val = 1, svm_kernel = "radial", 
                                       kernel_flag = TRUE, d_tree_method = "class", rf_ntree = 5000) {
   
   # Input :- train.df : This dataframe contains the feature variables with sedentary task labels of the training set.
-  #          classifier_type : This variable stores the classifier type (SVM/DecisionTree/RandomForest/LDA).
+  #          classifier_type : This variable stores the classifier type (SVM/DecisionTree/RandomForest).
   #          chunk_size : This varaible stores the sub-sequence type (3s or 6s).
   #          cost_val : This is the cost value for SVM classifier. Defaulted to 100 for best results.
   #          gamma_val : This is the gamma value for SVM classifier. Defaulted to 1 for best results.
@@ -96,7 +95,9 @@ FUN_SDNT_Train_Classifier <- function(train.df, classifier_type , chunk_size,
     
     #Train the SVM Classifier
     
-    model <- svm(x = train.df[,startsWith(colnames(train.df), "D")], y = as.factor(train.df$ActualTaskLabel), 
+    ncols <- ncol(train.df)-1
+    
+    model <- svm(x = train.df[,3:ncols], y = as.factor(train.df$ActualTaskLabel), 
                  cost = cost_val, 
                  gamma = gamma_val, 
                  kernel = svm_kernel, usekernel = kernel_flag)
@@ -127,45 +128,13 @@ FUN_SDNT_Train_Classifier <- function(train.df, classifier_type , chunk_size,
     
   } else  if(classifier_type == "RandomForest") {
     
-     #Set the number of tries based on chunk size
-    
-      if (chunk_size==3) {
-        
-        NTRY <-sqrt(32);
-        
-      } else if (chunk_size==6) {
-        
-        NTRY <-sqrt(64);
-      
-      }
-    
       #Train the Random Forest Classifier 
-      model <- randomForest(x = train.df[,startsWith(colnames(train.df), "D")], y = as.factor(train.df$ActualTaskLabel)
-                            ,ntree = rf_ntree, mtry = NTRY)
-      
     
-  } else  if(classifier_type == "LDA") {
-    
-    if(chunk_size == 3) {
+      ncols <- ncol(train.df)-1
       
-      #Train the LDA Classifier
+      model <- randomForest(x = train.df[,3:ncols], y = as.factor(train.df$ActualTaskLabel)
+                            ,ntree = rf_ntree)
       
-      model <- lda(ActualTaskLabel ~ D1+D2+D3+D4+D5+D6+D7+D8+D9+D10+D11+D12+D13+D14+D15+D16+
-                       D17+D18+D19+D20+D21+D22+D23+D24+D25+D26+D27+D28+D29+D30+D31+D32, 
-                     train.df)
-      
-      
-    } else if (chunk_size == 6) {
-      
-      #Train the LDA Classifier
-      
-      model <- lda(ActualTaskLabel ~ D1+D2+D3+D4+D5+D6+D7+D8+D9+D10+D11+D12+D13+D14+D15+D16+
-                       D17+D18+D19+D20+D21+D22+D23+D24+D25+D26+D27+D28+D29+D30+D31+D32+
-                       D33+D34+D35+D36+D37+D38+D39+D40+D41+D42+D43+D44+D45+D46+D47+D48+
-                       D49+D50+D51+D52+D53+D54+D55+D56+D57+D58+D59+D60+D61+D62+D63+D64, 
-                     train.df)
-      
-    }
     
   } 
   
@@ -197,7 +166,9 @@ FUN_LCM_Train_Classifier <- function(train.df, classifier_type , chunk_size,
     
     #Train the SVM Classifier
     
-    model <- svm(x = train.df[,startsWith(colnames(train.df), "D")], y = as.factor(train.df$ActualTaskLabel), 
+    ncols <- ncol(train.df)-1
+    
+    model <- svm(x = train.df[,3:ncols], y = as.factor(train.df$ActualTaskLabel), 
                  cost = cost_val,  
                  gamma = gamma_val, 
                  kernel = svm_kernel, usekernel = kernel_flag)
@@ -228,46 +199,14 @@ FUN_LCM_Train_Classifier <- function(train.df, classifier_type , chunk_size,
     
   } else  if(classifier_type == "RandomForest") {
     
-    #Set the number of tries based on chunk size
-    
-    if (chunk_size==3) {
-      
-      NTRY <-sqrt(32);
-      
-    } else if (chunk_size==6) {
-      
-      NTRY <-sqrt(64);
-      
-    }
-    
       #Train the Random Forest Classifier 
-      model <- randomForest(x = train.df[,startsWith(colnames(train.df), "D")], y = as.factor(train.df$ActualTaskLabel)
-                            ,ntree = rf_ntree, mtry = NTRY)
+    
+      ncols <- ncol(train.df)-1
+    
+      model <- randomForest(x = train.df[,3:ncols], y = as.factor(train.df$ActualTaskLabel)
+                            ,ntree = rf_ntree)
       
       
-  } else  if(classifier_type == "LDA") {
-  
-    if(chunk_size == 3) {
-      
-      #Train the LDA Classifier
-      
-      model <- lda(ActualTaskLabel ~ D1+D2+D3+D4+D5+D6+D7+D8+D9+D10+D11+D12+D13+D14+D15+D16+
-                     D17+D18+D19+D20+D21+D22+D23+D24+D25+D26+D27+D28+D29+D30+D31+D32, 
-                   train.df)
-      
-      
-    } else if (chunk_size == 6) {
-      
-      #Train the LDA Classifier
-      
-      model <- lda(ActualTaskLabel ~ D1+D2+D3+D4+D5+D6+D7+D8+D9+D10+D11+D12+D13+D14+D15+D16+
-                     D17+D18+D19+D20+D21+D22+D23+D24+D25+D26+D27+D28+D29+D30+D31+D32+
-                     D33+D34+D35+D36+D37+D38+D39+D40+D41+D42+D43+D44+D45+D46+D47+D48+
-                     D49+D50+D51+D52+D53+D54+D55+D56+D57+D58+D59+D60+D61+D62+D63+D64, 
-                   train.df)
-      
-    }
-  
   } 
   
   return(model)
@@ -284,15 +223,8 @@ FUN_Evaluate_Classifier <- function(model,test.df,classifier_type = "RandomFores
   
   
   #Predict Task Labels for test data set
-
-  if (classifier_type == "LDA")
-  {
-    PredictedTaskLabel <- predict(model, test.df[,startsWith(colnames(test.df), "D")])$class
-    
-  } else {
-    
-    PredictedTaskLabel <- predict(model, test.df[,startsWith(colnames(test.df), "D")], type = "class")
-  }
+  
+  PredictedTaskLabel <- predict(model, test.df[,startsWith(colnames(test.df), "D")], type = "class")
 
   #Add the predicted task labels to the original test dataframe
   
@@ -415,23 +347,79 @@ FUN_Create_SDNT_LCM_Task_Cols_TestSet <- function(test.df) {
 
 # FUN_MET_Estimation_Train_Regressor
 
-FUN_MET_Estimation_Train_Regressor <- function(train.df, chunk_size,rf_ntree = 5000) {
+FUN_MET_Estimation_Train_Regressor <- function(train.df, classifier_type , chunk_size, 
+                                               cost_val = 100, gamma_val = 1, svm_kernel = "radial", 
+                                               kernel_flag = TRUE, d_tree_method = "anova", rf_ntree = 5000) {
   
-  # Input :- train.df : This dataframe contains the feature variables with MET  task labels of the training set.
+  # Input :- train.df : This dataframe contains the feature variables with locomotion task labels of the training set.
+  #          classifier_type : This variable stores the regressor type (SVM/DecisionTree/RandomForest).
   #          chunk_size : This varaible stores the sub-sequence type (3s or 6s).
-  #          rf_ntree : This is the number of trees for Random Forest regressor 
+  #          cost_val : This is the cost value for SVM classifier. Defaulted to 0.1 for best results.
+  #          gamma_val : This is the gamma value for SVM classifier. Defaulted to 0.5 for best results.
+  #          svm_kernel : This is the kernel value for SVM classifier ("linear", "radial" or "polynomial").
+  #                       Defaulted to "radial" for best results. 
+  #          kernel_flag : This is the kernel flag value for SVM classifier ("TRUE" or "FALSE"). 
+  #                        Defaulted to TRUE for best results. 
+  #          d_tree_method : This is the method value for Decision Tree classifier ("anova", "poisson", "class" or "exp").
+  #                          Defaulted to "anova" since it is a classification problem.  
+  #          rf_ntree : This is the number of trees for Random Forest classifier. 
   #                     Defaulted to 5000 for best results.  
-  # Output :- model : This stores the trained model for the MET Estimation Regressor.
+  # Output :- model : This stores the trained model for the locomotion classifier.
   
-  
-  #Train the Random Forest Classifier 
-  
-  ncols <- ncol(train.df)-1
-  
-  model <- randomForest(x = train.df[,3:ncols], 
-                        y = train.df$Actual_MET_Values,
-                        ntree = rf_ntree)
-  
+  if(classifier_type == "SVM") {
+    
+    #Train the SVM Classifier
+    
+    ncols <- ncol(train.df)-1
+    
+    model <- svm(x = train.df[,3:ncols], y = train.df$Actual_MET_Values, 
+                 cost = cost_val,  
+                 gamma = gamma_val, 
+                 kernel = svm_kernel, usekernel = kernel_flag)
+    
+  } else  if(classifier_type == "DecisionTree") {
+    
+    if(chunk_size == 3) {
+      
+      #Train the Decision Tree Classifier
+      
+      model <- rpart(Actual_MET_Values ~ D1+D2+D3+D4+D5+D6+D7+D8+D9+D10+D11+D12+D13+D14+D15+D16+
+                       D17+D18+D19+D20+D21+D22+D23+D24+D25+D26+D27+D28+D29+D30+D31+D32+
+                       Sedentary+Locomotion+ComputerWork+StandingStill+TVWatching+
+                       LeisureWalk+RapidWalk+StairAscent+StairDescent+WalkingAtRPE1+
+                       WalkingAtRPE5, 
+                       train.df,method = d_tree_method)
+      
+      
+    } else if (chunk_size == 6) {
+      
+      #Train the Decision Tree Classifier
+      
+      model <- rpart(Actual_MET_Values ~ D1+D2+D3+D4+D5+D6+D7+D8+D9+D10+D11+D12+D13+D14+D15+D16+
+                       D17+D18+D19+D20+D21+D22+D23+D24+D25+D26+D27+D28+D29+D30+D31+D32+
+                       D33+D34+D35+D36+D37+D38+D39+D40+D41+D42+D43+D44+D45+D46+D47+D48+
+                       D49+D50+D51+D52+D53+D54+D55+D56+D57+D58+D59+D60+D61+D62+D63+D64+
+                       Sedentary+Locomotion+ComputerWork+StandingStill+TVWatching+
+                       LeisureWalk+RapidWalk+StairAscent+StairDescent+WalkingAtRPE1+
+                       WalkingAtRPE5, 
+                     train.df,method = d_tree_method)
+      
+    }
+    
+    
+  } else  if(classifier_type == "RandomForest") {
+    
+    #Train the Random Forest Regressor 
+    
+    ncols <- ncol(train.df)-1
+    
+    model <- randomForest(x = train.df[,3:ncols], 
+                          y = train.df$Actual_MET_Values,
+                          ntree = rf_ntree)
+    
+    
+  } 
+
   return(model)
   
 }
@@ -439,10 +427,11 @@ FUN_MET_Estimation_Train_Regressor <- function(train.df, chunk_size,rf_ntree = 5
 
 #FUN_Evaluate_MET_Regressor
 
-FUN_Evaluate_MET_Regressor <- function(model,test.df) {
+FUN_Evaluate_MET_Regressor <- function(model,test.df,classifier_type) {
   
   # Input :- model : This stores the trained model for the MET Regressor.
   #          test.df : This dataframe test set to be used for prediction.
+  #          classifier_type : This variable stores the regressor type (SVM/DecisionTree/RandomForest).
   # Output :- test.df : This dataframe stores the added prediction labels to the test data input dataframe.
   
   
@@ -450,8 +439,16 @@ FUN_Evaluate_MET_Regressor <- function(model,test.df) {
   
   ncols <- ncol(test.df)-1
   
-  Predicted_MET_Values <- predict(model, test.df[,3:ncols], type = "class")
+  if(classifier_type == "DecisionTree")
+  {
+    Predicted_MET_Values <- predict(model, test.df[,3:ncols])
+    
+  } else {
+    
+    Predicted_MET_Values <- predict(model, test.df[,3:ncols], type = "class")
+  }
   
+
   #Add the predicted task labels to the original test dataframe
   
   test.df$Predicted_MET_Values <- Predicted_MET_Values
