@@ -25,7 +25,12 @@
 #      12.  SCP_Task_Category_Data_Classification.R -- This script classifies the cleaned data into two classes based on user input.
 #      13.  SCP_Task_Level_Data_Classification.R -- This script classifies the cleaned data into sub-classes of the two main
 #                                                   classes based on user input.
-#      14.  SCP_Three_Step_MET_Estimation.R -- This script calculates the MET estimated values based on user input.
+#      14.  SCP_One_Step_MET_Estimation.R -- This script calculates the MET estimated values using one step process 
+#                                            based on user input.
+#      15.  SCP_Two_Step_MET_Estimation.R -- This script calculates the MET estimated values using two step process 
+#                                            based on user input.
+#      16.  SCP_Three_Step_MET_Estimation.R -- This script calculates the MET estimated values using three step process 
+#                                            based on user input.
 
 #Script execution notes : --------------------------------------------------------------------------------------------------
 #
@@ -179,19 +184,15 @@ tryCatch(source("SCP_6_Calculate_TF_IDF.R"), error=function(e){print(e)})
 #                             a) CHUNKSIZE = 3, CLASS_CATEGORY = "Sedentary", CLASSIFIER_TYPE = "SVM"
 #                             b) CHUNKSIZE = 3, CLASS_CATEGORY = "Sedentary", CLASSIFIER_TYPE = "DecisionTree"
 #                             c) CHUNKSIZE = 3, CLASS_CATEGORY = "Sedentary", CLASSIFIER_TYPE = "RandomForest"
-#                             d) CHUNKSIZE = 3, CLASS_CATEGORY = "Sedentary", CLASSIFIER_TYPE = "LDA"
-#                             e) CHUNKSIZE = 6, CLASS_CATEGORY = "Sedentary", CLASSIFIER_TYPE = "SVM"
-#                             f) CHUNKSIZE = 6, CLASS_CATEGORY = "Sedentary", CLASSIFIER_TYPE = "DecisionTree"
-#                             g) CHUNKSIZE = 6, CLASS_CATEGORY = "Sedentary", CLASSIFIER_TYPE = "RandomForest"
-#                             h) CHUNKSIZE = 6, CLASS_CATEGORY = "Sedentary", CLASSIFIER_TYPE = "LDA"
-#                             i) CHUNKSIZE = 3, CLASS_CATEGORY = "Locomotion", CLASSIFIER_TYPE = "SVM"
-#                             j) CHUNKSIZE = 3, CLASS_CATEGORY = "Locomotion", CLASSIFIER_TYPE = "DecisionTree"
-#                             k) CHUNKSIZE = 3, CLASS_CATEGORY = "Locomotion", CLASSIFIER_TYPE = "RandomForest"
-#                             l) CHUNKSIZE = 3, CLASS_CATEGORY = "Locomotion", CLASSIFIER_TYPE = "LDA"
-#                             m) CHUNKSIZE = 6, CLASS_CATEGORY = "Locomotion", CLASSIFIER_TYPE = "SVM"
-#                             n) CHUNKSIZE = 6, CLASS_CATEGORY = "Locomotion", CLASSIFIER_TYPE = "DecisionTree"
-#                             o) CHUNKSIZE = 6, CLASS_CATEGORY = "Locomotion", CLASSIFIER_TYPE = "RandomForest"
-#                             p) CHUNKSIZE = 6, CLASS_CATEGORY = "Locomotion", CLASSIFIER_TYPE = "LDA"
+#                             d) CHUNKSIZE = 6, CLASS_CATEGORY = "Sedentary", CLASSIFIER_TYPE = "SVM"
+#                             e) CHUNKSIZE = 6, CLASS_CATEGORY = "Sedentary", CLASSIFIER_TYPE = "DecisionTree"
+#                             f) CHUNKSIZE = 6, CLASS_CATEGORY = "Sedentary", CLASSIFIER_TYPE = "RandomForest"
+#                             g) CHUNKSIZE = 3, CLASS_CATEGORY = "Locomotion", CLASSIFIER_TYPE = "SVM"
+#                             h) CHUNKSIZE = 3, CLASS_CATEGORY = "Locomotion", CLASSIFIER_TYPE = "DecisionTree"
+#                             i) CHUNKSIZE = 3, CLASS_CATEGORY = "Locomotion", CLASSIFIER_TYPE = "RandomForest"
+#                             j) CHUNKSIZE = 6, CLASS_CATEGORY = "Locomotion", CLASSIFIER_TYPE = "SVM"
+#                             k) CHUNKSIZE = 6, CLASS_CATEGORY = "Locomotion", CLASSIFIER_TYPE = "DecisionTree"
+#                             l) CHUNKSIZE = 6, CLASS_CATEGORY = "Locomotion", CLASSIFIER_TYPE = "RandomForest"
 
 # Run the Script 13 in this section using the following combinations of CHUNKSIZE, CLASS_CATEGORY and CLASSIFIER_TYPE parameters :
 #                  List of valid combinations :
@@ -225,7 +226,15 @@ tryCatch(source("SCP_Task_Category_Data_Classification.R"), error=function(e){pr
 
 tryCatch(source("SCP_Task_Level_Data_Classification.R"), error=function(e){print(e)})
 
-#Sript 14 - SCP_Task_Level_Data_Classification.R
+#Sript 14 - SCP_One_Step_MET_Estimation.R
+
+tryCatch(source("SCP_One_Step_MET_Estimation.R"), error=function(e){print(e)})
+
+#Sript 15 - SCP_Two_Step_MET_Estimation.R
+
+tryCatch(source("SCP_Two_Step_MET_Estimation.R"), error=function(e){print(e)})
+
+#Sript 16 - SCP_Three_Step_MET_Estimation.R
 
 tryCatch(source("SCP_Three_Step_MET_Estimation.R"), error=function(e){print(e)})
 
