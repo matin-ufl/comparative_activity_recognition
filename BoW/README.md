@@ -68,7 +68,9 @@ Script Files:
 
 1. SCP_Task_Category_Data_Classification.R
 2. SCP_Task_Level_Data_Classification.R
-3. SCP_Three_Step_MET_Estimation.R
+3. SCP_One_Step_MET_Estimation.R
+4. SCP_Two_Step_MET_Estimation.R
+5. SCP_Three_Step_MET_Estimation.R
 
 ```
 
@@ -104,7 +106,6 @@ Please install the following R-Libraries :-
 7. rpart
 8. randomForest
 9. caret
-10. MASS
 
 Run the following commands to install the libraries:
 
@@ -118,7 +119,6 @@ install.packages("e1071")
 install.packages("rpart")
 install.packages("randomForest")
 install.packages("caret")
-install.packages("MASS")
 ```
 
 And then run the following commands to test if they are correctly installed. Please ignore the warning messages.
@@ -133,7 +133,6 @@ library(e1071)
 library(rpart)
 library(randomForest)
 library(caret)
-library(MASS)
 
 ```
 For installation of the spark local repository for development purposes,please execute the following commands:
@@ -465,7 +464,7 @@ which is done by the following script:
 
 #### Script 1 -- SCP_Task_Category_Data_Classification.R
 
-This script classifies the cleaned data into two classes based on user input. It uses four types of classifiers - SVM, DecisionTree, RandomForest and LDA.
+This script classifies the cleaned data into two classes based on user input. It uses four types of classifiers - SVM, DecisionTree, RandomForest.
 There are two types of classification as given below :
 	1. Sedentary and Non-Sedentary : 1 as Sedentary and 0 as Non-Sedentary.
 	2. Locomotion and Stationary : 1 as Locomotion and 0 as Stationary. 
@@ -479,7 +478,7 @@ for details.
 setwd("~/Desktop/Data_Mining_Project/Codes/Classification/")
 
 #Set CLASS_CATEGORY = ("Sedentary" or "Locomotion"), CHUNKSIZE = (3 or 6) and
-#CLASSIFIER_TYPE =  ("SVM" or "DecisionTree" or "RandomForest" or "LDA")
+#CLASSIFIER_TYPE =  ("SVM" or "DecisionTree" or "RandomForest")
 
 CHUNKSIZE=3
 CLASS_CATEGORY <- "Sedentary"
@@ -519,22 +518,79 @@ MODEL_FOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Model_O
 TESTDATA_OUTPUTFOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Model_Output/Tasks_Classification_Test_Output_Files/"
 ```
 
-#### Script 3 -- SCP_Three_Step_MET_Estimation.R
+#### Script 3 -- SCP_One_Step_MET_Estimation.R
 
-This script predicts the MET Estimation values using a three step process.
-
-Step - 1 - Classifies the test data into Sedentary/Non-Sedentary and Locomotion/Stationary categories using training set.
-
-Step - 2 - Classifies the test data into Sedentary tasks & Locomotion tasks using training set. Then, it creates a data frame  
-           having flags for each of the Sedentary and Locomotion Tasks for training and test set.
-
-Step - 3 - Predicts the MET data of the test set using the training data frame created by the previous two steps by fitting it 
-           to the Random Forest Regression Model.
+This script predicts the MET Estimation values using one step process.
+Step - 1 - Predicts the MET data of the test set using the training data frame by fitting it to the any one of the three Regression Models(RandomForest/DecisionTree/SVM) based on user input.
 
 ```
 #Set the working directory to the location where the scripts and function R files are located 
 
-setwd("~/Desktop/Data_Mining_Project/Codes/Classification/")
+setwd("~/Desktop/Data_Mining_Project/Codes/Classification/BoW Classification/")
+
+#Load the classification functions
+
+source("FUN_Activity_Data_Classifier_Functions.R")
+
+#Set CHUNKSIZE = (3 or 6) and CLASSIFIER_TYPE =  ("SVM" or "DecisionTree" or "RandomForest")
+
+CHUNKSIZE=3
+CLASSIFIER_TYPE <- "RandomForest"
+
+#Set the data directory of the Cleaned Data and the directories of the output files
+
+DATAFOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Cleaned_Data/"
+MODEL_FOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Model_Output/MET_Estimation_Training_Model_Files/"
+TESTDATA_OUTPUTFOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Model_Output/MET_Estimation_Test_Output_Files/"
+
+#Set the name of the MET Values file
+MET_VALUES_FILENAME <- "MET_values.Rdata"
+
+```
+
+#### Script 4 -- SCP_Two_Step_MET_Estimation.R
+
+This script predicts the MET Estimation values using a two step process.
+Step - 1 - Classifies the test data into Sedentary/Non-Sedentary and Locomotion/Stationary categories using training set.
+Step - 2 - Predicts the MET data of the test set using the training data frame created by the previous step by fitting it to the any one of the three Regression Models (RandomForest/DecisionTree/SVM) based on user input.
+
+```
+#Set the working directory to the location where the scripts and function R files are located 
+
+setwd("~/Desktop/Data_Mining_Project/Codes/Classification/BoW Classification/")
+
+#Load the classification functions
+
+source("FUN_Activity_Data_Classifier_Functions.R")
+
+#Set CHUNKSIZE = (3 or 6) and CLASSIFIER_TYPE =  ("SVM" or "DecisionTree" or "RandomForest")
+
+CHUNKSIZE=6
+CLASSIFIER_TYPE <- "RandomForest"
+
+
+#Set the data directory of the Cleaned Data and the directories of the output files
+
+DATAFOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Cleaned_Data/"
+MODEL_FOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Model_Output/MET_Estimation_Training_Model_Files/"
+TESTDATA_OUTPUTFOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Model_Output/MET_Estimation_Test_Output_Files/"
+
+#Set the name of the MET Values file
+MET_VALUES_FILENAME <- "MET_values.Rdata"
+
+```
+
+#### Script 5 -- SCP_Three_Step_MET_Estimation.R
+
+This script predicts the MET Estimation values using a three step process.
+Step - 1 - Classifies the test data into Sedentary/Non-Sedentary and Locomotion/Stationary categories using training set.
+Step - 2 - Classifies the test data into Sedentary tasks & Locomotion tasks using training set. Then, it creates a data frame having flags for each of the Sedentary and Locomotion Tasks for training and test set.
+Step - 3 - Predicts the MET data of the test set using the training data frame created by the previous two steps by fitting it to the any one of the three Regression Models (RandomForest/DecisionTree/SVM) based on user input.
+
+```
+#Set the working directory to the location where the scripts and function R files are located 
+
+setwd("~/Desktop/Data_Mining_Project/Codes/Classification/BoW Classification/")
 
 #Load the classification functions
 
