@@ -3,7 +3,7 @@
 #Script Name : FUN_Activity_Data_Classifier_Functions.R
 
 #Script Summary : 
-#       This script contains 10 functions required for Activity Recognition.
+#       This script contains three functions required for TF-IDF Calculations.
 #         1. FUN_Add_SDNT_TaskLabels : Function to add Sedentary/Non-Sedentary task labels.
 #         2. FUN_Add_LCM_TaskLabels : Function to add Locomotion/Stationary task labels.
 #         3. FUN_SDNT_Train_Classifier : Function to train Sedentary/Non-Sedentary Classifier.
@@ -381,28 +381,97 @@ FUN_MET_Estimation_Train_Regressor <- function(train.df, classifier_type , chunk
     
     if(chunk_size == 3) {
       
-      #Train the Decision Tree Classifier
+      #Check for One-Step, Two-Step or Three-Step Column names
       
-      model <- rpart(Actual_MET_Values ~ D1+D2+D3+D4+D5+D6+D7+D8+D9+D10+D11+D12+D13+D14+D15+D16+
-                       D17+D18+D19+D20+D21+D22+D23+D24+D25+D26+D27+D28+D29+D30+D31+D32+
-                       Sedentary+Locomotion+ComputerWork+StandingStill+TVWatching+
-                       LeisureWalk+RapidWalk+StairAscent+StairDescent+WalkingAtRPE1+
-                       WalkingAtRPE5, 
+      if(length(which(colnames(train.df) %in% c('Locomotion','Sedentary','ComputerWork','StandingStill','TVWatching',
+                                                    'LeisureWalk','RapidWalk','StairAscent','StairDescent','WalkingAtRPE1',
+                                                    'WalkingAtRPE5') == TRUE)) == 11)
+      {
+        #Train the Decision Tree Classifier
+        
+        model <- rpart(Actual_MET_Values ~ D1+D2+D3+D4+D5+D6+D7+D8+D9+D10+D11+D12+D13+D14+D15+D16+
+                         D17+D18+D19+D20+D21+D22+D23+D24+D25+D26+D27+D28+D29+D30+D31+D32+
+                         Sedentary+Locomotion+ComputerWork+StandingStill+TVWatching+
+                         LeisureWalk+RapidWalk+StairAscent+StairDescent+WalkingAtRPE1+
+                         WalkingAtRPE5, 
                        train.df,method = d_tree_method)
+        
+      } else if (length(which(colnames(train.df) %in% c('Locomotion','Sedentary') == TRUE)) == 2) {
+        
+        #Train the Decision Tree Classifier
+        
+        model <- rpart(Actual_MET_Values ~ D1+D2+D3+D4+D5+D6+D7+D8+D9+D10+D11+D12+D13+D14+D15+D16+
+                         D17+D18+D19+D20+D21+D22+D23+D24+D25+D26+D27+D28+D29+D30+D31+D32+
+                         Sedentary+Locomotion, 
+                       train.df,method = d_tree_method)
+        
+      } else if (length(which(colnames(train.df) %in% c('Locomotion','Sedentary') == TRUE)) == 0) {
+        
+        #Train the Decision Tree Classifier
+        
+        model <- rpart(Actual_MET_Values ~ D1+D2+D3+D4+D5+D6+D7+D8+D9+D10+D11+D12+D13+D14+D15+D16+
+                         D17+D18+D19+D20+D21+D22+D23+D24+D25+D26+D27+D28+D29+D30+D31+D32, 
+                       train.df,method = d_tree_method)
+        
+      } else {
+        
+        stop("Required columns for the Decision Tree classifier is missing from the input dataframe.")
+        
+      }
+      
+
       
       
     } else if (chunk_size == 6) {
       
-      #Train the Decision Tree Classifier
       
-      model <- rpart(Actual_MET_Values ~ D1+D2+D3+D4+D5+D6+D7+D8+D9+D10+D11+D12+D13+D14+D15+D16+
-                       D17+D18+D19+D20+D21+D22+D23+D24+D25+D26+D27+D28+D29+D30+D31+D32+
-                       D33+D34+D35+D36+D37+D38+D39+D40+D41+D42+D43+D44+D45+D46+D47+D48+
-                       D49+D50+D51+D52+D53+D54+D55+D56+D57+D58+D59+D60+D61+D62+D63+D64+
-                       Sedentary+Locomotion+ComputerWork+StandingStill+TVWatching+
-                       LeisureWalk+RapidWalk+StairAscent+StairDescent+WalkingAtRPE1+
-                       WalkingAtRPE5, 
-                     train.df,method = d_tree_method)
+      #Check for One-Step, Two-Step or Three-Step Column names
+      
+      if(length(which(colnames(train.df) %in% c('Locomotion','Sedentary','ComputerWork','StandingStill','TVWatching',
+                                                'LeisureWalk','RapidWalk','StairAscent','StairDescent','WalkingAtRPE1',
+                                                'WalkingAtRPE5') == TRUE)) == 11)
+      {
+        
+            #Train the Decision Tree Classifier
+            
+            model <- rpart(Actual_MET_Values ~ D1+D2+D3+D4+D5+D6+D7+D8+D9+D10+D11+D12+D13+D14+D15+D16+
+                             D17+D18+D19+D20+D21+D22+D23+D24+D25+D26+D27+D28+D29+D30+D31+D32+
+                             D33+D34+D35+D36+D37+D38+D39+D40+D41+D42+D43+D44+D45+D46+D47+D48+
+                             D49+D50+D51+D52+D53+D54+D55+D56+D57+D58+D59+D60+D61+D62+D63+D64+
+                             Sedentary+Locomotion+ComputerWork+StandingStill+TVWatching+
+                             LeisureWalk+RapidWalk+StairAscent+StairDescent+WalkingAtRPE1+
+                             WalkingAtRPE5, 
+                           train.df,method = d_tree_method)
+            
+      } else if (length(which(colnames(train.df) %in% c('Locomotion','Sedentary') == TRUE)) == 2) {
+        
+       
+        #Train the Decision Tree Classifier
+        
+        model <- rpart(Actual_MET_Values ~ D1+D2+D3+D4+D5+D6+D7+D8+D9+D10+D11+D12+D13+D14+D15+D16+
+                         D17+D18+D19+D20+D21+D22+D23+D24+D25+D26+D27+D28+D29+D30+D31+D32+
+                         D33+D34+D35+D36+D37+D38+D39+D40+D41+D42+D43+D44+D45+D46+D47+D48+
+                         D49+D50+D51+D52+D53+D54+D55+D56+D57+D58+D59+D60+D61+D62+D63+D64+
+                         Sedentary+Locomotion, 
+                       train.df,method = d_tree_method)
+        
+         
+      } else if (length(which(colnames(train.df) %in% c('Locomotion','Sedentary') == TRUE)) == 0) {
+        
+        #Train the Decision Tree Classifier
+        
+        model <- rpart(Actual_MET_Values ~ D1+D2+D3+D4+D5+D6+D7+D8+D9+D10+D11+D12+D13+D14+D15+D16+
+                         D17+D18+D19+D20+D21+D22+D23+D24+D25+D26+D27+D28+D29+D30+D31+D32+
+                         D33+D34+D35+D36+D37+D38+D39+D40+D41+D42+D43+D44+D45+D46+D47+D48+
+                         D49+D50+D51+D52+D53+D54+D55+D56+D57+D58+D59+D60+D61+D62+D63+D64, 
+                       train.df,method = d_tree_method)
+    
+      } else {
+        
+        stop("Required columns for the Decision Tree classifier is missing from the input dataframe.")
+        
+      }
+      
       
     }
     
