@@ -11,7 +11,8 @@
 #                            of the Sedentary and Locomotion Tasks for training and test set.
 #                 Step - 3 - Predicts the MET data of the test set using the training data frame 
 #                            created by the previous two steps by fitting it to the 
-#                            Random Forest Regression Model.
+#                            any one of the three Regression Models (RandomForest/DecisionTree/SVM)
+#                            based on user input.
 
 #Author & Reviewer Details --------------------------------------------------------------------------
 
@@ -30,7 +31,7 @@ rm(list=ls())
 
 #Set the working directory to the location where the scripts and function R files are located 
 
-setwd("~/Desktop/Data_Mining_Project/Codes/Classification/")
+setwd("~/Desktop/Data_Mining_Project/Codes/Classification/BoW Classification/")
 
 #Load the classification functions
 
@@ -39,10 +40,10 @@ source("FUN_Activity_Data_Classifier_Functions.R")
 #Set CHUNKSIZE = (3 or 6) and CLASSIFIER_TYPE =  ("SVM" or "DecisionTree" or "RandomForest")
 
 CHUNKSIZE=6
-CLASSIFIER_TYPE <- "RandomForest"
+CLASSIFIER_TYPE <- "DecisionTree"
 
 
-#Set the data directory of the Cleaned Data
+#Set the data directory of the Cleaned Data and the directories of the output files
 
 DATAFOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Cleaned_Data/"
 MODEL_FOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Model_Output/MET_Estimation_Training_Model_Files/"
@@ -63,13 +64,13 @@ if (CHUNKSIZE == 3)
       
       #Step - 1 Model Files
       
-      SDNT_NSDNT_MODEL_FILE <- "Sedentary_Non_Sedentary_3secs_32atoms_SVM_Model.Rdata"
-      LCM_STNRY_MODEL_FILE <- "Locomotion_Stationary_3secs_32atoms_SVM_Model.Rdata"
+      SDNT_NSDNT_MODEL_FILE <- "ThreeStep_Sedentary_Non_Sedentary_3secs_32atoms_SVM_Model.Rdata"
+      LCM_STNRY_MODEL_FILE <- "ThreeStep_Locomotion_Stationary_3secs_32atoms_SVM_Model.Rdata"
       
       #Step - 2 Model Files
       
-      SDNT_TASKS_MODEL_FILE <- "Sedentary_Tasks_3secs_32atoms_SVM_Model.Rdata"
-      LCM_TASKS_MODEL_FILE <- "Locomotion_Tasks_3secs_32atoms_SVM_Model.Rdata"
+      SDNT_TASKS_MODEL_FILE <- "ThreeStep_Sedentary_Tasks_3secs_32atoms_SVM_Model.Rdata"
+      LCM_TASKS_MODEL_FILE <- "ThreeStep_Locomotion_Tasks_3secs_32atoms_SVM_Model.Rdata"
       
       #Step - 3 Model Files
       
@@ -84,13 +85,13 @@ if (CHUNKSIZE == 3)
       
       #Step - 1 Model Files
       
-      SDNT_NSDNT_MODEL_FILE <- "Sedentary_Non_Sedentary_3secs_32atoms_DecisionTree_Model.Rdata"
-      LCM_STNRY_MODEL_FILE <- "Locomotion_Stationary_3secs_32atoms_DecisionTree_Model.Rdata"
+      SDNT_NSDNT_MODEL_FILE <- "ThreeStep_Sedentary_Non_Sedentary_3secs_32atoms_DecisionTree_Model.Rdata"
+      LCM_STNRY_MODEL_FILE <- "ThreeStep_Locomotion_Stationary_3secs_32atoms_DecisionTree_Model.Rdata"
       
       #Step - 2 Model Files
       
-      SDNT_TASKS_MODEL_FILE <- "Sedentary_Tasks_3secs_32atoms_DecisionTree_Model.Rdata"
-      LCM_TASKS_MODEL_FILE <- "Locomotion_Tasks_3secs_32atoms_DecisionTree_Model.Rdata"
+      SDNT_TASKS_MODEL_FILE <- "ThreeStep_Sedentary_Tasks_3secs_32atoms_DecisionTree_Model.Rdata"
+      LCM_TASKS_MODEL_FILE <- "ThreeStep_Locomotion_Tasks_3secs_32atoms_DecisionTree_Model.Rdata"
       
       #Step - 3 Model Files
       
@@ -107,13 +108,13 @@ if (CHUNKSIZE == 3)
       
       #Step - 1 Model Files
       
-      SDNT_NSDNT_MODEL_FILE <- "Sedentary_Non_Sedentary_3secs_32atoms_RandomForest_Model.Rdata"
-      LCM_STNRY_MODEL_FILE <- "Locomotion_Stationary_3secs_32atoms_RandomForest_Model.Rdata"
+      SDNT_NSDNT_MODEL_FILE <- "ThreeStep_Sedentary_Non_Sedentary_3secs_32atoms_RandomForest_Model.Rdata"
+      LCM_STNRY_MODEL_FILE <- "ThreeStep_Locomotion_Stationary_3secs_32atoms_RandomForest_Model.Rdata"
       
       #Step - 2 Model Files
       
-      SDNT_TASKS_MODEL_FILE <- "Sedentary_Tasks_3secs_32atoms_RandomForest_Model.Rdata"
-      LCM_TASKS_MODEL_FILE <- "Locomotion_Tasks_3secs_32atoms_RandomForest_Model.Rdata"
+      SDNT_TASKS_MODEL_FILE <- "ThreeStep_Sedentary_Tasks_3secs_32atoms_RandomForest_Model.Rdata"
+      LCM_TASKS_MODEL_FILE <- "ThreeStep_Locomotion_Tasks_3secs_32atoms_RandomForest_Model.Rdata"
       
       #Step - 3 Model Files
       
@@ -135,13 +136,13 @@ if (CHUNKSIZE == 3)
     
     #Step - 1 Model Files
     
-    SDNT_NSDNT_MODEL_FILE <- "Sedentary_Non_Sedentary_6secs_64atoms_SVM_Model.Rdata"
-    LCM_STNRY_MODEL_FILE <- "Locomotion_Stationary_6secs_64atoms_SVM_Model.Rdata"
+    SDNT_NSDNT_MODEL_FILE <- "ThreeStep_Sedentary_Non_Sedentary_6secs_64atoms_SVM_Model.Rdata"
+    LCM_STNRY_MODEL_FILE <- "ThreeStep_Locomotion_Stationary_6secs_64atoms_SVM_Model.Rdata"
     
     #Step - 2 Model Files
     
-    SDNT_TASKS_MODEL_FILE <- "Sedentary_Tasks_6secs_64atoms_SVM_Model.Rdata"
-    LCM_TASKS_MODEL_FILE <- "Locomotion_Tasks_6secs_64atoms_SVM_Model.Rdata"
+    SDNT_TASKS_MODEL_FILE <- "ThreeStep_Sedentary_Tasks_6secs_64atoms_SVM_Model.Rdata"
+    LCM_TASKS_MODEL_FILE <- "ThreeStep_Locomotion_Tasks_6secs_64atoms_SVM_Model.Rdata"
     
     #Step - 3 Model Files
     
@@ -156,13 +157,13 @@ if (CHUNKSIZE == 3)
     
     #Step - 1 Model Files
     
-    SDNT_NSDNT_MODEL_FILE <- "Sedentary_Non_Sedentary_6secs_64atoms_DecisionTree_Model.Rdata"
-    LCM_STNRY_MODEL_FILE <- "Locomotion_Stationary_6secs_64atoms_DecisionTree_Model.Rdata"
+    SDNT_NSDNT_MODEL_FILE <- "ThreeStep_Sedentary_Non_Sedentary_6secs_64atoms_DecisionTree_Model.Rdata"
+    LCM_STNRY_MODEL_FILE <- "ThreeStep_Locomotion_Stationary_6secs_64atoms_DecisionTree_Model.Rdata"
     
     #Step - 2 Model Files
     
-    SDNT_TASKS_MODEL_FILE <- "Sedentary_Tasks_6secs_64atoms_DecisionTree_Model.Rdata"
-    LCM_TASKS_MODEL_FILE <- "Locomotion_Tasks_6secs_64atoms_DecisionTree_Model.Rdata"
+    SDNT_TASKS_MODEL_FILE <- "ThreeStep_Sedentary_Tasks_6secs_64atoms_DecisionTree_Model.Rdata"
+    LCM_TASKS_MODEL_FILE <- "ThreeStep_Locomotion_Tasks_6secs_64atoms_DecisionTree_Model.Rdata"
     
     #Step - 3 Model Files
     
@@ -179,13 +180,13 @@ if (CHUNKSIZE == 3)
     
     #Step - 1 Model Files
     
-    SDNT_NSDNT_MODEL_FILE <- "Sedentary_Non_Sedentary_6secs_64atoms_RandomForest_Model.Rdata"
-    LCM_STNRY_MODEL_FILE <- "Locomotion_Stationary_6secs_64atoms_RandomForest_Model.Rdata"
+    SDNT_NSDNT_MODEL_FILE <- "ThreeStep_Sedentary_Non_Sedentary_6secs_64atoms_RandomForest_Model.Rdata"
+    LCM_STNRY_MODEL_FILE <- "ThreeStep_Locomotion_Stationary_6secs_64atoms_RandomForest_Model.Rdata"
     
     #Step - 2 Model Files
     
-    SDNT_TASKS_MODEL_FILE <- "Sedentary_Tasks_6secs_64atoms_RandomForest_Model.Rdata"
-    LCM_TASKS_MODEL_FILE <- "Locomotion_Tasks_6secs_64atoms_RandomForest_Model.Rdata"
+    SDNT_TASKS_MODEL_FILE <- "ThreeStep_Sedentary_Tasks_6secs_64atoms_RandomForest_Model.Rdata"
+    LCM_TASKS_MODEL_FILE <- "ThreeStep_Locomotion_Tasks_6secs_64atoms_RandomForest_Model.Rdata"
     
     #Step - 3 Model Files
     
@@ -211,7 +212,7 @@ if(file.exists(paste(DATAFOLDER,MET_VALUES_FILENAME,sep = "")))
   
 } else {
   
-  stop("MET_Value file not found.")
+  stop("No MET Values Data Found.")
   
 }
 
@@ -229,7 +230,7 @@ if(file.exists(paste(DATAFOLDER,TRAINING_DATAFILE,sep = "")))
   
 } else {
   
-  warning("No Training Data Found.")
+  stop("No Training Data Found.")
   
 }
 
@@ -414,7 +415,7 @@ MET_train.df <- FUN_Add_LCM_TaskLabels(MET_train.df)
 #Rename the actual labels columns
 colnames(MET_train.df)[which(names(MET_train.df) == "ActualTaskLabel")] <- "Locomotion"
 
-#Add the Sedentary and Locomotion Columns to test dataframe
+#Add the Sedentary and Locomotion Columns to train dataframe
 
 MET_train.df <- FUN_Create_SDNT_LCM_Task_Cols_TrainSet(MET_train.df)
 
@@ -447,15 +448,15 @@ MET_test.df <- merge(x = MET_test.df, y = MET_Values.df[,c("PID","Task","METs")]
 
 colnames(MET_test.df)[which(names(MET_test.df) == "METs")] <- "Actual_MET_Values"
 
-#Train the MET Estimation Random Forest Model -----------------------------------------
+#Train the MET Estimation Model -----------------------------------------
 
-MET_Model <- FUN_MET_Estimation_Train_Regressor(MET_train.df,CHUNKSIZE)
+MET_Model <- FUN_MET_Estimation_Train_Regressor(MET_train.df,CLASSIFIER_TYPE,CHUNKSIZE)
 
 # Save the trained MET Model
 
 saveRDS(MET_Model,paste(MODEL_FOLDER,MET_MODEL_FILE,sep = ""))
 
-# Test the MET Estimation Random Forest Model ------------------------------------------
+# Test the MET Estimation Model ------------------------------------------
 
 #Load the MET Estimation trained model
 
@@ -465,7 +466,7 @@ if(file.exists(paste(MODEL_FOLDER,MET_MODEL_FILE,sep = ""))) {
   
   #Call the function for predictions
   
-  MET_test.df <- FUN_Evaluate_MET_Regressor(MET_Model,MET_test.df)
+  MET_test.df <- FUN_Evaluate_MET_Regressor(MET_Model,MET_test.df,CLASSIFIER_TYPE)
   
   #Save the output MET predicted data to the csv file
   
