@@ -31,10 +31,10 @@ setwd("~/Desktop/Data_Mining_Project/Codes/Classification/")
 source("FUN_Activity_Data_Classifier_Functions.R")
 
 #Set CLASS_CATEGORY = ("Sedentary" or "Locomotion"), CHUNKSIZE = (3 or 6) and
-#CLASSIFIER_TYPE =  ("SVM" or "DecisionTree" or "RandomForest" or "LDA")
+#CLASSIFIER_TYPE =  ("SVM" or "DecisionTree" or "RandomForest")
 
-CHUNKSIZE=3
-CLASS_CATEGORY <- "Sedentary"
+CHUNKSIZE=6
+CLASS_CATEGORY <- "Locomotion"
 CLASSIFIER_TYPE <- "RandomForest"
 
 
@@ -66,11 +66,6 @@ if (CHUNKSIZE == 3)
       MODEL_FILE <- "Sedentary_Non_Sedentary_3secs_32atoms_DecisionTree_Model.Rdata"
       TEST_OUT_FILE <- "Sedentary_Non_Sedentary_TaskCategory_3secs_32atoms_DecisionTree_Test_Results.csv"
       
-    }  else if (CLASSIFIER_TYPE == "LDA") {
-      
-      MODEL_FILE <- "Sedentary_Non_Sedentary_3secs_32atoms_LDA_Model.Rdata"
-      TEST_OUT_FILE <- "Sedentary_Non_Sedentary_TaskCategory_3secs_32atoms_LDA_Test_Results.csv"
-      
     } else {
       
         CLASSIFIER_TYPE <- "RandomForest"
@@ -90,11 +85,6 @@ if (CHUNKSIZE == 3)
       
       MODEL_FILE <- "Locomotion_Stationary_3secs_32atoms_DecisionTree_Model.Rdata"
       TEST_OUT_FILE <- "Locomotion_Stationary_TaskCategory_3s_DecisionTree_Test_Results.csv"
-      
-    } else if (CLASSIFIER_TYPE == "LDA") {
-      
-      MODEL_FILE <- "Locomotion_Stationary_3secs_32atoms_LDA_Model.Rdata"
-      TEST_OUT_FILE <- "Locomotion_Stationary_TaskCategory_3secs_32atoms_LDA_Test_Results.csv"
       
     } else {
       
@@ -123,11 +113,6 @@ if (CHUNKSIZE == 3)
       MODEL_FILE <- "Sedentary_Non_Sedentary_6secs_64atoms_DecisionTree_Model.Rdata"
       TEST_OUT_FILE <- "Sedentary_Non_Sedentary_TaskCategory_6secs_64atoms_DecisionTree_Test_Results.csv"
       
-    }  else if (CLASSIFIER_TYPE == "LDA") {
-      
-      MODEL_FILE <- "Sedentary_Non_Sedentary_6secs_64atoms_LDA_Model.Rdata"
-      TEST_OUT_FILE <- "Sedentary_Non_Sedentary_TaskCategory_6secs_64atoms_LDA_Test_Results.csv"
-      
     } else {
       
       CLASSIFIER_TYPE <- "RandomForest"
@@ -147,11 +132,6 @@ if (CHUNKSIZE == 3)
       
       MODEL_FILE <- "Locomotion_Stationary_6secs_64atoms_DecisionTree_Model.Rdata"
       TEST_OUT_FILE <- "Locomotion_Stationary_TaskCategory_6secs_64atoms_DecisionTree_Test_Results.csv"
-      
-    } else if (CLASSIFIER_TYPE == "LDA") {
-      
-      MODEL_FILE <- "Locomotion_Stationary_6secs_64atoms_LDA_Model.Rdata"
-      TEST_OUT_FILE <- "Locomotion_Stationary_TaskCategory_6secs_64atoms_LDA_Test_Results.csv"
       
     } else {
       
@@ -247,20 +227,20 @@ if(file.exists(paste(MODEL_FOLDER,MODEL_FILE,sep = ""))) {
   
   model <- readRDS(paste(MODEL_FOLDER,MODEL_FILE,sep = ""))
   
+  #Call the function for predictions
+  test.df <- FUN_Evaluate_Classifier(model,test.df, CLASSIFIER_TYPE)
+  
   if (CLASS_CATEGORY == "Sedentary") {
     
-  #Add Actual Task Labels to the test data set
-  test.df <- FUN_Add_SDNT_TaskLabels(test.df)
- 
+    #Add Actual Task Labels to the test data set
+    test.df <- FUN_Add_SDNT_TaskLabels(test.df)
+    
   } else if (CLASS_CATEGORY == "Locomotion") {
-     
+    
     #Add Actual Task Labels to the test data set
     test.df <- FUN_Add_LCM_TaskLabels(test.df)
     
   }
-  
-  #Call the function for predictions
-  test.df <- FUN_Evaluate_Classifier(model,test.df, CLASSIFIER_TYPE)
   
   #Save the test dataset after evaluation
   
