@@ -148,7 +148,7 @@ FUN_LCM_Train_Classifier <- function(train.df, classifier_type , chunk_size,
                                      kernel_flag = TRUE, d_tree_method = "class", rf_ntree = 5000) {
   
   # Input :- train.df : This dataframe contains the feature variables with locomotion task labels of the training set.
-  #          classifier_type : This variable stores the classifier type (SVM/DecisionTree/RandomForest/LDA).
+  #          classifier_type : This variable stores the classifier type (SVM/DecisionTree/RandomForest).
   #          chunk_size : This varaible stores the sub-sequence type (3s or 6s).
   #          cost_val : This is the cost value for SVM classifier. Defaulted to 0.1 for best results.
   #          gamma_val : This is the gamma value for SVM classifier. Defaulted to 0.5 for best results.
@@ -218,7 +218,7 @@ FUN_Evaluate_Classifier <- function(model,test.df,classifier_type = "RandomFores
   
   # Input :- model : This stores the trained model for the sedentary classifier.
   #          test.df : This dataframe test set to be used for prediction.
-  #          classifier_type : This variable stores the classifier type (SVM/DecisionTree/RandomForest/LDA).
+  #          classifier_type : This variable stores the classifier type (SVM/DecisionTree/RandomForest).
   # Output :- test.df : This dataframe stores the added prediction labels to the test data input dataframe.
   
   
