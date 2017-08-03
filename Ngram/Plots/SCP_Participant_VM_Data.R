@@ -1,4 +1,4 @@
-PARTICIPANTDATAPATH <- readRDS(file="C:/Users/shikh/Documents/University of Florida/Activity Recognition/Datasets/Raw Data/Training_Set/ADAD151_downsampled_Data.Rdata")
+PARTICIPANTDATAPATH <- readRDS(file="C:/Users/shikh/Documents/University of Florida/Activity Recognition/Raw Data/Participant Data/Training_Set/ADAD151_downsampled_Data.Rdata")
 attach(PARTICIPANTDATAPATH)
 
 par(mfrow=c(1,3))

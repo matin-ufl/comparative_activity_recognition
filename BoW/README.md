@@ -8,7 +8,77 @@ prediction of the model.
 
 ## Getting Started
 
-These step by step instructions will help in executing each of the scripts required for performing the Activity Recognition project.
+The entire process has been divided into the several R-Script files located in the following folders in Github :-
+
+
+#### General Preprocessing Files:
+
+```
+Function Files:
+
+1. FUN_ConvertToMilitaryTime.R
+2. FUN_Create_Subset_Accelerometer_Data_Files.R
+3. FUN_Downsampling_Data.R
+
+Script Files:
+
+1. SCP_ConvertTaskTimeFile.R
+2. SCP_Check_TaskTimes_Errors.R
+3. SCP_CreateAccelerometerDataSubset.R
+4. SCP_DownSampleData_AllParticipants.R
+5. SCP_Split_Train_Test_Participants.R
+
+```
+Link to above files : 
+
+https://github.com/matin-ufl/comparative_activity_recognition/tree/master/Utilities
+
+
+#### BOW-Specific Preprocessing Files:
+
+```
+Function Files:
+
+1. FUN_BOW_Functions.R
+2. FUN_DTW_Functions.R
+3. FUN_TF_IDF_Functions.R
+
+Script Files:
+
+1. SCP_1_Create_Subsequences_AllParticipants.R
+2. SCP_2_Merge_All_Subsequences.R
+3. SCP_3_Generate_CodeBook.R
+4. SCP_4_Generate_Word_Labels.R
+5. SCP_5_Merge_Word_Label_Files.R
+6. SCP_6_Calculate_TF_IDF.R
+
+```
+Link to above files : 
+
+https://github.com/matin-ufl/comparative_activity_recognition/tree/master/BoW/Data_Cleaning
+
+#### BOW Data Classification Files:
+
+```
+Function Files:
+
+1. FUN_Activity_Data_Classifier_Functions.R
+
+Script Files:
+
+1. SCP_Task_Category_Data_Classification.R
+2. SCP_Task_Level_Data_Classification.R
+3. SCP_One_Step_MET_Estimation.R
+4. SCP_Two_Step_MET_Estimation.R
+5. SCP_Three_Step_MET_Estimation.R
+
+```
+
+Link to above files : 
+
+https://github.com/matin-ufl/comparative_activity_recognition/tree/master/BoW/Data_Classification
+
+Please copy all these files in your local system and then follow the instructions given below that will help in executing each of the scripts required for performing the Activity Recognition project.
 
 ### Prerequisites Softwares
 
@@ -65,6 +135,24 @@ library(randomForest)
 library(caret)
 
 ```
+For installation of the spark local repository for development purposes,please execute the following commands:
+
+```
+library(sparklyr)
+spark_install(version = "1.6.2")
+
+```
+To upgrade to the latest version of sparklyr, run the following command and restart your r session:
+
+```
+devtools::install_github("rstudio/sparklyr")
+
+```
+
+For more details about spark library installation and connections, please refer to the following link :
+
+http://spark.rstudio.com
+
 
 ### Prerequisite Folder Structure
 
@@ -75,22 +163,43 @@ Then, create a new folder Participant_Data inside Raw_Data folder and store the 
 
 Then, Inside Participant_Data Folder create the following directory and sub-directory structure :
 
-i) Original_SubSet   |-> Training_Set
-                     |-> Testing_Set 
-                                                   
-ii) Downsampled_Files |-> Training_Set
-                      |-> Testing_Set 
-                                                   
-iii) BOW_Files        |-> Three-second chunks |-> Training_Set
-                                              |-> Testing_Set 
-                      |-> Six-second chunks |-> Training_Set
-                                            |-> Testing_Set 
-iv) Cleaned_Data      |-> D32 |-> Training_Set
-                              |-> Testing_Set                                     
-                      |-> D64 |-> Training_Set
-                              |-> Testing_Set
-                      |-> Model_Output 
-v) Logs
+i) Original_SubSet/Training_Set/
+
+ii) Original_SubSet/Testing_Set/
+                                                  
+iii) Downsampled_Files/Training_Set/
+
+iv) Downsampled_Files/Testing_Set/
+ 
+v) BOW_Files/Three-second chunks/Training_Set/
+
+vi) BOW_Files/Three-second chunks/Testing_Set/
+
+vii) BOW_Files/Six-second chunks/Training_Set/
+
+viii) BOW_Files/Six-second chunks/Testing_Set/
+
+ix) Cleaned_Data/D32/Training_Set/
+
+x) Cleaned_Data/D32/Testing_Set/
+
+xi) Cleaned_Data/D64/Training_Set/
+
+xii) Cleaned_Data/D64/Testing_Set/
+
+xiii) Model_Output/TaskCategory_Classification_Training_Model_Files/
+
+xiv) Model_Output/TaskCategory_Classification_Test_Output_Files/
+
+xv) Model_Output/Tasks_Classification_Training_Model_Files/
+
+xvi) Model_Output/Tasks_Classification_Test_Output_Files/
+
+xvii) Model_Output/MET_Estimation_Training_Model_Files/
+
+xviii) Model_Output/MET_Estimation_Test_Output_Files/
+		      
+xix) Logs/
                               
 Please note that all the above folder names are case sensitive.
 
@@ -118,7 +227,7 @@ DATAFOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/"
 
 ```
 
-#### Script-2 -- SCP_ConvertTaskTimeFile.R
+#### Script-2 -- SCP_Check_TaskTimes_Errors.R
 
 This script checks the taskTimes Rdata file for errors such as when the same visit numbers span different dates and same dates span different visit numbers
 and logs them into the Logs folder. After execution of this script, two csv files are generated storing the errors. Please check them and change them manually
@@ -348,41 +457,164 @@ FILETYPE <- "Testing_Set"
 DATAFOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Cleaned_Data/"
 
 ```
-
 After all the data cleaning scripts have been executed in the following sequence as mentioned above, the next part is the Activity recognition classification
 which is done by the following script:
 
 ### Activity Recognition Script
 
-#### Script 1 -- SCP_Activity_Data_Classification.R
+#### Script 1 -- SCP_Task_Category_Data_Classification.R
 
-This script classifies the cleaned data into two classes based on user input. It uses three types of classifiers - SVM, DecisionTree and RandomForest.
+This script classifies the cleaned data into two classes based on user input. It uses four types of classifiers - SVM, DecisionTree, RandomForest.
 There are two types of classification as given below :
 	1. Sedentary and Non-Sedentary : 1 as Sedentary and 0 as Non-Sedentary.
 	2. Locomotion and Stationary : 1 as Locomotion and 0 as Stationary. 
+
+Some parameters have been defaulted in the functions for each classifier as it gave the best results. 
+It can be changed by the user if needed. Please check the function script FUN_Activity_Data_Classifier_Functions.R
+for details.
+```
+
+#Set the working directory to the location where the scripts and function R files are located 
+setwd("~/Desktop/Data_Mining_Project/Codes/Classification/")
+
+#Set CLASS_CATEGORY = ("Sedentary" or "Locomotion"), CHUNKSIZE = (3 or 6) and
+#CLASSIFIER_TYPE =  ("SVM" or "DecisionTree" or "RandomForest")
+
+CHUNKSIZE=3
+CLASS_CATEGORY <- "Sedentary"
+CLASSIFIER_TYPE <- "RandomForest"
+
+
+#Set the data directory of the Cleaned Data
+
+DATAFOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Cleaned_Data/"
+MODEL_FOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Model_Output/TaskCategory_Classification_Training_Model_Files/"
+TESTDATA_OUTPUTFOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Model_Output/TaskCategory_Classification_Test_Output_Files/"
+
+```
+#### Script 2 -- SCP_Task_Level_Data_Classification.R
+
+This script classifies the cleaned data into task level classification of two classes based on user input. 
+There are two types of classification as given below :
+1. Sedentary Tasks : COMPUTER WORK, STANDING STILL and TV WATCHING
+2. Locomotion Tasks : LEISURE WALK, RAPID WALK, STAIR ASCENT, STAIR DESCENT, WALKING AT RPE 1 and WALKING AT RPE 5
 
 ```
 #Set the working directory to the location where the scripts and function R files are located 
 
 setwd("~/Desktop/Data_Mining_Project/Codes/Classification/")
 
+#Set CLASS_CATEGORY = ("Sedentary" or "Locomotion"), CHUNKSIZE = (3 or 6) and 
+#CLASSIFIER_TYPE =  ("SVM" or "DecisionTree" or "RandomForest")
 
-#Set CLASS_CATEGORY = ("Sedentary" or "Locomotion"), CHUNKSIZE = (3 or 6) and CLASSIFIER_TYPE =  ("SVM" or "DecisionTree" or "RandomForest")
-
-CHUNKSIZE=6
-CLASS_CATEGORY <- "Locomotion"
-CLASSIFIER_TYPE <- "SVM"
-
+CHUNKSIZE=3
+CLASS_CATEGORY <- "Sedentary"
+CLASSIFIER_TYPE <- "RandomForest"
 
 #Set the data directory of the Cleaned Data
 
 DATAFOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Cleaned_Data/"
-OUTPUTFOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Cleaned_Data/Model_Output"
+MODEL_FOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Model_Output/Tasks_Classification_Training_Model_Files/"
+TESTDATA_OUTPUTFOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Model_Output/Tasks_Classification_Test_Output_Files/"
 ```
 
-This script displays the confusion matrix of the test data. If this script needs to be executed with different sets of test data. 
-Then, Please execute the data cleaning tasks on each set and then run only the "Test the model" section from the script.
+#### Script 3 -- SCP_One_Step_MET_Estimation.R
+
+This script predicts the MET Estimation values using one step process.
+Step - 1 - Predicts the MET data of the test set using the training data frame by fitting it to the any one of the three Regression Models(RandomForest/DecisionTree/SVM) based on user input.
+
+```
+#Set the working directory to the location where the scripts and function R files are located 
+
+setwd("~/Desktop/Data_Mining_Project/Codes/Classification/BoW Classification/")
+
+#Load the classification functions
+
+source("FUN_Activity_Data_Classifier_Functions.R")
+
+#Set CHUNKSIZE = (3 or 6) and CLASSIFIER_TYPE =  ("SVM" or "DecisionTree" or "RandomForest")
+
+CHUNKSIZE=3
+CLASSIFIER_TYPE <- "RandomForest"
+
+#Set the data directory of the Cleaned Data and the directories of the output files
+
+DATAFOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Cleaned_Data/"
+MODEL_FOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Model_Output/MET_Estimation_Training_Model_Files/"
+TESTDATA_OUTPUTFOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Model_Output/MET_Estimation_Test_Output_Files/"
+
+#Set the name of the MET Values file
+MET_VALUES_FILENAME <- "MET_values.Rdata"
+
+```
+
+#### Script 4 -- SCP_Two_Step_MET_Estimation.R
+
+This script predicts the MET Estimation values using a two step process.
+Step - 1 - Classifies the test data into Sedentary/Non-Sedentary and Locomotion/Stationary categories using training set.
+Step - 2 - Predicts the MET data of the test set using the training data frame created by the previous step by fitting it to the any one of the three Regression Models (RandomForest/DecisionTree/SVM) based on user input.
+
+```
+#Set the working directory to the location where the scripts and function R files are located 
+
+setwd("~/Desktop/Data_Mining_Project/Codes/Classification/BoW Classification/")
+
+#Load the classification functions
+
+source("FUN_Activity_Data_Classifier_Functions.R")
+
+#Set CHUNKSIZE = (3 or 6) and CLASSIFIER_TYPE =  ("SVM" or "DecisionTree" or "RandomForest")
+
+CHUNKSIZE=6
+CLASSIFIER_TYPE <- "RandomForest"
+
+
+#Set the data directory of the Cleaned Data and the directories of the output files
+
+DATAFOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Cleaned_Data/"
+MODEL_FOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Model_Output/MET_Estimation_Training_Model_Files/"
+TESTDATA_OUTPUTFOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Model_Output/MET_Estimation_Test_Output_Files/"
+
+#Set the name of the MET Values file
+MET_VALUES_FILENAME <- "MET_values.Rdata"
+
+```
+
+#### Script 5 -- SCP_Three_Step_MET_Estimation.R
+
+This script predicts the MET Estimation values using a three step process.
+Step - 1 - Classifies the test data into Sedentary/Non-Sedentary and Locomotion/Stationary categories using training set.
+Step - 2 - Classifies the test data into Sedentary tasks & Locomotion tasks using training set. Then, it creates a data frame having flags for each of the Sedentary and Locomotion Tasks for training and test set.
+Step - 3 - Predicts the MET data of the test set using the training data frame created by the previous two steps by fitting it to the any one of the three Regression Models (RandomForest/DecisionTree/SVM) based on user input.
+
+```
+#Set the working directory to the location where the scripts and function R files are located 
+
+setwd("~/Desktop/Data_Mining_Project/Codes/Classification/BoW Classification/")
+
+#Load the classification functions
+
+source("FUN_Activity_Data_Classifier_Functions.R")
+
+#Set CHUNKSIZE = (3 or 6) and CLASSIFIER_TYPE =  ("SVM" or "DecisionTree" or "RandomForest")
+
+CHUNKSIZE=6
+CLASSIFIER_TYPE <- "RandomForest"
+
+#Set the data directory of the Cleaned Data
+
+DATAFOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Cleaned_Data/"
+MODEL_FOLDER <- "~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Model_Output/MET_Estimation_Training_Model_Files/"
+TESTDATA_OUTPUTFOLDER <-"~/Desktop/Data_Mining_Project/Raw_Data/Participant_Data/Model_Output/MET_Estimation_Test_Output_Files/"
+
+#Set the name of the MET Values file
+
+MET_VALUES_FILENAME <- "MET_values.Rdata"
+
+```
+These scripts displays the confusion matrix of the test data and also the R-Squared(R2) and the Root Mean Squared Error (RMSE) Values. If this script needs to be executed with different sets of test data,then please execute the data cleaning tasks on each set and then run only the "Test the model" section from the script.
 
 ## Special Notes
 
 Please check the SCP_Demo_Script.R for more details about the parameters and script execution process.
+

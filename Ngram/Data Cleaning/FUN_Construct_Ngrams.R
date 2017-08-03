@@ -1,3 +1,12 @@
+#Script Details -------------------------------------------------------------------------------------------------
+
+#Script Name : FUN_Construct_Ngrams.R
+
+#Script Summmary : This script contains three functions required for generating feature set using ngrams.
+#     1. FUN_nGrams.construction: Function to convert accelerometer data into Representative Patterns (Unigrams and Bigrams)
+#     2. FUN_nGrams.oneParticipant: Function to generate ngrams from accelerometer data for one participant
+#     3. FUN_adjustFeatureSet: Function to adjust data values in combined feature set of all participants
+
 #Author & Reviewer Details --------------------------------------------------------------------------------------
 
 #Author : Shikha Mehta
@@ -23,8 +32,7 @@
 #      2. Task: task title
 #      3. Unigram/Bigram patterns: features for the task
 #
-# Converts accelerometer data for a participant into Representative Patterns (Unigrams and Bigrams).
-# ALGORITHM:
+# Algorithm:
 # 1. The total number of bins is received as input. We compute "binInterval" 
 #    such that data for all visits can be distributed into all the bins.
 # 2. For every task, we define a logical array. Let's call it "Unigrams".
@@ -36,7 +44,7 @@
 #     2.6. the 2-point window is shifted by 1 seconds. (we keep a 1-second overlapping point)
 #     2.7. the process is repeated (go to 2.4) unless we reach the last second of the task.
 #
-nGrams.construction <- function(PID, Task, taskData, binInterval,binCount) {
+FUN_nGrams.construction <- function(PID, Task, taskData, binInterval,binCount) {
   
   result.dfs <- list(data.frame(matrix(nrow = 0, ncol = 0),stringsAsFactors=FALSE),data.frame(matrix(nrow = 0, ncol = 0),stringsAsFactors=FALSE))
   
@@ -84,7 +92,7 @@ nGrams.construction <- function(PID, Task, taskData, binInterval,binCount) {
 #     1. Unigram features for each <Participant, Task>.
 #     2. Bigram features for each <Participant, Task>.
 #
-nGrams.oneParticipant <- function(participantID, ppt.df, binCount) {
+FUN_nGrams.oneParticipant <- function(participantID, ppt.df, binCount) {
   print(paste("Constructing n-grams for", participantID))
   require(plyr)
   
@@ -101,7 +109,7 @@ nGrams.oneParticipant <- function(participantID, ppt.df, binCount) {
     taskDataFrame <- ppt.df[ppt.df$TaskLabel==task,]
     print(paste(participantID, task, sep = " -- "))
     
-    nGrams.df <- nGrams.construction(PID = participantID, Task = task, taskDataFrame$VM-minVM, binInterval,binCount) 
+    nGrams.df <- FUN_nGrams.construction(PID = participantID, Task = task, taskDataFrame$VM-minVM, binInterval,binCount) 
     if(nrow(nGrams.df[[1]]) > 0) {
         result.dfs[[1]] <- rbind.fill(result.dfs[[1]], nGrams.df[[1]])
     }
@@ -122,7 +130,7 @@ nGrams.oneParticipant <- function(participantID, ppt.df, binCount) {
 # Output:
 #     Returns a data frame with non-NA values and "B" appended to all feature columns
 #
-adjustFeatureSet<-function(features.df)
+FUN_adjustFeatureSet<-function(features.df)
 {
   # Update all NAs to 0
   features.df[is.na(features.df)] <- 0
