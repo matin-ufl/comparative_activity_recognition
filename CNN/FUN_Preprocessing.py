@@ -26,12 +26,13 @@
 import glob,os
 import pandas as pd
 import numpy as np
-
+from scipy import stats
 
 
 #change the directory and read all csv files into a single dataframe
+#selection only the middle 3 minutes of each activity
 def FUN_ReadCSV(path):
-
+    
     # Input :-
     #    1. path : Location of the data
     # Output :-
@@ -40,13 +41,22 @@ def FUN_ReadCSV(path):
     #merging all csv files into a single panda dataframe
     #changing the working directory and reading all the csv files from the csv
     os.chdir(path)
+    data=pd.DataFrame()    
     filelist = [i for i in glob.glob('*.{}'.format('csv'))]
-    df_list = [pd.read_csv(file) for file in filelist]
-    df = pd.concat(df_list)
-    return df
-
-
-
+    for file in filelist:
+        raw_data = pd.read_csv(file)
+        file = file[:7]        
+        raw_data.insert(0, "PID", file)
+        activity = raw_data.TaskLabel.unique()
+        for act in activity:
+            data_act = raw_data.loc[raw_data['TaskLabel'] == act]
+            length = len(data_act)/2
+            start = length - 900
+            end = length + 900
+            data_act = data_act[start:end]
+            data = data.append(data_act,ignore_index=False)
+    return data
+    
 #Converting HH:MM:SS to HHMMSS
 def FUN_TimeToInteger(df):
 
@@ -61,7 +71,7 @@ def FUN_TimeToInteger(df):
     
 #Fucntion to convert the task label into 3 categories
 #Locomotion Sedentary Neither
-def FUN_ConvertTo3Class(df):
+def FUN_ConvertToSedentary(df):
     
     # Input :-
     #   1. df : dataframe with  "TaskLabel" column which has 33 classes
@@ -69,20 +79,106 @@ def FUN_ConvertTo3Class(df):
     #   1. df : dataframe with "TaskLabel" column consisting of 3 classes
 
     Sedentary_Activities = ['COMPUTER WORK','TV WATCHING','STANDING STILL']
-    Locomotive_Activities = ['LEISURE WALK','RAPID WALK','WALKING AT RPE 1','WALKING AT RPE 5','STAIR DESCENT','STAIR ASCENT']
-    for i in sed:
-        df.loc[df['TaskLabel'] == i, 'TaskLabel'] = 'Sedentary'
-    for i in loc:
-        df.loc[df['TaskLabel'] == i, 'TaskLabel'] = 'Locomotion'
-    Neither = df.TaskLabel.unique().tolist()
-    neither.remove('Sedentary')
-    neither.remove('Locomotion')
-    for i in neither:
-        df.loc[df['TaskLabel'] == i, 'TaskLabel'] = 'Neither'
+    #Locomotive_Activities = ['LEISURE WALK','RAPID WALK','WALKING AT RPE 1','WALKING AT RPE 5','STAIR DESCENT','STAIR ASCENT']
+    for i in Sedentary_Activities:
+        df.loc[df['TaskLabel'] == i, 'TaskLabel'] = 0
+    #for i in Locomotive_Activities:
+     #   df.loc[df['TaskLabel'] == i, 'TaskLabel'] = 'Locomotion'
+    Non_Sed = df.TaskLabel.unique().tolist()
+    Non_Sed.remove(0)
+    #Neither.remove('Locomotion')
+    for i in Non_Sed:
+        df.loc[df['TaskLabel'] == i, 'TaskLabel'] = 1
     return df
 
+#Fucntion to convert the task label into 3 categories
+#Locomotion Sedentary Neither
+def FUN_ConvertToLocomotion(df):
+    
+    # Input :-
+    #   1. df : dataframe with  "TaskLabel" column which has 33 classes
+    # Output :-
+    #   1. df : dataframe with "TaskLabel" column consisting of 3 classes
 
-#Selecting starting and ending data points from time series data
+    #Sedentary_Activities = ['COMPUTER WORK','TV WATCHING','STANDING STILL']
+    Locomotive_Activities = ['LEISURE WALK','RAPID WALK','WALKING AT RPE 1','WALKING AT RPE 5','STAIR DESCENT','STAIR ASCENT']
+    #for i in Sedentary_Activities:
+     #   df.loc[df['TaskLabel'] == i, 'TaskLabel'] = 'Sedentary'
+    for i in Locomotive_Activities:
+        df.loc[df['TaskLabel'] == i, 'TaskLabel'] = 0
+    Stationary = df.TaskLabel.unique().tolist()
+    #Neither.remove('Sedentary')
+    Stationary.remove(0)
+    for i in Stationary:
+        df.loc[df['TaskLabel'] == i, 'TaskLabel'] = 1
+    return df
+
+#Function to get data containing sedentary activities
+def FUN_OnlySedentary(df):
+    
+    # Input :-
+    #   1. df : dataframe consisting of differnet activities
+    # Output :-
+    #   1. df : dataframe consisting of only sedentary activites
+
+    Sedentary_Activities = ['COMPUTER WORK','TV WATCHING','STANDING STILL']
+    sed = pd.DataFrame()
+    for i in Sedentary_Activities:
+        temp = df.loc[df['TaskLabel'] == i]
+        sed = sed.append(temp)
+    return sed
+
+#Function to get data containing locomotion activities
+def FUN_OnlyLocomotion(df):
+        
+    # Input :-
+    #   1. df : dataframe consisting of differnet activities
+    # Output :-
+    #   1. df : dataframe consisting of only locomotion activites
+
+    Locomotive_Activities = ['LEISURE WALK','RAPID WALK','WALKING AT RPE 1','WALKING AT RPE 5','STAIR DESCENT','STAIR ASCENT']
+    loco = pd.DataFrame()
+    for i in Locomotive_Activities:
+        temp = df.loc[df['TaskLabel'] == i]
+        loco = loco.append(temp)
+    return loco
+    
+#add locomotion and sedentary cols   
+def FUN_Sed_Loc_Columns(df):
+    
+    # Input :-
+    #   1. df : dataframe with  "TaskLabel" column which has 33 classes
+    # Output :-
+    #   1. df : dataframe with "TaskLabel" column consisting of 3 classes
+
+    New_columns = ['Sedentary','Locomotion','COMPUTER WORK','TV WATCHING','STANDING STILL','LEISURE WALK','RAPID WALK','WALKING AT RPE 1','WALKING AT RPE 5','STAIR DESCENT','STAIR ASCENT']
+    for i in New_columns:
+        df[i] = 0
+    
+    df.loc[df['TaskLabel']=='STANDING STILL',"Sedentary"] = 1
+    df.loc[df['TaskLabel']=='STANDING STILL',"STANDING STILL"] = 1
+
+    df.loc[df['TaskLabel']=='COMPUTER WORK',"Sedentary"] = 1
+    df.loc[df['TaskLabel']=='COMPUTER WORK',"COMPUTER WORK"] = 1
+    
+    df.loc[df['TaskLabel']=='TV WATCHING',"Sedentary"] = 1
+    df.loc[df['TaskLabel']=='TV WATCHING',"TV WATCHING"] = 1
+    
+    df.loc[df['TaskLabel']=='LEISURE WALK',"Locomotion"] = 1
+    df.loc[df['TaskLabel']=='RAPID WALK',"Locomotion"] = 1    
+    df.loc[df['TaskLabel']=='WALKING AT RPE 1',"Locomotion"] = 1
+    df.loc[df['TaskLabel']=='WALKING AT RPE 5',"Locomotion"] = 1
+    df.loc[df['TaskLabel']=='STAIR ASCENT',"Locomotion"] = 1
+    df.loc[df['TaskLabel']=='STAIR DESCENT',"Locomotion"] = 1
+    
+    df.loc[df['TaskLabel']=='LEISURE WALK',"LEISURE WALK"] = 1
+    df.loc[df['TaskLabel']=='RAPID WALK',"RAPID WALK"] = 1    
+    df.loc[df['TaskLabel']=='WALKING AT RPE 1',"WALKING AT RPE 1"] = 1
+    df.loc[df['TaskLabel']=='WALKING AT RPE 5',"WALKING AT RPE 5"] = 1
+    df.loc[df['TaskLabel']=='STAIR ASCENT',"STAIR ASCENT"] = 1
+    df.loc[df['TaskLabel']=='STAIR DESCENT',"STAIR DESCENT"] = 1
+    return df
+    
 def FUN_Window(df, size):
 
     # Input :-
@@ -94,9 +190,10 @@ def FUN_Window(df, size):
     start = 0
     while start < df.count():
         yield start, start + size
-        start += (size / 2)
+        start += size 
 
 #Making segments in the data (select the dataframe and the length of segments)
+#For one step
 def FUN_Segment(df,window_size):
 
     # Input :-
@@ -108,13 +205,80 @@ def FUN_Segment(df,window_size):
     
     segments = np.empty((0,window_size,3))
     labels = np.empty((0))
+    met = np.empty((0))
     #Segemts are determined using the "timeOnly" column of the time series data
     for (start, end) in FUN_Window(df['timeOnly'], window_size):
         x = df["X"][start:end]
         y = df["Y"][start:end]
         z = df["Z"][start:end]
         if(len(df['timeOnly'][start:end]) == window_size):
+            met = np.append(met,stats.mode(df["METs"][start:end])[0][0])
             segments = np.vstack([segments,np.dstack([x,y,z])])
             labels = np.append(labels,stats.mode(df["TaskLabel"][start:end])[0][0])
-    return segments, labels
+    return segments, met , labels
 
+#Making segments in data with sedentary and locmotion columns
+def FUN_Segment_TwoStep(df,window_size):
+
+    # Input :-
+    #   1. df : Time Series DataFrame which is to be segmented
+    #   2. size : Length of each segment
+    # Output :-
+    #   1. segments : Data frame consisting of 3 columns representing the X,Y and Z axis
+    #   2. met : MET value of that activity 
+    #   3. labels : Data frame consisting of  activity types
+    
+    segments = np.empty((0,window_size,12))
+    labels = np.empty((0))
+    met = np.empty((0))
+    #Segemts are determined using the "timeOnly" column of the time series data
+    for (start, end) in FUN_Window(df['timeOnly'], window_size):
+        x = df["X"][start:end]
+        y = df["Y"][start:end]
+        z = df["Z"][start:end]
+        sed = df["Sedentary"][start:end]
+        loco = df["Locomotion"][start:end]
+        if(len(df['timeOnly'][start:end]) == window_size):
+            met = np.append(met,stats.mode(df["METs"][start:end])[0][0])
+            met = np.append(met,stats.mode(df["METs"][start:end])[0][0])
+            met = np.append(met,stats.mode(df["METs"][start:end])[0][0])
+            segments = np.vstack([segments,np.dstack([[x,y,z],[sed,sed,sed],[loco,loco,loco]])])
+            labels = np.append(labels,stats.mode(df["TaskLabel"][start:end])[0][0])
+    return segments, met , labels
+    
+#Making segments in data with sedentary,locomotion as well each of the 9 activities
+def FUN_Segment_ThreeStep(df,window_size):
+
+    # Input :-
+    #   1. df : Time Series DataFrame which is to be segmented
+    #   2. size : Length of each segment
+    # Output :-
+    #   1. segments : Data frame consisting of 3 columns representing the X,Y and Z axis
+    #   2. labels : Data frame consisting of  activity types
+    
+    segments = np.empty((0,window_size,12))
+    labels = np.empty((0))
+    met = np.empty((0))
+    #Segemts are determined using the "timeOnly" column of the time series data
+    for (start, end) in FUN_Window(df['timeOnly'], window_size):
+        x = df["X"][start:end]
+        y = df["Y"][start:end]
+        z = df["Z"][start:end]
+        sed = df["Sedentary"][start:end]
+        loco = df["Locomotion"][start:end]
+        tv =  df["TV WATCHING"][start:end]
+        cw = df["COMPUTER WORK"][start:end]
+        st = df["STANDING STILL"][start:end]
+        lw = df["LEISURE WALK"][start:end]
+        rw = df["RAPID WALK"][start:end]
+        w1 = df["WALKING AT RPE 1"][start:end]
+        w5 = df["WALKING AT RPE 5"][start:end]
+        sa = df["STAIR ASCENT"][start:end]
+        sd = df["STAIR DESCENT"][start:end]
+        if(len(df['timeOnly'][start:end]) == window_size):
+            met = np.append(met,stats.mode(df["METs"][start:end])[0][0])
+            met = np.append(met,stats.mode(df["METs"][start:end])[0][0])
+            met = np.append(met,stats.mode(df["METs"][start:end])[0][0])
+            segments = np.vstack([segments,np.dstack([[x,y,z],[sed,sed,sed],[loco,loco,loco],[tv,tv,tv],[cw,cw,cw],[st,st,st],[lw,lw,lw],[rw,rw,rw],[w1,w1,w1],[w5,w5,w5],[sa,sa,sa],[sd,sd,sd]])])
+            labels = np.append(labels,stats.mode(df["TaskLabel"][start:end])[0][0])
+    return segments, met , labels
