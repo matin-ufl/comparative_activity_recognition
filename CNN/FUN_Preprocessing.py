@@ -5,11 +5,17 @@
 
 #Script Summary : 
 #   This script contains five functions
-#    1. FUN_ReadCSV         : Function to read data from training and testing set.
-#    2. FUN_TimeToInteger   : Function to transform time from HH:MM:SS to HHMMSS.
-#    3. FUN_ConvertTO3Class :Function to label activity as Sedentary,Locomotion or Neither.
-#    4. FUN_Window          :Function to choose staring and ending point for generating segments
-#    5. FUN_Segment         :Function to generate segment
+#    1. FUN_ReadCSV            : Function to read data,add PID column and select only the middle 3 minutes of each activity.
+#    2. FUN_TimeToInteger      : Function to transform time from HH:MM:SS to HHMMSS.
+#    3. FUN_ConvertToSedentary : Function to label activity as Sedentary or Non Sedentary
+#    4. FUN_ConvertToLocomotion: Function to label activity as Locmotion or Stationary
+#    5. FUN_OnlySedentary      : Function to extract only sedentary activites
+#    6. FUN_OnlyLocomotion     : Function to extract only locomotion activities
+#    7. FUN_Sed_Loc_Columns    : Function to add binary valued columns :- Sedentary,Locomotion,TV WATCHING,COMPUTER WORK,STANDING STILL,LEISURE WALK, RAPID WALK, WALKING AT RPE 1, WALKING AT RPE 5,STAIR ASCENT,STAIR DESCENT   
+#    8. FUN_Window             : Function to determine the start and end of each segment
+#    9. FUN_Segment            : Function to segment data ,where each segment consist of 100 data points
+#   10. FUN_Segment_TwoStep    : Function to segment data for two step method
+#   11. FUN_Segment_ThreeStep  : Function to segment data for three step method
 
 #Author & Reviewer Details ------------------------------------------------------------------------------------------
 
@@ -69,14 +75,13 @@ def FUN_TimeToInteger(df):
     df['timeOnly'] = pd.to_numeric(df['timeOnly'])
     return df
     
-#Fucntion to convert the task label into 3 categories
-#Locomotion Sedentary Neither
+#Fucntion to convert the task label into 2 categories
 def FUN_ConvertToSedentary(df):
     
     # Input :-
     #   1. df : dataframe with  "TaskLabel" column which has 33 classes
     # Output :-
-    #   1. df : dataframe with "TaskLabel" column consisting of 3 classes
+    #   1. df : dataframe with "TaskLabel" column consisting of 2 classes - Sedentary(0) and NonSedentary(1)
 
     Sedentary_Activities = ['COMPUTER WORK','TV WATCHING','STANDING STILL']
     #Locomotive_Activities = ['LEISURE WALK','RAPID WALK','WALKING AT RPE 1','WALKING AT RPE 5','STAIR DESCENT','STAIR ASCENT']
@@ -91,14 +96,13 @@ def FUN_ConvertToSedentary(df):
         df.loc[df['TaskLabel'] == i, 'TaskLabel'] = 1
     return df
 
-#Fucntion to convert the task label into 3 categories
-#Locomotion Sedentary Neither
+#Fucntion to convert the task label into 2 categories
 def FUN_ConvertToLocomotion(df):
     
     # Input :-
     #   1. df : dataframe with  "TaskLabel" column which has 33 classes
     # Output :-
-    #   1. df : dataframe with "TaskLabel" column consisting of 3 classes
+    #   1. df : dataframe with "TaskLabel" column consisting of 2 classes - Locmotion(0) and Stationary(1)
 
     #Sedentary_Activities = ['COMPUTER WORK','TV WATCHING','STANDING STILL']
     Locomotive_Activities = ['LEISURE WALK','RAPID WALK','WALKING AT RPE 1','WALKING AT RPE 5','STAIR DESCENT','STAIR ASCENT']
@@ -147,9 +151,9 @@ def FUN_OnlyLocomotion(df):
 def FUN_Sed_Loc_Columns(df):
     
     # Input :-
-    #   1. df : dataframe with  "TaskLabel" column which has 33 classes
+    #   1. df : dataframe 
     # Output :-
-    #   1. df : dataframe with "TaskLabel" column consisting of 3 classes
+    #   1. df : dataframe with 11 additional columns
 
     New_columns = ['Sedentary','Locomotion','COMPUTER WORK','TV WATCHING','STANDING STILL','LEISURE WALK','RAPID WALK','WALKING AT RPE 1','WALKING AT RPE 5','STAIR DESCENT','STAIR ASCENT']
     for i in New_columns:
@@ -201,8 +205,8 @@ def FUN_Segment(df,window_size):
     #   2. size : Length of each segment
     # Output :-
     #   1. segments : Data frame consisting of 3 columns representing the X,Y and Z axis
-    #   2. labels : Data frame consisting of  activity types
-    
+    #   2. met : Data frame consisting of  met types
+    #   3. labels : Data frame consisting of  activity types
     segments = np.empty((0,window_size,3))
     labels = np.empty((0))
     met = np.empty((0))
@@ -224,10 +228,10 @@ def FUN_Segment_TwoStep(df,window_size):
     #   1. df : Time Series DataFrame which is to be segmented
     #   2. size : Length of each segment
     # Output :-
-    #   1. segments : Data frame consisting of 3 columns representing the X,Y and Z axis
-    #   2. met : MET value of that activity 
+    #   1. segments : Data frame consisting of 5 columns representing the X,Y,Z,Sedentary and Locomotion
+    #   2. met : Data frame consisting of  met types
     #   3. labels : Data frame consisting of  activity types
-    
+
     segments = np.empty((0,window_size,12))
     labels = np.empty((0))
     met = np.empty((0))
@@ -253,9 +257,10 @@ def FUN_Segment_ThreeStep(df,window_size):
     #   1. df : Time Series DataFrame which is to be segmented
     #   2. size : Length of each segment
     # Output :-
-    #   1. segments : Data frame consisting of 3 columns representing the X,Y and Z axis
-    #   2. labels : Data frame consisting of  activity types
-    
+    #   1. segments : Data frame consisting of 14 columns 
+    #   2. met : Data frame consisting of  met types
+    #   3. labels : Data frame consisting of  activity types
+
     segments = np.empty((0,window_size,12))
     labels = np.empty((0))
     met = np.empty((0))
