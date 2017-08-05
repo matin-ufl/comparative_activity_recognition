@@ -55,7 +55,7 @@ FUN_Calc_Term_Frequency <- function(justWords.df) {
 
 FUN_Calc_Inverse_Doc_Frequency <- function(TF.df, atoms, d) {
   
-  # Input :- justWords.df : This dataframe contains the BOW values for each ppt-task.
+  # Input :- TF.df : This dataframe contains the calculated Term-Frequency for each ppt-task.
   #          atoms : List of Atoms.
   #          d : Number of atoms.
   # Output :- IDF.df : This dataframe contains the calculated Inverse Document Frequency.
